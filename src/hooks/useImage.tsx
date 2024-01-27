@@ -5,7 +5,7 @@ import { getImage } from "../api";
 const useImage = (imageId?: string) => {
   const { data, error, isError, isLoading, status } = useQuery({
     enabled: !!imageId,
-    queryKey: ["images"],
+    queryKey: ["images", { id: imageId }],
     queryFn: () => getImage(imageId),
   });
 

@@ -1,19 +1,18 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
+import useDeleteImage from "../../hooks/useDeleteImage";
 import useImage from "../../hooks/useImage";
+import { Image } from "../../api/types";
 
 const Image = () => {
-  return (
-    <div>
-      <h1>Image</h1>
-      <ImageView />
-    </div>
-  );
-};
-
-const ImageView = () => {
   const { imageId } = useParams();
-  const { data, isError, isLoading } = useImage(imageId);
+  const navigate = useNavigate();
+  const { data: image, isError, isLoading } = useImage(imageId);
+  const { deleteImage, isDeleting } = useDeleteImage({
+    onSuccess: () => {
+      navigate(-1)
+    }
+  });
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -23,13 +22,30 @@ const ImageView = () => {
     return <p>An error occurred.</p>;
   }
 
-  if (!data) {
+  if (!image) {
     return <p>Could not find image.</p>;
   }
 
   return (
     <div>
-      <h1>{data.name}</h1>
+      <h1>Image</h1>
+      {isDeleting ? (
+        <p>Deleting...</p>
+      ) : (
+        <button onClick={() => deleteImage(image)}>Delete</button>
+      )}
+      <ImageView image={image} />
+    </div>
+  );
+};
+
+const ImageView = ({ image }: { image: Image }) => {
+  console.log(image);
+
+  return (
+    <div>
+      <h1>{image.name}</h1>
+      <img src={image.url} />
     </div>
   );
 };

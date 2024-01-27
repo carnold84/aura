@@ -1,7 +1,7 @@
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
-import AutoForm from "../../components/AutoForm";
-import { AutoFormSchema } from "../../components/AutoForm/AutoForm";
+import { CreateProject } from "../../api/types";
 import useCreateProject from "../../hooks/useCreateProject";
 import useProjects from "../../hooks/useProjects";
 
@@ -15,41 +15,43 @@ const Projects = () => {
   );
 };
 
-const projectsFormSchema: AutoFormSchema = {
-  fields: [
-    {
-      label: "Project Name",
-      name: "name",
-      required: "Project Name is required",
-      type: "text",
-    },
-    {
-      label: "Description",
-      name: "description",
-      type: "text",
-    },
-  ],
-};
-
 const ProjectsForm = () => {
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+  } = useForm<CreateProject>();
+  const onSubmit: SubmitHandler<CreateProject> = (data: CreateProject) => {
+    createProject(data);
+  };
   const { createProject, isError, isSaving } = useCreateProject();
 
   if (isSaving) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>An error occurred.</p>;
+    return <p>Creating...</p>;
   }
 
   return (
-    <AutoForm
-      onSubmit={(data) => {
-        console.log(data);
-        createProject(data);
-      }}
-      schema={projectsFormSchema}
-    />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {isError && <p>Could not create project</p>}
+      <div>
+        <label htmlFor="name">Project Name</label>
+        <input
+          id="name"
+          type="text"
+          {...register("name", { required: true })}
+        />
+        {errors["name"] ? <p>Name is required</p> : null}
+      </div>
+      <div>
+        <label htmlFor="description">Description</label>
+        <input id="description" type="text" {...register("description")} />
+      </div>
+      <div>
+        <label htmlFor="imageUrl">Image Url</label>
+        <input id="imageUrl" type="text" {...register("imageUrl")} />
+      </div>
+      <button type="submit">Create</button>
+    </form>
   );
 };
 

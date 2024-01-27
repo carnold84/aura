@@ -38,6 +38,7 @@ export const ImageSchema = z.object({
   description: z.union([z.string(), z.null()]),
   id: z.string(),
   name: z.string(),
+  srcUrl: z.string(),
   updatedAt: z.string(),
   url: z.string(),
   userId: z.string(),

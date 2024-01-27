@@ -2,6 +2,8 @@ export {
   client,
   createProject,
   createImage,
+  deleteImage,
+  deleteProject,
   getImage,
   getImages,
   getProject,

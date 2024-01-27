@@ -1,51 +1,48 @@
 import { client } from "..";
-import { CreateImage, Image } from "../../types";
+import { CreateImage } from "../../types";
+import { mapDataToImage } from "./utils";
 
 const createImage = async (image: CreateImage) => {
   if (image) {
-    console.log(image);
+    const blob = await fetch(image.url).then((response) => response.blob());
 
-    const { data, error } = await client.storage
+    const d = new Date();
+    const time = d.getTime();
+
+    const { data: imageData, error: imageError } = await client.storage
       .from("images")
-      .upload("avatar1.png", image.url, {
+      .upload(`${time}`, blob, {
         cacheControl: "3600",
         upsert: false,
       });
-    console.log(data, error);
-    /* const fileName = "";
-      const ext = "";
 
-      const blob = await fetch(image.url).then((resp) => resp.blob());
+    if (imageError) {
+      throw imageError;
+    }
 
-      const { data, error } = await supabase
-        .storage
-        .from('images')
-        .copy("", blob)
+    const payload = {
+      description: image.description,
+      name: image.name,
+      src_url: image.url,
+      url: imageData.path,
+    };
 
-        const { publicURL } = supabase.storage.from("images").getPublicUrl(`${fileName}.${ext}`)
-      
-        const payload = {
-        description: image.description,
-        name: image.name,
-        url: image.url,
-      };
+    const { data, error, status } = await client
+      .from("images")
+      .insert(payload)
+      .select();
 
-        const { data, error, status } = await supabase
-          .from("images")
-          .insert(payload)
-          .select();
+    if (error) {
+      throw error;
+    }
 
-      if (error) {
-        throw error;
-      }
+    if (status !== 201 || data === null) {
+      throw new Error("Could not fetch image");
+    }
 
-      if (status !== 201 || data === null) {
-        throw new Error("Could not fetch image");
-      }
+    const newImage = mapDataToImage(data[0]);
 
-      const newImage = mapDataToImage(data[0]); */
-
-    return Promise.resolve({} as Image);
+    return Promise.resolve(newImage);
   } else {
     throw new Error("Image is required");
   }

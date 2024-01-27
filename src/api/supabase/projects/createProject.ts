@@ -1,4 +1,4 @@
-import { CreateProject } from "../../types";
+import { CreateProject, Project } from "../../types";
 import { client } from "../client";
 import { mapDataToProject } from "./utils";
 
@@ -22,7 +22,7 @@ const createProject = async (project: CreateProject) => {
       throw new Error("Could not fetch project");
     }
 
-    const newProject = mapDataToProject(data[0]);
+    const newProject: Project = mapDataToProject(data[0]);
 
     return Promise.resolve(newProject);
   } else {

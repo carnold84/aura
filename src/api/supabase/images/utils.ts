@@ -8,8 +8,9 @@ export const mapDataToImage = (
     description: data.description ?? null,
     id: data.id,
     name: data.name,
+    srcUrl: data.src_url,
     updatedAt: data.updated_at,
-    url: data.url,
+    url: `${import.meta.env.VITE_API_URL}/storage/v1/object/public/images/${data.url}`,
     userId: data.user_id,
   };
 

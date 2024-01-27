@@ -15,6 +15,7 @@ export interface Database {
           description: string | null;
           id: string;
           name: string;
+          src_url: string;
           updated_at: string;
           url: string;
           user_id: string;
@@ -24,6 +25,7 @@ export interface Database {
           description?: string | null;
           id?: string;
           name: string;
+          src_url: string;
           updated_at?: string;
           url: string;
           user_id?: string;
@@ -33,6 +35,7 @@ export interface Database {
           description?: string | null;
           id?: string;
           name?: string;
+          src_url?: string;
           updated_at?: string;
           url?: string;
           user_id?: string;

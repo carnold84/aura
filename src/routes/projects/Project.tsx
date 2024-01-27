@@ -1,16 +1,17 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import useProject from "../../hooks/useProject";
 import { Project } from "../../api/types";
 import useDeleteProject from "../../hooks/useDeleteProject";
+import useBack from "../../hooks/useBack";
 
 const Project = () => {
   const { projectId } = useParams();
-  const navigate = useNavigate();
+  const back = useBack("/projects");
   const { data: project, isError, isLoading } = useProject(projectId);
   const { deleteProject, isDeleting } = useDeleteProject({
     onSuccess: () => {
-      navigate(-1)
+      back();
     }
   });
 

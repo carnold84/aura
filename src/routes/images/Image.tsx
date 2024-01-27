@@ -1,16 +1,17 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import useDeleteImage from "../../hooks/useDeleteImage";
 import useImage from "../../hooks/useImage";
 import { Image } from "../../api/types";
+import useBack from "../../hooks/useBack";
 
 const Image = () => {
   const { imageId } = useParams();
-  const navigate = useNavigate();
+  const back = useBack("/images");
   const { data: image, isError, isLoading } = useImage(imageId);
   const { deleteImage, isDeleting } = useDeleteImage({
     onSuccess: () => {
-      navigate(-1)
+      back()
     }
   });
 

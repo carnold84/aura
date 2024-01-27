@@ -12,7 +12,7 @@ const deleteProject = async (project: Project) => {
       throw error;
     }
 
-    if (status !== 201) {
+    if (status !== 204) {
       throw new Error("Could not delete project");
     }
 

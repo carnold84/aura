@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getProjects } from "../api";
+import { listProjects } from "../api";
 
 const useProjects = () => {
   const { data, error, isError, isLoading, status } = useQuery({
     queryKey: ["projects"],
-    queryFn: () => getProjects(),
+    queryFn: () => listProjects(),
   });
 
   return { data, error, isError, isLoading, status };

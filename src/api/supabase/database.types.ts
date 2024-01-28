@@ -72,6 +72,42 @@ export interface Database {
         };
         Relationships: [];
       };
+      projects_images: {
+        Row: {
+          created_at: string;
+          image_id: string;
+          project_id: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          image_id: string;
+          project_id: string;
+          user_id?: string;
+        };
+        Update: {
+          created_at?: string;
+          image_id?: string;
+          project_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "projects_images_image_id_fkey";
+            columns: ["image_id"];
+            isOneToOne: false;
+            referencedRelation: "images";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "projects_images_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;

@@ -5,10 +5,11 @@ export {
   deleteImage,
   deleteProject,
   getImage,
-  getImages,
   getProject,
-  getProjects,
   getSession,
+  linkImageToProject,
+  listImages,
+  listProjects,
   onAuthStateChange,
   signOut,
 } from "./supabase";

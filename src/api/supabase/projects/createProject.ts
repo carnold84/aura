@@ -1,6 +1,6 @@
-import { CreateProject, Project } from "../../types";
+import { CreateProject, projectSchema } from "../../types";
 import { client } from "../client";
-import { mapDataToProject } from "./utils";
+import { mapDataToProject } from "../utils";
 
 const createProject = async (project: CreateProject) => {
   if (project) {
@@ -12,7 +12,12 @@ const createProject = async (project: CreateProject) => {
     const { data, error, status } = await client
       .from("projects")
       .insert(payload)
-      .select();
+      .select(
+        `
+          *,
+          images (*)
+        `,
+      );
 
     if (error) {
       throw error;
@@ -22,9 +27,18 @@ const createProject = async (project: CreateProject) => {
       throw new Error("Could not fetch project");
     }
 
-    const newProject: Project = mapDataToProject(data[0]);
+    if (data?.[0]) {
+      const project = mapDataToProject(data[0]);
 
-    return Promise.resolve(newProject);
+      const result = projectSchema.safeParse(project);
+      if (!result.success) {
+        return Promise.reject(result.error);
+      } else {
+        return Promise.resolve(project);
+      }
+    }
+
+    return Promise.resolve(null);
   } else {
     throw new Error("Project is required");
   }

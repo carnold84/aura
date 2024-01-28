@@ -1,6 +1,7 @@
 import createImage from "./createImage";
 import deleteImage from "./deleteImage";
 import getImage from "./getImage";
-import getImages from "./getImages";
+import linkImageToProject from "./linkImageToProject";
+import listImages from "./listImages";
 
-export { createImage, deleteImage, getImage, getImages };
+export { createImage, deleteImage, getImage, linkImageToProject, listImages };

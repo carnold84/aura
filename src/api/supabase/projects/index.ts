@@ -1,6 +1,6 @@
 import createProject from "./createProject";
 import deleteProject from "./deleteProject";
 import getProject from "./getProject";
-import getProjects from "./getProjects";
+import listProjects from "./listProjects";
 
-export { createProject, deleteProject, getProject, getProjects };
+export { createProject, deleteProject, getProject, listProjects };

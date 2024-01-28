@@ -1,6 +1,6 @@
-import { Image, ImageSchema } from "../../types";
+import { Image, imageSchema } from "../../types";
 import { client } from "../client";
-import { mapDataToImage } from "./utils";
+import { mapDataToImage } from "../utils";
 
 const getImage = async (id?: string): Promise<Image | null> => {
   if (id) {
@@ -20,9 +20,9 @@ const getImage = async (id?: string): Promise<Image | null> => {
     if (data?.[0]) {
       const image = mapDataToImage(data[0]);
 
-      ImageSchema.parse(image);
+      imageSchema.parse(image);
 
-      const result = ImageSchema.safeParse(image);
+      const result = imageSchema.safeParse(image);
       if (!result.success) {
         return Promise.reject(result.error);
       } else {

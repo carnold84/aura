@@ -1,6 +1,6 @@
 import { client } from "..";
-import { CreateImage } from "../../types";
-import { mapDataToImage } from "./utils";
+import { CreateImage, imageSchema } from "../../types";
+import { mapDataToImage } from "../utils";
 
 const createImage = async (image: CreateImage) => {
   if (image) {
@@ -40,9 +40,17 @@ const createImage = async (image: CreateImage) => {
       throw new Error("Could not fetch image");
     }
 
-    const newImage = mapDataToImage(data[0]);
+    if (data?.[0]) {
+      const image = mapDataToImage(data[0]);
 
-    return Promise.resolve(newImage);
+      const result = imageSchema.safeParse(image);
+      if (!result.success) {
+        return Promise.reject(result.error);
+      } else {
+        return Promise.resolve(image);
+      }
+    }
+    return Promise.resolve(null);
   } else {
     throw new Error("Image is required");
   }

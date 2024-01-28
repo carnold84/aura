@@ -1,8 +1,8 @@
-import { Image, ImageSchema } from "../../types";
+import { Image, imageSchema } from "../../types";
 import { client } from "../client";
-import { mapDataToImage } from "./utils";
+import { mapDataToImage } from "../utils";
 
-const getImages = async (): Promise<Image[] | null> => {
+const listImages = async (): Promise<Image[] | null> => {
   const { data, error, status } = await client.from("images").select();
 
   if (error) {
@@ -19,7 +19,7 @@ const getImages = async (): Promise<Image[] | null> => {
         return mapDataToImage(imageData);
       }) || [];
 
-    const result = ImageSchema.array().safeParse(images);
+    const result = imageSchema.array().safeParse(images);
     if (!result.success) {
       return Promise.reject(result.error);
     } else {
@@ -29,4 +29,4 @@ const getImages = async (): Promise<Image[] | null> => {
 
   return Promise.resolve(null);
 };
-export default getImages;
+export default listImages;

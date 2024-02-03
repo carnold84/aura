@@ -1,12 +1,17 @@
-import { Image, imageSchema } from "../../types";
+import { ImageWithProjects } from "../../types";
 import { client } from "../client";
-import { mapDataToImage } from "../utils";
+import { mapImageWithProjects } from "./utils";
 
-const getImage = async (id?: string): Promise<Image | null> => {
+const getImage = async (id?: string): Promise<ImageWithProjects | null> => {
   if (id) {
     const { data, error, status } = await client
       .from("images")
-      .select()
+      .select(
+        `
+          *,
+          projects(*)
+        `,
+      )
       .eq("id", id);
 
     if (error) {
@@ -18,16 +23,9 @@ const getImage = async (id?: string): Promise<Image | null> => {
     }
 
     if (data?.[0]) {
-      const image = mapDataToImage(data[0]);
+      const image = mapImageWithProjects(data[0]);
 
-      imageSchema.parse(image);
-
-      const result = imageSchema.safeParse(image);
-      if (!result.success) {
-        return Promise.reject(result.error);
-      } else {
-        return Promise.resolve(image);
-      }
+      return Promise.resolve(image);
     }
 
     return Promise.resolve(null);

@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createImage } from "../api";
-import { CreateImage, Image } from "../api/types";
 
 const useCreateImage = () => {
   const queryClient = useQueryClient();

@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 
-import useProject from "../../hooks/useProject";
-import { Project } from "../../api/types";
-import useDeleteProject from "../../hooks/useDeleteProject";
+import { ProjectWithImages } from "../../api/types";
 import useBack from "../../hooks/useBack";
+import useDeleteProject from "../../hooks/useDeleteProject";
+import useProject from "../../hooks/useProject";
 
 const Project = () => {
   const { projectId } = useParams();
@@ -12,7 +12,7 @@ const Project = () => {
   const { deleteProject, isDeleting } = useDeleteProject({
     onSuccess: () => {
       back();
-    }
+    },
   });
 
   if (isLoading) {
@@ -40,10 +40,20 @@ const Project = () => {
   );
 };
 
-const ProjectView = ({project}: {project: Project}) => {
+const ProjectView = ({ project }: { project: ProjectWithImages }) => {
   return (
     <div>
       <h1>{project.name}</h1>
+      <ul>
+        {project.images.map(({ id, name, url }) => {
+          return (
+            <li key={id}>
+              {name}
+              <img src={url} width="100" />
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };

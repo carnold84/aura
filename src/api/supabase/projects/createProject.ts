@@ -1,6 +1,6 @@
-import { CreateProject, projectSchema } from "../../types";
+import { CreateProject } from "../../types";
 import { client } from "../client";
-import { mapDataToProject } from "../utils";
+import { mapProject } from "./utils";
 
 const createProject = async (project: CreateProject) => {
   if (project) {
@@ -28,14 +28,9 @@ const createProject = async (project: CreateProject) => {
     }
 
     if (data?.[0]) {
-      const project = mapDataToProject(data[0]);
+      const project = mapProject(data[0]);
 
-      const result = projectSchema.safeParse(project);
-      if (!result.success) {
-        return Promise.reject(result.error);
-      } else {
-        return Promise.resolve(project);
-      }
+      return Promise.resolve(project);
     }
 
     return Promise.resolve(null);

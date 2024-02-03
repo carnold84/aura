@@ -1,8 +1,8 @@
 import { client } from "..";
-import { Image, ListProject, projectImageSchema } from "../../types";
-import { mapDataToProjectImage } from "../utils";
+import { Image, Project } from "../../types";
+import { mapProjectImage } from "./utils";
 
-const linkImageToProject = async (image: Image, project: ListProject) => {
+const linkImageToProject = async (image: Image, project: Project) => {
   if (image && project) {
     const payload = {
       image_id: image.id,
@@ -23,14 +23,9 @@ const linkImageToProject = async (image: Image, project: ListProject) => {
     }
 
     if (data?.[0]) {
-      const projectImage = mapDataToProjectImage(data[0]);
+      const projectImage = mapProjectImage(data[0]);
 
-      const result = projectImageSchema.safeParse(projectImage);
-      if (!result.success) {
-        return Promise.reject(result.error);
-      } else {
-        return Promise.resolve(projectImage);
-      }
+      return Promise.resolve(projectImage);
     }
 
     return Promise.resolve(null);

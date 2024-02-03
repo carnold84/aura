@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { linkImageToProject } from "../api";
-import { Image, ListProject } from "../api/types";
+import { Image, ListProject } from "../api/types/authTypes";
 
 const useLinkImageToProject = () => {
   const { isError, isPending, mutate } = useMutation({

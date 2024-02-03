@@ -1,15 +1,15 @@
-import { Project, projectSchema } from "../../types";
+import { ProjectWithImages } from "../../types";
 import { client } from "../client";
-import { mapDataToProject } from "../utils";
+import { mapProjectWithImages } from "./utils";
 
-const getProject = async (id?: string): Promise<Project | null> => {
+const getProject = async (id?: string): Promise<ProjectWithImages | null> => {
   if (id) {
     const { data, error, status } = await client
       .from("projects")
       .select(
         `
           *,
-          images (*)
+          images(*)
         `,
       )
       .eq("id", id);
@@ -23,15 +23,9 @@ const getProject = async (id?: string): Promise<Project | null> => {
     }
 
     if (data?.[0]) {
-      const project = mapDataToProject(data[0]);
+      const project = mapProjectWithImages(data[0]);
 
-      const result = projectSchema.safeParse(project);
-
-      if (!result.success) {
-        return Promise.reject(result.error);
-      } else {
-        return Promise.resolve(project);
-      }
+      return Promise.resolve(project);
     }
 
     return Promise.resolve(null);

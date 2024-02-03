@@ -1,8 +1,8 @@
-import { ListProject, listProjectSchema } from "../../types";
+import { Project } from "../../types";
 import { client } from "../client";
-import { mapDataToListProject } from "../utils";
+import { mapProject } from "./utils";
 
-const listProjects = async (): Promise<ListProject[]> => {
+const listProjects = async (): Promise<Project[]> => {
   const { data, error, status } = await client.from("projects").select();
 
   if (error) {
@@ -13,14 +13,9 @@ const listProjects = async (): Promise<ListProject[]> => {
     throw new Error("Could not fetch projects");
   }
 
-  const projects = data?.map(mapDataToListProject) || [];
+  const projects = data?.map((data) => mapProject(data)) || [];
 
-  const result = listProjectSchema.array().safeParse(projects);
-  if (!result.success) {
-    return Promise.reject(result.error);
-  } else {
-    return Promise.resolve(projects);
-  }
+  return Promise.resolve(projects);
 };
 
 export default listProjects;

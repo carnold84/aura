@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createProject } from "../api";
-import { CreateProject, Project } from "../api/types";
+import { CreateProject, Project } from "../api/types/authTypes";
 
 const useCreateProject = () => {
   const queryClient = useQueryClient();

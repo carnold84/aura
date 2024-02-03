@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 
 import useDeleteImage from "../../hooks/useDeleteImage";
 import useImage from "../../hooks/useImage";
-import { Image, ListProject } from "../../api/types";
+import { Image, Project } from "../../api/types";
 import useBack from "../../hooks/useBack";
 import useProjects from "../../hooks/useProjects";
 import useLinkImageToProject from "../../hooks/useLinkImageToProject";
@@ -70,7 +70,7 @@ const LinkProjectList = ({ image }: { image: Image }) => {
 
   return (
     <ul>
-      {data?.map((project: ListProject) => {
+      {data?.map((project: Project) => {
         return (
           <li key={project.id}>
             {project.name}

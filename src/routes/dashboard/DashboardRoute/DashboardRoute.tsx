@@ -1,4 +1,4 @@
-const Dashboard = () => {
+const DashboardRoute = () => {
   return (
     <div>
       <h3>Welcome Home!</h3>
@@ -6,4 +6,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardRoute;

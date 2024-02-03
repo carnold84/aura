@@ -6,12 +6,15 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AuthProvider from "./context/AuthProvider";
 import RootLayout from "./routes/RootLayout";
 
-const Dashboard = lazy(() => import("./routes/dashboard/Dashboard"));
-const Images = lazy(() => import("./routes/images/Images"));
-const Image = lazy(() => import("./routes/images/Image"));
-const Links = lazy(() => import("./routes/links/Image"));
-const Project = lazy(() => import("./routes/projects/Project"));
-const Projects = lazy(() => import("./routes/projects/Projects"));
+const DashboardRoute = lazy(() => import("./routes/dashboard/DashboardRoute"));
+const ImagesRoute = lazy(() => import("./routes/images/ImagesRoute"));
+const ImageRoute = lazy(() => import("./routes/images/ImageRoute"));
+const ProjectRoute = lazy(
+  () => import("./routes/projects/ProjectRoute/ProjectRoute"),
+);
+const ProjectsRoute = lazy(
+  () => import("./routes/projects/ProjectsRoute/ProjectsRoute"),
+);
 
 const queryClient = new QueryClient();
 
@@ -22,18 +25,18 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Dashboard />,
+        element: <DashboardRoute />,
       },
       {
         path: "projects",
         children: [
           {
             path: "",
-            element: <Projects />,
+            element: <ProjectsRoute />,
           },
           {
             path: ":projectId",
-            element: <Project />,
+            element: <ProjectRoute />,
           },
         ],
       },
@@ -42,17 +45,13 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: <Images />,
+            element: <ImagesRoute />,
           },
           {
             path: ":imageId",
-            element: <Image />,
+            element: <ImageRoute />,
           },
         ],
-      },
-      {
-        path: "links",
-        element: <Links />,
       },
     ],
   },

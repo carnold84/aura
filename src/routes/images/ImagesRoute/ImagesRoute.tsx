@@ -1,19 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
-import { CreateImage } from "../../api/types";
-import useCreateImage from "../../hooks/useCreateImage";
-import useImages from "../../hooks/useImages";
-
-const Images = () => {
-  return (
-    <div>
-      <h1>Images</h1>
-      <ImagesForm />
-      <ImagesList />
-    </div>
-  );
-};
+import { CreateImage } from "../../../api/types";
+import useCreateImage from "../../../hooks/useCreateImage";
+import useImages from "../../../hooks/useImages";
 
 const ImagesForm = () => {
   const { createImage, isError, isSaving } = useCreateImage();
@@ -81,4 +71,14 @@ const ImagesList = () => {
   });
 };
 
-export default Images;
+const ImagesRoute = () => {
+  return (
+    <div>
+      <h1>Images</h1>
+      <ImagesForm />
+      <ImagesList />
+    </div>
+  );
+};
+
+export default ImagesRoute;

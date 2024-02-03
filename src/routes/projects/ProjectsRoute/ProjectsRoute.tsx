@@ -1,19 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
-import { CreateProject } from "../../api/types";
-import useCreateProject from "../../hooks/useCreateProject";
-import useProjects from "../../hooks/useProjects";
-
-const Projects = () => {
-  return (
-    <div>
-      <h1>Projects</h1>
-      <ProjectsForm />
-      <ProjectsList />
-    </div>
-  );
-};
+import { CreateProject } from "../../../api/types";
+import useCreateProject from "../../../hooks/useCreateProject";
+import useProjects from "../../../hooks/useProjects";
 
 const ProjectsForm = () => {
   const {
@@ -83,4 +73,14 @@ const ProjectsList = () => {
   );
 };
 
-export default Projects;
+const ProjectsRoute = () => {
+  return (
+    <div>
+      <h1>Projects</h1>
+      <ProjectsForm />
+      <ProjectsList />
+    </div>
+  );
+};
+
+export default ProjectsRoute;

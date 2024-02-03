@@ -1,11 +1,29 @@
 import { useParams } from "react-router-dom";
 
-import { ProjectWithImages } from "../../api/types";
-import useBack from "../../hooks/useBack";
-import useDeleteProject from "../../hooks/useDeleteProject";
-import useProject from "../../hooks/useProject";
+import { ProjectWithImages } from "../../../api/types";
+import useBack from "../../../hooks/useBack";
+import useDeleteProject from "../../../hooks/useDeleteProject";
+import useProject from "../../../hooks/useProject";
 
-const Project = () => {
+const ProjectView = ({ project }: { project: ProjectWithImages }) => {
+  return (
+    <div>
+      <h1>{project.name}</h1>
+      <ul>
+        {project.images.map(({ id, name, url }) => {
+          return (
+            <li key={id}>
+              {name}
+              <img src={url} width="100" />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+
+const ProjectRoute = () => {
   const { projectId } = useParams();
   const back = useBack("/projects");
   const { data: project, isError, isLoading } = useProject(projectId);
@@ -40,22 +58,4 @@ const Project = () => {
   );
 };
 
-const ProjectView = ({ project }: { project: ProjectWithImages }) => {
-  return (
-    <div>
-      <h1>{project.name}</h1>
-      <ul>
-        {project.images.map(({ id, name, url }) => {
-          return (
-            <li key={id}>
-              {name}
-              <img src={url} width="100" />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-};
-
-export default Project;
+export default ProjectRoute;

@@ -21,14 +21,9 @@ const getProject = async (id?: string): Promise<ProjectWithImages | null> => {
     if (status !== 200) {
       throw new Error("Could not fetch project");
     }
+    const project = mapProjectWithImages(data[0]);
 
-    if (data?.[0]) {
-      const project = mapProjectWithImages(data[0]);
-
-      return Promise.resolve(project);
-    }
-
-    return Promise.resolve(null);
+    return Promise.resolve(project);
   } else {
     throw new Error("Project id is required");
   }

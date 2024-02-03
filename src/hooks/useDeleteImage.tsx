@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteImage } from "../api";
-import { Image } from "../api/types/authTypes";
+import { Image } from "../api/types";
 
 interface useDeleteImageProps {
   onSuccess?: () => void;

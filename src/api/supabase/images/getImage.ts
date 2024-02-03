@@ -22,13 +22,9 @@ const getImage = async (id?: string): Promise<ImageWithProjects | null> => {
       throw new Error("Could not fetch image");
     }
 
-    if (data?.[0]) {
-      const image = mapImageWithProjects(data[0]);
+    const image = mapImageWithProjects(data[0]);
 
-      return Promise.resolve(image);
-    }
-
-    return Promise.resolve(null);
+    return Promise.resolve(image);
   } else {
     throw new Error("Image id is required");
   }

@@ -1,8 +1,8 @@
-import { CreateProject } from "../../types";
+import { CreateProject, Project } from "../../types";
 import { client } from "../client";
 import { mapProject } from "./utils";
 
-const createProject = async (project: CreateProject) => {
+const createProject = async (project: CreateProject): Promise<Project> => {
   if (project) {
     const payload = {
       description: project.description,
@@ -27,13 +27,9 @@ const createProject = async (project: CreateProject) => {
       throw new Error("Could not fetch project");
     }
 
-    if (data?.[0]) {
-      const project = mapProject(data[0]);
+    const newProject = mapProject(data[0]);
 
-      return Promise.resolve(project);
-    }
-
-    return Promise.resolve(null);
+    return Promise.resolve(newProject);
   } else {
     throw new Error("Project is required");
   }

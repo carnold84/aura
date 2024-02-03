@@ -1,9 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createProject } from "../api";
-import { CreateProject, Project } from "../api/types/authTypes";
+import { CreateProject, Project } from "../api/types";
 
-const useCreateProject = () => {
+interface UseCreateProjectProps {
+  onSuccess: (project: Project) => void;
+}
+
+const useCreateProject = ({ onSuccess }: UseCreateProjectProps) => {
   const queryClient = useQueryClient();
 
   const { isError, isPending, mutate } = useMutation({
@@ -12,6 +16,7 @@ const useCreateProject = () => {
       queryClient.setQueryData(["projects"], (projects: Project[]) => {
         return projects ? [...projects, project] : projects;
       });
+      onSuccess && onSuccess(project);
     },
   });
 

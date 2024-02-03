@@ -13,15 +13,11 @@ const listImages = async (): Promise<Image[] | null> => {
     throw new Error("Could not fetch images");
   }
 
-  if (data) {
-    const images =
-      data?.map((imageData) => {
-        return mapImage(imageData);
-      }) || [];
+  const images =
+    data.map((imageData) => {
+      return mapImage(imageData);
+    }) || [];
 
-    return Promise.resolve(images);
-  }
-
-  return Promise.resolve(null);
+  return Promise.resolve(images);
 };
 export default listImages;

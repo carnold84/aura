@@ -1,7 +1,7 @@
 import { Project } from "../../types";
 import { client } from "../client";
 
-const deleteProject = async (project: Project) => {
+const deleteProject = async (project: Project): Promise<Project> => {
   if (project) {
     const { error, status } = await client
       .from("projects")

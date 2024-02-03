@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteProject } from "../api";
-import { Project } from "../api/types/authTypes";
+import { Project } from "../api/types";
 
 interface useDeleteProjectProps {
   onSuccess?: () => void;

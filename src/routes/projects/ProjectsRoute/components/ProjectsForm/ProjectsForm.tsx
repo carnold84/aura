@@ -8,11 +8,14 @@ const ProjectsForm = () => {
     formState: { errors },
     handleSubmit,
     register,
+    reset,
   } = useForm<CreateProject>();
   const onSubmit: SubmitHandler<CreateProject> = (data: CreateProject) => {
     createProject(data);
   };
-  const { createProject, isError, isSaving } = useCreateProject();
+  const { createProject, isError, isSaving } = useCreateProject({
+    onSuccess: () => reset(),
+  });
 
   if (isSaving) {
     return <p>Creating...</p>;

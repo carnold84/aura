@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
-import useImages from "../../../hooks/useImages";
-import ImagesForm from "./components/ImagesForm";
+import useImages from "../../../../../hooks/useImages";
 
 const ImagesList = () => {
   const { data, isError, isLoading } = useImages();
@@ -30,14 +29,4 @@ const ImagesList = () => {
   });
 };
 
-const ImagesRoute = () => {
-  return (
-    <div>
-      <h1>Images</h1>
-      <ImagesForm />
-      <ImagesList />
-    </div>
-  );
-};
-
-export default ImagesRoute;
+export default ImagesList;

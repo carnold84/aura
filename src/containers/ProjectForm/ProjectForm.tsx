@@ -1,29 +1,39 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { CreateProject } from "../../../../../api/types";
-import useCreateProject from "../../../../../hooks/useCreateProject";
+import { Project } from "../../api/types";
 
-const ProjectsForm = () => {
+export type ProjectFormValues = Omit<
+  Project,
+  "createdAt" | "id" | "images" | "updatedAt" | "userId"
+>;
+
+interface ProjectFormProps {
+  defaultValues?: ProjectFormValues;
+  errorMessage?: string;
+  onSubmit: (data: ProjectFormValues) => void;
+}
+
+const ProjectForm = ({
+  defaultValues,
+  errorMessage,
+  onSubmit: onSubmitProp,
+}: ProjectFormProps) => {
   const {
     formState: { errors },
     handleSubmit,
     register,
     reset,
-  } = useForm<CreateProject>();
-  const onSubmit: SubmitHandler<CreateProject> = (data: CreateProject) => {
-    createProject(data);
+  } = useForm({ defaultValues });
+  const onSubmit: SubmitHandler<ProjectFormValues> = (
+    data: ProjectFormValues,
+  ) => {
+    onSubmitProp(data);
+    reset();
   };
-  const { createProject, isError, isSaving } = useCreateProject({
-    onSuccess: () => reset(),
-  });
-
-  if (isSaving) {
-    return <p>Creating...</p>;
-  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {isError && <p>Could not create project</p>}
+      {errorMessage && <p>{errorMessage}</p>}
       <div>
         <label htmlFor="name">Project Name</label>
         <input
@@ -46,4 +56,4 @@ const ProjectsForm = () => {
   );
 };
 
-export default ProjectsForm;
+export default ProjectForm;

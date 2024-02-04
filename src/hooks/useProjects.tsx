@@ -4,7 +4,7 @@ import { listProjects } from "../api";
 
 const useProjects = () => {
   const { data, error, isError, isLoading, status } = useQuery({
-    queryKey: ["projects"],
+    queryKey: ["projects", "list"],
     queryFn: () => listProjects(),
   });
 

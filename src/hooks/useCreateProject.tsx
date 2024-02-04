@@ -4,16 +4,16 @@ import { createProject } from "../api";
 import { CreateProject, Project } from "../api/types";
 
 interface UseCreateProjectProps {
-  onSuccess: (project: Project) => void;
+  onSuccess?: (project: Project) => void;
 }
 
-const useCreateProject = ({ onSuccess }: UseCreateProjectProps) => {
+const useCreateProject = ({ onSuccess }: UseCreateProjectProps = {}) => {
   const queryClient = useQueryClient();
 
   const { isError, isPending, mutate } = useMutation({
     mutationFn: (data: CreateProject) => createProject(data),
     onSuccess: (project: Project) => {
-      queryClient.setQueryData(["projects"], (projects: Project[]) => {
+      queryClient.setQueryData(["projects", "list"], (projects: Project[]) => {
         return projects ? [...projects, project] : projects;
       });
       onSuccess && onSuccess(project);

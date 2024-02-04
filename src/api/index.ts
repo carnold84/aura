@@ -1,15 +1,1 @@
-export {
-  client,
-  createProject,
-  createImage,
-  deleteImage,
-  deleteProject,
-  getImage,
-  getProject,
-  getSession,
-  linkImageToProject,
-  listImages,
-  listProjects,
-  onAuthStateChange,
-  signOut,
-} from "./supabase";
+export * from "./supabase";

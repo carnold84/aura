@@ -1,10 +1,9 @@
-import { Image, Project } from "../../../../../api/types";
-import useLinkImageToProject from "../../../../../hooks/useLinkImageToProject";
+import { ImageWithProjects, Project } from "../../../../../api/types";
 import useProjects from "../../../../../hooks/useProjects";
+import LinkProjectListItem from "../LinkProjectListItem";
 
-const LinkProjectList = ({ image }: { image: Image }) => {
+const LinkProjectList = ({ image }: { image: ImageWithProjects }) => {
   const { data, isError, isLoading } = useProjects();
-  const { linkImageToProject, isSaving } = useLinkImageToProject();
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -21,18 +20,7 @@ const LinkProjectList = ({ image }: { image: Image }) => {
   return (
     <ul>
       {data?.map((project: Project) => {
-        return (
-          <li key={project.id}>
-            {project.name}
-            {isSaving ? (
-              <p>Linking...</p>
-            ) : (
-              <button onClick={() => linkImageToProject({ image, project })}>
-                Add
-              </button>
-            )}
-          </li>
-        );
+        return <LinkProjectListItem image={image} project={project} />;
       })}
     </ul>
   );

@@ -20,4 +20,5 @@ const listImages = async (): Promise<Image[] | null> => {
 
   return Promise.resolve(images);
 };
+
 export default listImages;

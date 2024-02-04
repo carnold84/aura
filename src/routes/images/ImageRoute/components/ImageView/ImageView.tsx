@@ -1,6 +1,6 @@
-import { Image } from "../../../../../api/types";
+import { ImageWithProjects } from "../../../../../api/types";
 
-const ImageView = ({ image }: { image: Image }) => {
+const ImageView = ({ image }: { image: ImageWithProjects }) => {
   return (
     <div>
       <h1>{image.name}</h1>

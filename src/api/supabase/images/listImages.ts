@@ -1,8 +1,8 @@
-import { Image } from "../../types";
+import { Image } from "../../../types";
 import { client } from "../client";
 import { mapImage } from "./utils";
 
-const listImages = async (): Promise<Image[] | null> => {
+const listImages = async (): Promise<Image[]> => {
   const { data, error, status } = await client.from("images").select();
 
   if (error) {

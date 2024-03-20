@@ -1,14 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { listProjects } from "../api";
+import useStore from "../stores/store";
+import useQuery from "./useQuery";
 
 const useProjects = () => {
-  const { data, error, isError, isLoading, status } = useQuery({
-    queryKey: ["projects", "list"],
-    queryFn: () => listProjects(),
+  const fetchProjects = useStore((store) => store.projects.list);
+  const { isError, isLoading, status } = useQuery({
+    queryFn: fetchProjects,
   });
+  const projects = useStore((store) => store.projects.projects());
 
-  return { data, error, isError, isLoading, status };
+  return {
+    data: projects,
+    isError,
+    isLoading,
+    status,
+  };
 };
 
 export default useProjects;

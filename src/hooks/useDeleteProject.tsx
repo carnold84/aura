@@ -1,30 +1,24 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useStore from "../stores/store";
+import { Project } from "../types";
+import useMutation from "./useMutation";
 
-import { deleteProject } from "../api";
-import { Project } from "../api/types";
-
-interface useDeleteProjectProps {
-  onSuccess?: () => void;
+interface UseDeleteProjectOptions {
+  onSuccess?: (data: Project) => void;
 }
 
-const useDeleteProject = ({ onSuccess }: useDeleteProjectProps) => {
-  const queryClient = useQueryClient();
-
-  const { isError, isPending, mutate } = useMutation({
-    mutationFn: (data: Project) => deleteProject(data),
-    onSuccess: (project: Project) => {
-      queryClient.setQueryData(["projects"], (projects: Project[]) => {
-        return projects
-          ? projects.filter(({ id }) => project.id !== id)
-          : projects;
-      });
-      queryClient.setQueryData(["projects", { id: project.id }], undefined);
-
-      onSuccess && onSuccess();
-    },
+const useDeleteProject = (options?: UseDeleteProjectOptions) => {
+  const deleteProject = useStore((store) => store.projects.delete);
+  const { isError, isLoading, mutate, status } = useMutation({
+    mutationFn: (payload: Project) => deleteProject(payload),
+    onSuccess: options?.onSuccess,
   });
 
-  return { deleteProject: mutate, isError, isDeleting: isPending };
+  return {
+    deleteProject: mutate,
+    isError,
+    isLoading,
+    status,
+  };
 };
 
 export default useDeleteProject;

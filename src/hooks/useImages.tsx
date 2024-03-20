@@ -1,14 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { listImages } from "../api";
+import useStore from "../stores/store";
+import useQuery from "./useQuery";
 
 const useImages = () => {
-  const { data, error, isError, isLoading, status } = useQuery({
-    queryKey: ["images"],
-    queryFn: () => listImages(),
+  const fetchImages = useStore((store) => store.images.list);
+  const { isError, isLoading, status } = useQuery({
+    queryFn: fetchImages,
   });
+  const images = useStore((store) => store.images.images());
 
-  return { data, error, isError, isLoading, status };
+  return {
+    data: images,
+    isError,
+    isLoading,
+    status,
+  };
 };
 
 export default useImages;

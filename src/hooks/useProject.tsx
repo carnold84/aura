@@ -4,8 +4,8 @@ import useStore from "../stores/store";
 import useQuery from "./useQuery";
 
 const useProject = (id: string) => {
-  const getProject = useStore((store) => store.projects.get);
-  const queryFn = useCallback(() => getProject({ id }), [getProject, id]);
+  const get = useStore((store) => store.projects.get);
+  const queryFn = useCallback(() => get(id), [get, id]);
   const { isError, isLoading, status } = useQuery({
     queryFn,
   });

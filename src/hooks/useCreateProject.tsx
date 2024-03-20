@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import useStore from "../stores/store";
 import { CreateProject, Project } from "../types";
 import useMutation from "./useMutation";
@@ -7,9 +9,13 @@ interface UseCreateProjectOptions {
 }
 
 const useCreateProject = (options?: UseCreateProjectOptions) => {
-  const createProject = useStore((store) => store.projects.create);
+  const create = useStore((store) => store.projects.create);
+  const mutationFn = useCallback(
+    (payload: CreateProject) => create(payload),
+    [create],
+  );
   const { isError, isLoading, mutate, status } = useMutation({
-    mutationFn: (payload: CreateProject) => createProject(payload),
+    mutationFn,
     onSuccess: options?.onSuccess,
   });
 

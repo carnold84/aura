@@ -1,10 +1,13 @@
+import { useCallback } from "react";
+
 import useStore from "../stores/store";
 import useQuery from "./useQuery";
 
 const useProjects = () => {
-  const fetchProjects = useStore((store) => store.projects.list);
+  const list = useStore((store) => store.projects.list);
+  const queryFn = useCallback(() => list(), [list]);
   const { isError, isLoading, status } = useQuery({
-    queryFn: fetchProjects,
+    queryFn,
   });
   const projects = useStore((store) => store.projects.projects());
 

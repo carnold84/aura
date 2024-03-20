@@ -1,5 +1,5 @@
-import { Project } from "../../api/types";
 import useUpdateProject from "../../hooks/useUpdateProject";
+import { Project } from "../../types";
 import ProjectForm from "../ProjectForm";
 import { ProjectFormValues } from "../ProjectForm/ProjectForm";
 
@@ -8,12 +8,12 @@ interface UpdateProjectFormProps {
 }
 
 const UpdateProjectForm = ({ project }: UpdateProjectFormProps) => {
-  const { updateProject, isError, isUpdating } = useUpdateProject();
+  const { updateProject, isError, isLoading } = useUpdateProject();
   const onSubmit = (data: ProjectFormValues) => {
-    updateProject({ id: project.id, project: data });
+    updateProject({ ...data, id: project.id });
   };
 
-  if (isUpdating) {
+  if (isLoading) {
     return <p>Updating...</p>;
   }
 

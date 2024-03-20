@@ -28,7 +28,6 @@ const useQuery = <TData,>({
   const [status, setStatus] = useState<Status>("idle");
 
   const query = useCallback<UseQueryFunction<TData>>(async () => {
-    console.log("query");
     setStatus("loading");
     try {
       const response = await queryFn();

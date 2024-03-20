@@ -1,44 +1,30 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-import { updateProject } from "../api";
-import { Project, UpdateProject } from "../api/types";
+import useStore from "../stores/store";
+import { Project, UpdateProject } from "../types";
+import useMutation from "./useMutation";
 
-interface MutationFnArgs {
-  id: string;
-  project: UpdateProject;
+interface UseUpdateProjectOptions {
+  onSuccess?: (data: Project) => void;
 }
 
-interface UseUpdateProjectProps {
-  onSuccess?: (project: Project) => void;
-}
-
-const useUpdateProject = ({ onSuccess }: UseUpdateProjectProps = {}) => {
-  const queryClient = useQueryClient();
-
-  const { isError, isPending, mutate } = useMutation({
-    mutationFn: ({ id, project }: MutationFnArgs) =>
-      updateProject({
-        id,
-        project,
-      }),
-    onSuccess: (project: Project) => {
-      queryClient.setQueryData(["projects", "list"], (projects: Project[]) => {
-        return projects
-          ? projects.map((element) => {
-              if (element.id === project.id) {
-                return project;
-              }
-
-              return element;
-            })
-          : projects;
-      });
-      queryClient.setQueryData(["projects", "list", project.id], project);
-      onSuccess && onSuccess(project);
-    },
+const useUpdateProject = (options?: UseUpdateProjectOptions) => {
+  const update = useStore((store) => store.projects.update);
+  const mutationFn = useCallback(
+    (payload: UpdateProject) => update(payload),
+    [update],
+  );
+  const { isError, isLoading, mutate, status } = useMutation({
+    mutationFn,
+    onSuccess: options?.onSuccess,
   });
 
-  return { updateProject: mutate, isError, isUpdating: isPending };
+  return {
+    updateProject: mutate,
+    isError,
+    isLoading,
+    status,
+  };
 };
 
 export default useUpdateProject;

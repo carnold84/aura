@@ -1,15 +1,9 @@
-import { CreateProject, Project } from "../../types";
+import { Project, UpdateProject } from "../../../types";
 import { client } from "../client";
 import { mapProject } from "./utils";
 
-const updateProject = async ({
-  id,
-  project,
-}: {
-  id: string;
-  project: CreateProject;
-}): Promise<Project> => {
-  if (id && project) {
+const updateProject = async (project: UpdateProject): Promise<Project> => {
+  if (project && project.id) {
     const payload = {
       description: project.description,
       image_url: project.imageUrl,
@@ -18,7 +12,7 @@ const updateProject = async ({
     const { data, error, status } = await client
       .from("projects")
       .update(payload)
-      .eq("id", id)
+      .eq("id", project.id)
       .select(
         `
           *,
@@ -31,7 +25,7 @@ const updateProject = async ({
     }
 
     if (status !== 200 || data === null) {
-      throw new Error("Could not fetch project");
+      throw new Error("Could not update project");
     }
 
     const updatedProject = mapProject(data[0]);

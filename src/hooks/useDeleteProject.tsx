@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import useStore from "../stores/store";
 import { Project } from "../types";
 import useMutation from "./useMutation";
@@ -8,8 +10,12 @@ interface UseDeleteProjectOptions {
 
 const useDeleteProject = (options?: UseDeleteProjectOptions) => {
   const deleteProject = useStore((store) => store.projects.delete);
+  const mutationFn = useCallback(
+    (payload: Project) => deleteProject(payload),
+    [deleteProject],
+  );
   const { isError, isLoading, mutate, status } = useMutation({
-    mutationFn: (payload: Project) => deleteProject(payload),
+    mutationFn,
     onSuccess: options?.onSuccess,
   });
 

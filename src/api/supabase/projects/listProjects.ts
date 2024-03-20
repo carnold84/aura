@@ -1,4 +1,4 @@
-import { Project } from "../../types";
+import { Project } from "../../../types";
 import { client } from "../client";
 import { mapProject } from "./utils";
 

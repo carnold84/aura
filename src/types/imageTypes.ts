@@ -20,6 +20,8 @@ export type CreateImage = Omit<
   "createdAt" | "id" | "updatedAt" | "userId"
 >;
 
+export type UpdateImage = Omit<Image, "createdAt" | "updatedAt" | "userId">;
+
 export interface ProjectImage {
   createdAt: string;
   imageId: string;

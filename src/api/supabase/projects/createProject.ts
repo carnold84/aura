@@ -1,4 +1,4 @@
-import { CreateProject, Project } from "../../types";
+import { CreateProject, Project } from "../../../types";
 import { client } from "../client";
 import { mapProject } from "./utils";
 
@@ -24,7 +24,7 @@ const createProject = async (project: CreateProject): Promise<Project> => {
     }
 
     if (status !== 201 || data === null) {
-      throw new Error("Could not fetch project");
+      throw new Error("Could not create project");
     }
 
     const newProject = mapProject(data[0]);

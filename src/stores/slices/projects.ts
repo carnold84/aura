@@ -7,24 +7,25 @@ import {
   listProjects,
   updateProject,
 } from "../../api";
-import { CreateProject, Project, UpdateProject } from "../../types";
+import { CreateProject, ProjectWithImages, UpdateProject } from "../../types";
+import { ProjectsImagesSlice } from "./projectsImages";
 
 export interface ProjectsSlice {
   projects: {
-    create: (data: CreateProject) => Promise<Project>;
-    data: Map<string, Project>;
-    delete: (data: Project) => Promise<Project>;
-    get: (id: string) => Promise<Project | null>;
+    create: (data: CreateProject) => Promise<ProjectWithImages>;
+    data: Map<string, ProjectWithImages>;
+    delete: (data: ProjectWithImages) => Promise<ProjectWithImages>;
+    get: (id: string) => Promise<ProjectWithImages | null>;
     isLoaded: boolean;
-    list: () => Promise<Project[]>;
-    project: (id: string) => Project | undefined;
-    projects: () => Project[] | undefined;
-    update: (data: UpdateProject) => Promise<Project>;
+    list: () => Promise<ProjectWithImages[]>;
+    project: (id: string) => ProjectWithImages | undefined;
+    projects: () => ProjectWithImages[] | undefined;
+    update: (data: UpdateProject) => Promise<ProjectWithImages>;
   };
 }
 
 const createProjectsSlice: StateCreator<
-  ProjectsSlice,
+  ProjectsSlice & ProjectsImagesSlice,
   [],
   [],
   ProjectsSlice
@@ -41,7 +42,7 @@ const createProjectsSlice: StateCreator<
       return response;
     },
     data: new Map(),
-    delete: async (project: Project) => {
+    delete: async (project: ProjectWithImages) => {
       const projects = get().projects;
       const nextData = projects.data;
       const response = await deleteProject(project);
@@ -77,11 +78,22 @@ const createProjectsSlice: StateCreator<
       }
 
       const response = await listProjects();
-      const nextData = response.reduce((previous, current) => {
-        return previous.set(current.id, current);
-      }, new Map());
+      const nextProjects = new Map();
+      const projectsImages = get().projectsImages;
+      const nextProjectImages = new Map();
 
-      set({ projects: { ...projects, isLoaded: true, data: nextData } });
+      for (const project of response) {
+        for (const image of project.images) {
+          nextProjectImages.set(image.id, image);
+        }
+        project.images = [];
+        nextProjects.set(project.id, project);
+      }
+
+      set({
+        projects: { ...projects, isLoaded: true, data: nextProjects },
+        projectsImages: { ...projectsImages, data: nextProjectImages },
+      });
 
       return response;
     },

@@ -1,18 +1,18 @@
 import { useCallback } from "react";
 
 import useStore from "../stores/store";
-import { CreateImage, Image } from "../types";
+import { Image, UpdateImage } from "../types";
 import useMutation from "./useMutation";
 
-interface UseCreateImageOptions {
+interface UseUpdateImageOptions {
   onSuccess?: (data: Image) => void;
 }
 
-const useCreateImage = (options?: UseCreateImageOptions) => {
-  const create = useStore((store) => store.images.create);
+const useUpdateImage = (options?: UseUpdateImageOptions) => {
+  const update = useStore((store) => store.images.update);
   const mutationFn = useCallback(
-    (payload: CreateImage) => create(payload),
-    [create],
+    (payload: UpdateImage) => update(payload),
+    [update],
   );
   const { isError, isLoading, mutate, status } = useMutation({
     mutationFn,
@@ -20,11 +20,11 @@ const useCreateImage = (options?: UseCreateImageOptions) => {
   });
 
   return {
-    createImage: mutate,
+    updateImage: mutate,
     isError,
     isLoading,
     status,
   };
 };
 
-export default useCreateImage;
+export default useUpdateImage;

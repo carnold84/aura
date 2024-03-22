@@ -24,6 +24,7 @@ export type UpdateImage = Omit<Image, "createdAt" | "updatedAt" | "userId">;
 
 export interface ProjectImage {
   createdAt: string;
+  id: string;
   imageId: string;
   projectId: string;
   userId: string;

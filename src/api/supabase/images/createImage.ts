@@ -1,5 +1,5 @@
 import { client } from "..";
-import { CreateImage, Image } from "../../types";
+import { CreateImage, Image } from "../../../types";
 import { mapImageWithProjects } from "./utils";
 
 const createImage = async (image: CreateImage): Promise<Image> => {

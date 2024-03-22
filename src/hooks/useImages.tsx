@@ -1,10 +1,13 @@
+import { useCallback } from "react";
+
 import useStore from "../stores/store";
 import useQuery from "./useQuery";
 
 const useImages = () => {
-  const fetchImages = useStore((store) => store.images.list);
+  const list = useStore((store) => store.images.list);
+  const queryFn = useCallback(() => list(), [list]);
   const { isError, isLoading, status } = useQuery({
-    queryFn: fetchImages,
+    queryFn,
   });
   const images = useStore((store) => store.images.images());
 

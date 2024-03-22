@@ -1,15 +1,22 @@
-import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-import { getImage } from "../api";
+import useStore from "../stores/store";
+import useQuery from "./useQuery";
 
-const useImage = (imageId?: string) => {
-  const { data, error, isError, isLoading, status } = useQuery({
-    enabled: !!imageId,
-    queryKey: ["images", { id: imageId }],
-    queryFn: () => getImage(imageId),
+const useImage = (id: string) => {
+  const get = useStore((store) => store.images.get);
+  const queryFn = useCallback(() => get(id), [get, id]);
+  const { isError, isLoading, status } = useQuery({
+    queryFn,
   });
+  const image = useStore((store) => store.images.image(id));
 
-  return { data, error, isError, isLoading, status };
+  return {
+    data: image,
+    isError,
+    isLoading,
+    status,
+  };
 };
 
 export default useImage;

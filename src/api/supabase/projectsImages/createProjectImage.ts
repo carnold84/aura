@@ -1,8 +1,8 @@
-import { client } from "..";
 import { Image, Project, ProjectImage } from "../../../types";
+import { client } from "../client";
 import { mapProjectImage } from "./utils";
 
-const linkImageToProject = async (
+const createProjectImage = async (
   image: Image,
   project: Project,
 ): Promise<ProjectImage> => {
@@ -11,26 +11,25 @@ const linkImageToProject = async (
       image_id: image.id,
       project_id: project.id,
     };
-
     const { data, error, status } = await client
       .from("projects_images")
       .insert(payload)
-      .select();
+      .select(`*`);
 
     if (error) {
       throw error;
     }
 
     if (status !== 201 || data === null) {
-      throw new Error("Could not link image to project");
+      throw new Error("Could not link project to image");
     }
 
-    const projectImage = mapProjectImage(data[0]);
+    const newProjectImage = mapProjectImage(data[0]);
 
-    return Promise.resolve(projectImage);
+    return Promise.resolve(newProjectImage);
   } else {
-    throw new Error("Image is required");
+    throw new Error("Project and image are required");
   }
 };
 
-export default linkImageToProject;
+export default createProjectImage;

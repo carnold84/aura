@@ -1,5 +1,5 @@
 import { client } from "..";
-import { Image, Project } from "../../types";
+import { Image, Project } from "../../../types";
 
 const unlinkImageFromProject = async (
   image: Image,

@@ -1,5 +1,5 @@
 import { client } from "..";
-import { Image } from "../../types";
+import { Image } from "../../../types";
 
 const deleteImage = async (image: Image): Promise<Image> => {
   if (image) {

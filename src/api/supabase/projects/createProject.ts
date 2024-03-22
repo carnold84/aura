@@ -1,8 +1,10 @@
-import { CreateProject, Project } from "../../../types";
+import { CreateProject, ProjectWithImages } from "../../../types";
 import { client } from "../client";
-import { mapProject } from "./utils";
+import { mapProjectWithImages } from "./utils";
 
-const createProject = async (project: CreateProject): Promise<Project> => {
+const createProject = async (
+  project: CreateProject,
+): Promise<ProjectWithImages> => {
   if (project) {
     const payload = {
       description: project.description,
@@ -15,7 +17,9 @@ const createProject = async (project: CreateProject): Promise<Project> => {
       .select(
         `
           *,
-          images (*)
+          images (
+            *
+          )
         `,
       );
 
@@ -27,7 +31,7 @@ const createProject = async (project: CreateProject): Promise<Project> => {
       throw new Error("Could not create project");
     }
 
-    const newProject = mapProject(data[0]);
+    const newProject = mapProjectWithImages(data[0]);
 
     return Promise.resolve(newProject);
   } else {

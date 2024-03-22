@@ -1,8 +1,10 @@
-import { Project, UpdateProject } from "../../../types";
+import { ProjectWithImages, UpdateProject } from "../../../types";
 import { client } from "../client";
-import { mapProject } from "./utils";
+import { mapProjectWithImages } from "./utils";
 
-const updateProject = async (project: UpdateProject): Promise<Project> => {
+const updateProject = async (
+  project: UpdateProject,
+): Promise<ProjectWithImages> => {
   if (project && project.id) {
     const payload = {
       description: project.description,
@@ -28,7 +30,7 @@ const updateProject = async (project: UpdateProject): Promise<Project> => {
       throw new Error("Could not update project");
     }
 
-    const updatedProject = mapProject(data[0]);
+    const updatedProject = mapProjectWithImages(data[0]);
 
     return Promise.resolve(updatedProject);
   } else {

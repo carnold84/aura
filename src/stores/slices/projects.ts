@@ -7,7 +7,13 @@ import {
   listProjects,
   updateProject,
 } from "../../api";
-import { CreateProject, ProjectWithImages, UpdateProject } from "../../types";
+import {
+  CreateProject,
+  Image,
+  ProjectWithImages,
+  UpdateProject,
+} from "../../types";
+import { ImagesSlice } from "./images";
 import { ProjectsImagesSlice } from "./projectsImages";
 
 export interface ProjectsSlice {
@@ -24,36 +30,60 @@ export interface ProjectsSlice {
   };
 }
 
+const mapProject = (
+  projectData: ProjectWithImages,
+  storeData: ProjectsSlice & ImagesSlice & ProjectsImagesSlice,
+) => {
+  const images = storeData.images.data;
+  const projectsImages = storeData.projectsImages.data;
+  const project = { ...projectData };
+  console.log("projectsImages", projectsImages);
+
+  project.images = projectsImages.reduce<Image[]>(
+    (previous, { imageId, projectId }) => {
+      const image = images.get(imageId);
+      if (image && project.id === projectId) {
+        return [...previous, image];
+      }
+      return previous;
+    },
+    [],
+  );
+
+  return project;
+};
+
 const createProjectsSlice: StateCreator<
-  ProjectsSlice & ProjectsImagesSlice,
+  ProjectsSlice & ImagesSlice & ProjectsImagesSlice,
   [],
   [],
   ProjectsSlice
 > = (set, get) => ({
   projects: {
     create: async (data: CreateProject) => {
-      const projects = get().projects;
-      const nextData = projects.data;
+      const storeData = get();
+      const projects = storeData.projects;
       const response = await createProject(data);
-      nextData?.set(response.id, response);
+      projects.data?.set(response.id, response);
 
-      set({ projects: { ...projects, data: nextData } });
+      set({ projects: { ...projects, data: projects.data } });
 
-      return response;
+      return mapProject(response, storeData);
     },
     data: new Map(),
     delete: async (project: ProjectWithImages) => {
-      const projects = get().projects;
-      const nextData = projects.data;
+      const storeData = get();
+      const projects = storeData.projects;
       const response = await deleteProject(project);
-      nextData?.delete(response.id);
+      projects.data?.delete(response.id);
 
-      set({ projects: { ...projects, data: nextData } });
+      set({ projects: { ...projects, data: projects.data } });
 
-      return response;
+      return mapProject(response, storeData);
     },
     get: async (id: string) => {
-      const projects = get().projects;
+      const storeData = get();
+      const projects = storeData.projects;
       const project = projects.project(id);
 
       if (projects.isLoaded && project) {
@@ -62,13 +92,30 @@ const createProjectsSlice: StateCreator<
 
       const response = await getProject(id);
 
-      if (response) {
-        const nextData = projects.data?.set(response.id, response);
+      if (response === null) {
+        return null;
+      }
+      console.log("get", response);
 
-        set({ projects: { ...projects, data: nextData } });
+      const images = get().images;
+      const projectsImages = get().projectsImages;
+      const nextImages = new Map();
+      const nextProjectImages = [];
+
+      for (const image of response.images) {
+        nextImages.set(image.id, image);
+        nextProjectImages.push({ imageId: image.id, projectId: response.id });
       }
 
-      return response;
+      const nextProjects = projects.data?.set(response.id, response);
+
+      set({
+        images: { ...images, data: nextImages },
+        projects: { ...projects, data: nextProjects },
+        projectsImages: { ...projectsImages, data: nextProjectImages },
+      });
+
+      return mapProject(response, storeData);
     },
     isLoaded: false,
     list: async () => {
@@ -79,40 +126,69 @@ const createProjectsSlice: StateCreator<
 
       const response = await listProjects();
       const nextProjects = new Map();
+      const images = get().images;
       const projectsImages = get().projectsImages;
-      const nextProjectImages = new Map();
+      const nextProjectImages = [];
+      const nextImages = new Map();
 
       for (const project of response) {
         for (const image of project.images) {
-          nextProjectImages.set(image.id, image);
+          nextImages.set(image.id, image);
+          nextProjectImages.push({ imageId: image.id, projectId: project.id });
         }
         project.images = [];
         nextProjects.set(project.id, project);
       }
 
       set({
+        images: { ...images, data: nextImages },
         projects: { ...projects, isLoaded: true, data: nextProjects },
         projectsImages: { ...projectsImages, data: nextProjectImages },
       });
 
-      return response;
+      return projects.projects() || [];
     },
     project: (id: string | undefined) => {
-      return id ? get().projects.data?.get(id) : undefined;
+      console.log("project");
+      if (!id) {
+        return undefined;
+      }
+
+      const projectData = get().projects.data?.get(id);
+
+      if (!projectData) {
+        return undefined;
+      }
+
+      const storeData = get();
+      const project = mapProject(projectData, storeData);
+      console.log("project", project);
+
+      return project;
     },
     projects: () => {
-      const data = get().projects.data;
-      return data ? Array.from(data.values()) : undefined;
+      const storeData = get();
+      const projectsData = storeData.projects.data;
+
+      const projects = [];
+
+      for (const project of projectsData.values()) {
+        projects.push(mapProject(project, storeData));
+      }
+      console.log("projects", projects);
+
+      return projects;
     },
     update: async (data: UpdateProject) => {
-      const projects = get().projects;
-      const nextData = projects.data;
+      const storeData = get();
+      const projects = storeData.projects;
       const response = await updateProject(data);
-      nextData?.set(response.id, response);
+      const updatedProject = mapProject(response, storeData);
+      projects.data?.set(updatedProject.id, updatedProject);
 
-      set({ projects: { ...projects, data: nextData } });
+      set({ projects: { ...projects, data: projects.data } });
 
-      return response;
+      return updatedProject;
     },
   },
 });

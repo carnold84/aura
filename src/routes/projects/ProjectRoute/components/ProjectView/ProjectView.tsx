@@ -1,6 +1,7 @@
 import useBack from "../../../../../hooks/useBack";
 import useDeleteProject from "../../../../../hooks/useDeleteProject";
 import useProject from "../../../../../hooks/useProject";
+import ImageList from "../ImageList";
 
 const ProjectView = ({ projectId }: { projectId: string }) => {
   const back = useBack("/projects");
@@ -41,6 +42,7 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
           );
         })}
       </ul> */}
+      <ImageList project={project} />
     </div>
   );
 };

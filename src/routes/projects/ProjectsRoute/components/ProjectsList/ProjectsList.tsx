@@ -5,8 +5,10 @@ import UpdateProjectForm from "../../../../../containers/UpdateProjectForm";
 import useProjects from "../../../../../hooks/useProjects";
 
 const ProjectsList = () => {
-  const { data, isError, isLoading } = useProjects();
+  const { data, isError, isLoading } = useProjects({ sortBy: "createdAt" });
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  console.log(data);
 
   if (isLoading) {
     return <p>Loading...</p>;

@@ -1,10 +1,11 @@
-import { Image, Project, ProjectImage } from "../../../types";
+import { ImageWithProjects, ProjectWithImages } from "../../../types";
+import { ProjectImage } from "../../../types/projectImageTypes";
 import { client } from "../client";
 import { mapProjectImage } from "./utils";
 
 const createProjectImage = async (
-  image: Image,
-  project: Project,
+  image: ImageWithProjects,
+  project: ProjectWithImages,
 ): Promise<ProjectImage> => {
   if (image && project) {
     const payload = {

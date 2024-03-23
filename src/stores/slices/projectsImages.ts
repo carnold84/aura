@@ -1,14 +1,20 @@
 import { StateCreator } from "zustand";
 
-import { createImage, deleteImage, getImage } from "../../api";
-import { CreateImage, Image } from "../../types";
+import { createProjectImage, deleteProjectImage } from "../../api";
+import { ImageWithProjects, ProjectWithImages } from "../../types";
+import { ProjectImage } from "../../types/projectImageTypes";
 
 export interface ProjectsImagesSlice {
   projectsImages: {
-    create: (data: CreateImage) => Promise<Image>;
-    data: Map<string, Image>;
-    delete: (data: Image) => Promise<Image>;
-    get: (id: string) => Promise<Image | null>;
+    create: (
+      image: ImageWithProjects,
+      project: ProjectWithImages,
+    ) => Promise<ProjectImage>;
+    data: ProjectImage[];
+    delete: (
+      image: ImageWithProjects,
+      project: ProjectWithImages,
+    ) => Promise<ProjectImage>;
     isLoaded: boolean;
   };
 }
@@ -20,42 +26,28 @@ const createProjectsImagesSlice: StateCreator<
   ProjectsImagesSlice
 > = (set, get) => ({
   projectsImages: {
-    create: async (data: CreateImage) => {
+    create: async (image: ImageWithProjects, project: ProjectWithImages) => {
       const projectsImages = get().projectsImages;
-      const nextData = projectsImages.data;
-      const response = await createImage(data);
-      nextData?.set(response.id, response);
+      const response = await createProjectImage(image, project);
 
-      set({ projectsImages: { ...projectsImages, data: nextData } });
+      set({
+        projectsImages: {
+          ...projectsImages,
+          data: [...projectsImages.data, response],
+        },
+      });
 
       return response;
     },
-    data: new Map(),
-    delete: async (image: Image) => {
+    data: [],
+    delete: async (image: ImageWithProjects, project: ProjectWithImages) => {
       const projectsImages = get().projectsImages;
-      const nextData = projectsImages.data;
-      const response = await deleteImage(image);
-      nextData?.delete(response.id);
+      const response = await deleteProjectImage(image, project);
+      const nextData = projectsImages.data.filter(({ imageId, projectId }) => {
+        return imageId !== response.imageId || projectId !== response.projectId;
+      });
 
       set({ projectsImages: { ...projectsImages, data: nextData } });
-
-      return response;
-    },
-    get: async (id: string) => {
-      const projectsImages = get().projectsImages;
-      const image = projectsImages.get(id);
-
-      if (projectsImages.isLoaded && image) {
-        return image;
-      }
-
-      const response = await getImage(id);
-
-      if (response) {
-        const nextData = projectsImages.data?.set(response.id, response);
-
-        set({ projectsImages: { ...projectsImages, data: nextData } });
-      }
 
       return response;
     },

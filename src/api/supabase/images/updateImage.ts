@@ -1,8 +1,8 @@
-import { Image, UpdateImage } from "../../../types";
+import { ImageWithProjects, UpdateImage } from "../../../types";
 import { client } from "../client";
 import { mapImage } from "./utils";
 
-const updateImage = async (image: UpdateImage): Promise<Image> => {
+const updateImage = async (image: UpdateImage): Promise<ImageWithProjects> => {
   if (image && image.id) {
     const payload = {
       description: image.description,

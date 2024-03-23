@@ -7,39 +7,71 @@ import {
   listImages,
   updateImage,
 } from "../../api";
-import { CreateImage, Image, UpdateImage } from "../../types";
+import {
+  CreateImage,
+  ImageWithProjects,
+  Project,
+  UpdateImage,
+} from "../../types";
+import { ProjectsSlice } from "./projects";
+import { ProjectsImagesSlice } from "./projectsImages";
 
 export interface ImagesSlice {
   images: {
-    create: (data: CreateImage) => Promise<Image>;
-    data: Map<string, Image>;
-    delete: (data: Image) => Promise<Image>;
-    get: (id: string) => Promise<Image | null>;
+    create: (data: CreateImage) => Promise<ImageWithProjects>;
+    data: Map<string, ImageWithProjects>;
+    delete: (data: ImageWithProjects) => Promise<ImageWithProjects>;
+    get: (id: string) => Promise<ImageWithProjects | null>;
     isLoaded: boolean;
-    list: () => Promise<Image[]>;
-    image: (id: string) => Image | undefined;
-    images: () => Image[] | undefined;
-    update: (data: UpdateImage) => Promise<Image>;
+    list: () => Promise<ImageWithProjects[]>;
+    image: (id: string) => ImageWithProjects | undefined;
+    images: () => ImageWithProjects[] | undefined;
+    update: (data: UpdateImage) => Promise<ImageWithProjects>;
   };
 }
 
-const createImagesSlice: StateCreator<ImagesSlice, [], [], ImagesSlice> = (
-  set,
-  get,
-) => ({
+const mapImage = (
+  imageData: ImageWithProjects,
+  storeData: ProjectsSlice & ImagesSlice & ProjectsImagesSlice,
+) => {
+  const projects = storeData.projects.data;
+  const projectsImages = storeData.projectsImages.data;
+  const image = { ...imageData };
+
+  image.projects = projectsImages.reduce<Project[]>(
+    (previous, { imageId, projectId }) => {
+      const project = projects.get(projectId);
+      if (project && image.id === imageId) {
+        return [...previous, project];
+      }
+      return previous;
+    },
+    [],
+  );
+
+  return image;
+};
+
+const createImagesSlice: StateCreator<
+  ProjectsSlice & ImagesSlice & ProjectsImagesSlice,
+  [],
+  [],
+  ImagesSlice
+> = (set, get) => ({
   images: {
     create: async (data: CreateImage) => {
-      const images = get().images;
+      const storeData = get();
+      const images = storeData.images;
       const nextData = images.data;
       const response = await createImage(data);
       nextData?.set(response.id, response);
 
       set({ images: { ...images, data: nextData } });
 
-      return response;
+      return mapImage(response, storeData);
     },
     data: new Map(),
-    delete: async (image: Image) => {
+    delete: async (image: ImageWithProjects) => {
       const images = get().images;
       const nextData = images.data;
       const response = await deleteImage(image);

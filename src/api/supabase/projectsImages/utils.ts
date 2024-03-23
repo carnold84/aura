@@ -1,4 +1,4 @@
-import { ProjectImage } from "../../../types";
+import { ProjectImage } from "../../../types/projectImageTypes";
 import { Database } from "../database.types";
 
 export type ProjectImageData =
@@ -6,10 +6,7 @@ export type ProjectImageData =
 
 export const mapProjectImage = (data: ProjectImageData): ProjectImage => {
   return {
-    createdAt: data.created_at,
-    id: data.id,
     imageId: data.image_id,
     projectId: data.project_id,
-    userId: data.user_id,
   };
 };

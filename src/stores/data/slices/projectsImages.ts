@@ -18,7 +18,6 @@ export interface ProjectsImagesSlice {
       image: ImageWithProjects,
       project: ProjectWithImages,
     ) => Promise<ProjectImage>;
-    isLoaded: boolean;
   };
 }
 
@@ -54,7 +53,6 @@ const createProjectsImagesSlice: StateCreator<
 
       return response;
     },
-    isLoaded: false,
   },
 });
 

@@ -1,10 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { CreateImage } from "../../../../../api/types";
 import useCreateImage from "../../../../../hooks/useCreateImage";
+import { CreateImage } from "../../../../../types";
 
 const ImagesForm = () => {
-  const { createImage, isError, isSaving } = useCreateImage();
+  const { createImage, isError, isLoading } = useCreateImage();
   const {
     register,
     handleSubmit,
@@ -14,7 +14,7 @@ const ImagesForm = () => {
     createImage(data);
   };
 
-  if (isSaving) {
+  if (isLoading) {
     return <p>Creating...</p>;
   }
 

@@ -1,9 +1,16 @@
 import { ImageWithProjects } from "../../../types";
 import { client } from "../client";
-import { mapImage } from "./utils";
+import { mapImageWithProjects } from "./utils";
 
 const listImages = async (): Promise<ImageWithProjects[]> => {
-  const { data, error, status } = await client.from("images").select();
+  const { data, error, status } = await client.from("images").select(
+    `
+      *,
+      projects (
+        *
+      )
+    `,
+  );
 
   if (error) {
     throw error;
@@ -15,7 +22,7 @@ const listImages = async (): Promise<ImageWithProjects[]> => {
 
   const images =
     data.map((imageData) => {
-      return mapImage(imageData);
+      return mapImageWithProjects(imageData);
     }) || [];
 
   return Promise.resolve(images);

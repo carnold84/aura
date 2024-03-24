@@ -1,6 +1,6 @@
 import { ImageWithProjects, UpdateImage } from "../../../types";
 import { client } from "../client";
-import { mapImage } from "./utils";
+import { mapImageWithProjects } from "./utils";
 
 const updateImage = async (image: UpdateImage): Promise<ImageWithProjects> => {
   if (image && image.id) {
@@ -27,7 +27,7 @@ const updateImage = async (image: UpdateImage): Promise<ImageWithProjects> => {
       throw new Error("Could not update image");
     }
 
-    const updatedImage = mapImage(data[0]);
+    const updatedImage = mapImageWithProjects(data[0]);
 
     return Promise.resolve(updatedImage);
   } else {

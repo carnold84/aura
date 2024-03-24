@@ -1,4 +1,4 @@
-import { ProjectImage } from "../../../types/projectImageTypes";
+import { ProjectImage } from "../../../types";
 import { Database } from "../database.types";
 
 export type ProjectImageData =

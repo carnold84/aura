@@ -1,17 +1,17 @@
-import { ImageWithProjects, Project } from "../../../../../api/types";
 import useLinkImageToProject from "../../../../../hooks/useLinkImageToProject";
+import { ImageWithProjects, ProjectWithImages } from "../../../../../types";
 
 const LinkProjectListItem = ({
   image,
   project,
 }: {
   image: ImageWithProjects;
-  project: Project;
+  project: ProjectWithImages;
 }) => {
-  const { linkImageToProject, isSaving } = useLinkImageToProject();
+  const { linkImageToProject, isLinking } = useLinkImageToProject();
   const isAdded = image.projects.find(({ id }) => id === project.id);
 
-  if (isSaving) {
+  if (isLinking) {
     if (isAdded) {
       return <p>Removing...</p>;
     } else {

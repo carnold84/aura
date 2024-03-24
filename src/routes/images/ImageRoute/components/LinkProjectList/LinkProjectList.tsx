@@ -1,5 +1,5 @@
-import { ImageWithProjects, Project } from "../../../../../api/types";
 import useProjects from "../../../../../hooks/useProjects";
+import { ImageWithProjects, ProjectWithImages } from "../../../../../types";
 import LinkProjectListItem from "../LinkProjectListItem";
 
 const LinkProjectList = ({ image }: { image: ImageWithProjects }) => {
@@ -19,7 +19,7 @@ const LinkProjectList = ({ image }: { image: ImageWithProjects }) => {
 
   return (
     <ul>
-      {data?.map((project: Project) => {
+      {data?.map((project: ProjectWithImages) => {
         return <LinkProjectListItem image={image} project={project} />;
       })}
     </ul>

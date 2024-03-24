@@ -62,27 +62,27 @@ const createImagesSlice: StateCreator<
     create: async (data: CreateImage) => {
       const storeData = get();
       const images = storeData.images;
-      const nextData = images.data;
       const response = await createImage(data);
-      nextData?.set(response.id, response);
+      images.data?.set(response.id, response);
 
-      set({ images: { ...images, data: nextData } });
+      set({ images: { ...images, data: images.data } });
 
       return mapImage(response, storeData);
     },
     data: new Map(),
     delete: async (image: ImageWithProjects) => {
-      const images = get().images;
-      const nextData = images.data;
+      const storeData = get();
+      const images = storeData.images;
       const response = await deleteImage(image);
-      nextData?.delete(response.id);
+      images.data?.delete(response.id);
 
-      set({ images: { ...images, data: nextData } });
+      set({ images: { ...images, data: images.data } });
 
-      return response;
+      return mapImage(response, storeData);
     },
     get: async (id: string) => {
-      const images = get().images;
+      const storeData = get();
+      const images = storeData.images;
       const image = images.image(id);
 
       if (images.isLoaded && image) {
@@ -91,13 +91,29 @@ const createImagesSlice: StateCreator<
 
       const response = await getImage(id);
 
-      if (response) {
-        const nextData = images.data?.set(response.id, response);
-
-        set({ images: { ...images, data: nextData } });
+      if (response === null) {
+        return null;
       }
 
-      return response;
+      const projects = storeData.projects;
+      const projectsImages = storeData.projectsImages;
+      const nextProjects = new Map();
+      const nextProjectImages = [];
+
+      for (const project of response.projects) {
+        nextProjects.set(project.id, project);
+        nextProjectImages.push({ imageId: response.id, projectId: project.id });
+      }
+
+      const nextImages = images.data?.set(response.id, response);
+
+      set({
+        images: { ...images, data: nextImages },
+        projects: { ...projects, data: nextProjects },
+        projectsImages: { ...projectsImages, data: nextProjectImages },
+      });
+
+      return mapImage(response, storeData);
     },
     isLoaded: false,
     list: async () => {
@@ -107,30 +123,67 @@ const createImagesSlice: StateCreator<
       }
 
       const response = await listImages();
-      const nextData = response.reduce((previous, current) => {
-        return previous.set(current.id, current);
-      }, new Map());
+      const nextImages = new Map();
+      const projects = get().projects;
+      const projectsImages = get().projectsImages;
+      const nextProjectImages = [];
+      const nextProjects = new Map();
 
-      set({ images: { ...images, isLoaded: true, data: nextData } });
+      for (const image of response) {
+        for (const project of image.projects) {
+          nextProjects.set(project.id, project);
+          nextProjectImages.push({ imageId: image.id, projectId: project.id });
+        }
+        image.projects = [];
+        nextImages.set(image.id, image);
+      }
 
-      return response;
+      set({
+        images: { ...images, isLoaded: true, data: nextImages },
+        projects: { ...projects, data: nextProjects },
+        projectsImages: { ...projectsImages, data: nextProjectImages },
+      });
+
+      return images.images() || [];
     },
     image: (id: string | undefined) => {
-      return id ? get().images.data?.get(id) : undefined;
+      if (!id) {
+        return undefined;
+      }
+
+      const storeData = get();
+      const imageData = storeData.images.data?.get(id);
+
+      if (!imageData) {
+        return undefined;
+      }
+
+      const image = mapImage(imageData, storeData);
+
+      return image;
     },
     images: () => {
-      const data = get().images.data;
-      return data ? Array.from(data.values()) : undefined;
+      const storeData = get();
+      const imagesData = storeData.images.data;
+
+      const images = [];
+
+      for (const image of imagesData.values()) {
+        images.push(mapImage(image, storeData));
+      }
+
+      return images;
     },
     update: async (data: UpdateImage) => {
-      const images = get().images;
-      const nextData = images.data;
+      const storeData = get();
+      const images = storeData.images;
       const response = await updateImage(data);
-      nextData?.set(response.id, response);
+      const updatedProject = mapImage(response, storeData);
+      images.data?.set(updatedProject.id, updatedProject);
 
-      set({ images: { ...images, data: nextData } });
+      set({ images: { ...images, data: images.data } });
 
-      return response;
+      return updatedProject;
     },
   },
 });

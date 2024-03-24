@@ -1,8 +1,7 @@
 import { useCallback } from "react";
 
 import useStore from "../stores/store";
-import { ImageWithProjects, ProjectWithImages } from "../types";
-import { ProjectImage } from "../types/projectImageTypes";
+import { ImageWithProjects, ProjectImage, ProjectWithImages } from "../types";
 import useMutation from "./useMutation";
 
 interface UseUnlinkImageFromProjectOptions {

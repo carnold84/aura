@@ -37,7 +37,6 @@ const mapProject = (
   const images = storeData.images.data;
   const projectsImages = storeData.projectsImages.data;
   const project = { ...projectData };
-  console.log("projectsImages", projectsImages);
 
   project.images = projectsImages.reduce<Image[]>(
     (previous, { imageId, projectId }) => {
@@ -95,10 +94,9 @@ const createProjectsSlice: StateCreator<
       if (response === null) {
         return null;
       }
-      console.log("get", response);
 
-      const images = get().images;
-      const projectsImages = get().projectsImages;
+      const images = storeData.images;
+      const projectsImages = storeData.projectsImages;
       const nextImages = new Map();
       const nextProjectImages = [];
 
@@ -149,20 +147,18 @@ const createProjectsSlice: StateCreator<
       return projects.projects() || [];
     },
     project: (id: string | undefined) => {
-      console.log("project");
       if (!id) {
         return undefined;
       }
 
-      const projectData = get().projects.data?.get(id);
+      const storeData = get();
+      const projectData = storeData.projects.data?.get(id);
 
       if (!projectData) {
         return undefined;
       }
 
-      const storeData = get();
       const project = mapProject(projectData, storeData);
-      console.log("project", project);
 
       return project;
     },
@@ -175,7 +171,6 @@ const createProjectsSlice: StateCreator<
       for (const project of projectsData.values()) {
         projects.push(mapProject(project, storeData));
       }
-      console.log("projects", projects);
 
       return projects;
     },

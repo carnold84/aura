@@ -1,5 +1,8 @@
-import { ImageWithProjects, ProjectWithImages } from "../../../types";
-import { ProjectImage } from "../../../types/projectImageTypes";
+import {
+  ImageWithProjects,
+  ProjectImage,
+  ProjectWithImages,
+} from "../../../types";
 import { client } from "../client";
 
 const deleteProjectImage = async (

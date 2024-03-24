@@ -5,6 +5,19 @@ const deleteProject = async (
   project: ProjectWithImages,
 ): Promise<ProjectWithImages> => {
   if (project) {
+    const { error: linksError, status: linksStatus } = await client
+      .from("projects_images")
+      .delete()
+      .eq("project_id", project.id);
+
+    if (linksError) {
+      throw linksError;
+    }
+
+    if (linksStatus !== 204) {
+      throw new Error("Could not delete project");
+    }
+
     const { error, status } = await client
       .from("projects")
       .delete()

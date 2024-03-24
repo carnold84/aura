@@ -17,7 +17,10 @@ export interface ImageWithProjects extends Image {
 
 export type CreateImage = Omit<
   Image,
-  "createdAt" | "id" | "updatedAt" | "userId"
+  "createdAt" | "id" | "srcUrl" | "updatedAt" | "userId"
 >;
 
-export type UpdateImage = Omit<Image, "createdAt" | "updatedAt" | "userId">;
+export type UpdateImage = Omit<
+  Image,
+  "createdAt" | "srcUrl" | "updatedAt" | "userId"
+>;

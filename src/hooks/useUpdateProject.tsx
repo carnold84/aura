@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import useStore from "../stores/store";
+import useDataStore from "../stores/data/dataStore";
 import { Project, UpdateProject } from "../types";
 import useMutation from "./useMutation";
 
@@ -9,7 +9,7 @@ interface UseUpdateProjectOptions {
 }
 
 const useUpdateProject = (options?: UseUpdateProjectOptions) => {
-  const update = useStore((store) => store.projects.update);
+  const update = useDataStore((store) => store.projects.update);
   const mutationFn = useCallback(
     (payload: UpdateProject) => update(payload),
     [update],

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import useStore from "../stores/store";
+import useDataStore from "../stores/data/dataStore";
 import { Image, UpdateImage } from "../types";
 import useMutation from "./useMutation";
 
@@ -9,7 +9,7 @@ interface UseUpdateImageOptions {
 }
 
 const useUpdateImage = (options?: UseUpdateImageOptions) => {
-  const update = useStore((store) => store.images.update);
+  const update = useDataStore((store) => store.images.update);
   const mutationFn = useCallback(
     (payload: UpdateImage) => update(payload),
     [update],

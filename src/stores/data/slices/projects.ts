@@ -6,13 +6,13 @@ import {
   getProject,
   listProjects,
   updateProject,
-} from "../../api";
+} from "../../../api";
 import {
   CreateProject,
   Image,
   ProjectWithImages,
   UpdateProject,
-} from "../../types";
+} from "../../../types";
 import { ImagesSlice } from "./images";
 import { ProjectsImagesSlice } from "./projectsImages";
 

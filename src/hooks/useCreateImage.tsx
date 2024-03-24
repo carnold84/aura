@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import useStore from "../stores/store";
+import useDataStore from "../stores/data/dataStore";
 import { CreateImage, Image } from "../types";
 import useMutation from "./useMutation";
 
@@ -9,7 +9,7 @@ interface UseCreateImageOptions {
 }
 
 const useCreateImage = (options?: UseCreateImageOptions) => {
-  const create = useStore((store) => store.images.create);
+  const create = useDataStore((store) => store.images.create);
   const mutationFn = useCallback(
     (payload: CreateImage) => create(payload),
     [create],

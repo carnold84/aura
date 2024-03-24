@@ -1,17 +1,17 @@
 import { useCallback } from "react";
 
-import useStore from "../stores/store";
-import { Image } from "../types";
+import useDataStore from "../stores/data/dataStore";
+import { ImageWithProjects } from "../types";
 import useMutation from "./useMutation";
 
 interface UseDeleteImageOptions {
-  onSuccess?: (data: Image) => void;
+  onSuccess?: (data: ImageWithProjects) => void;
 }
 
 const useDeleteImage = (options?: UseDeleteImageOptions) => {
-  const deleteImage = useStore((store) => store.images.delete);
+  const deleteImage = useDataStore((store) => store.images.delete);
   const mutationFn = useCallback(
-    (payload: Image) => deleteImage(payload),
+    (payload: ImageWithProjects) => deleteImage(payload),
     [deleteImage],
   );
   const { isError, isLoading, mutate, status } = useMutation({

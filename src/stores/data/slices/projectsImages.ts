@@ -1,11 +1,11 @@
 import { StateCreator } from "zustand";
 
-import { createProjectImage, deleteProjectImage } from "../../api";
+import { createProjectImage, deleteProjectImage } from "../../../api";
 import {
   ImageWithProjects,
   ProjectImage,
   ProjectWithImages,
-} from "../../types";
+} from "../../../types";
 
 export interface ProjectsImagesSlice {
   projectsImages: {

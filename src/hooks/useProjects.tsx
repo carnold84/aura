@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import useStore from "../stores/store";
+import useDataStore from "../stores/data/dataStore";
 import useQuery from "./useQuery";
 
 interface UseProjectsOptions {
@@ -8,12 +8,12 @@ interface UseProjectsOptions {
 }
 
 const useProjects = (options?: UseProjectsOptions) => {
-  const list = useStore((store) => store.projects.list);
+  const list = useDataStore((store) => store.projects.list);
   const queryFn = useCallback(() => list(), [list]);
   const { isError, isLoading, status } = useQuery({
     queryFn,
   });
-  const projects = useStore((store) => store.projects.projects());
+  const projects = useDataStore((store) => store.projects.projects());
 
   if (options?.sortBy !== undefined) {
     const sortBy = options?.sortBy;

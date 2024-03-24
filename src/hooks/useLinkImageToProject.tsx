@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import useStore from "../stores/store";
+import useDataStore from "../stores/data/dataStore";
 import { ImageWithProjects, ProjectImage, ProjectWithImages } from "../types";
 import useMutation from "./useMutation";
 
@@ -9,7 +9,7 @@ interface UseLinkImageToProjectOptions {
 }
 
 const useLinkImageToProject = (options?: UseLinkImageToProjectOptions) => {
-  const create = useStore((store) => store.projectsImages.create);
+  const create = useDataStore((store) => store.projectsImages.create);
   const mutationFn = useCallback(
     ({
       image,

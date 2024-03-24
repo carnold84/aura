@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import useStore from "../stores/store";
+import useDataStore from "../stores/data/dataStore";
 import { ImageWithProjects, ProjectImage, ProjectWithImages } from "../types";
 import useMutation from "./useMutation";
 
@@ -11,7 +11,7 @@ interface UseUnlinkImageFromProjectOptions {
 const useUnlinkImageFromProject = (
   options?: UseUnlinkImageFromProjectOptions,
 ) => {
-  const remove = useStore((store) => store.projectsImages.delete);
+  const remove = useDataStore((store) => store.projectsImages.delete);
   const mutationFn = useCallback(
     ({
       image,

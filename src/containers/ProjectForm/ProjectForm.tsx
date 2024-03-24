@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Project } from "../../api/types";
+import { Project } from "../../types";
 
 export type ProjectFormValues = Omit<
   Project,

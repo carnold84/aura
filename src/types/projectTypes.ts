@@ -19,4 +19,4 @@ export type CreateProject = Omit<
   "createdAt" | "id" | "updatedAt" | "userId"
 >;
 
-export type UpdateProject = CreateProject;
+export type UpdateProject = Omit<Project, "createdAt" | "updatedAt" | "userId">;

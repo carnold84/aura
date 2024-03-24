@@ -1,8 +1,8 @@
 import { client } from "..";
-import { CreateImage, Image } from "../../types";
+import { CreateImage, ImageWithProjects } from "../../../types";
 import { mapImageWithProjects } from "./utils";
 
-const createImage = async (image: CreateImage): Promise<Image> => {
+const createImage = async (image: CreateImage): Promise<ImageWithProjects> => {
   if (image) {
     const blob = await fetch(image.url).then((response) => response.blob());
 

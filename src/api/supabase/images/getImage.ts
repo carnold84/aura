@@ -1,4 +1,4 @@
-import { ImageWithProjects } from "../../types";
+import { ImageWithProjects } from "../../../types";
 import { client } from "../client";
 import { mapImageWithProjects } from "./utils";
 

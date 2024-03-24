@@ -1,23 +1,30 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-import { createImage } from "../api";
-import { CreateImage, Image } from "../api/types";
+import useDataStore from "../stores/data/dataStore";
+import { CreateImage, Image } from "../types";
+import useMutation from "./useMutation";
 
-const useCreateImage = () => {
-  const queryClient = useQueryClient();
+interface UseCreateImageOptions {
+  onSuccess?: (data: Image) => void;
+}
 
-  const { isError, isPending, mutate } = useMutation({
-    mutationFn: (data: CreateImage) => createImage(data),
-    onSuccess: (image: Image | null) => {
-      if (image) {
-        queryClient.setQueryData(["images"], (images: Image[]) => {
-          return images ? [...images, image] : images;
-        });
-      }
-    },
+const useCreateImage = (options?: UseCreateImageOptions) => {
+  const create = useDataStore((store) => store.images.create);
+  const mutationFn = useCallback(
+    (payload: CreateImage) => create(payload),
+    [create],
+  );
+  const { isError, isLoading, mutate, status } = useMutation({
+    mutationFn,
+    onSuccess: options?.onSuccess,
   });
 
-  return { createImage: mutate, isError, isSaving: isPending };
+  return {
+    createImage: mutate,
+    isError,
+    isLoading,
+    status,
+  };
 };
 
 export default useCreateImage;

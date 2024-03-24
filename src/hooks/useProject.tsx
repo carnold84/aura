@@ -1,15 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-import { getProject } from "../api";
+import useDataStore from "../stores/data/dataStore";
+import useQuery from "./useQuery";
 
-const useProject = (projectId?: string) => {
-  const { data, error, isError, isLoading, status } = useQuery({
-    enabled: !!projectId,
-    queryKey: ["projects", "list", projectId],
-    queryFn: () => getProject(projectId),
+const useProject = (id: string) => {
+  const get = useDataStore((store) => store.projects.get);
+  const queryFn = useCallback(() => get(id), [get, id]);
+  const { isError, isLoading, status } = useQuery({
+    queryFn,
   });
+  const project = useDataStore((store) => store.projects.project(id));
 
-  return { data, error, isError, isLoading, status };
+  console.log("project----", project);
+
+  return {
+    data: project,
+    isError,
+    isLoading,
+    status,
+  };
 };
 
 export default useProject;

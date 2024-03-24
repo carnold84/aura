@@ -1,26 +1,30 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-import { createProject } from "../api";
-import { CreateProject, Project } from "../api/types";
+import useDataStore from "../stores/data/dataStore";
+import { CreateProject, Project } from "../types";
+import useMutation from "./useMutation";
 
-interface UseCreateProjectProps {
-  onSuccess?: (project: Project) => void;
+interface UseCreateProjectOptions {
+  onSuccess?: (data: Project) => void;
 }
 
-const useCreateProject = ({ onSuccess }: UseCreateProjectProps = {}) => {
-  const queryClient = useQueryClient();
-
-  const { isError, isPending, mutate } = useMutation({
-    mutationFn: (data: CreateProject) => createProject(data),
-    onSuccess: (project: Project) => {
-      queryClient.setQueryData(["projects", "list"], (projects: Project[]) => {
-        return projects ? [...projects, project] : projects;
-      });
-      onSuccess && onSuccess(project);
-    },
+const useCreateProject = (options?: UseCreateProjectOptions) => {
+  const create = useDataStore((store) => store.projects.create);
+  const mutationFn = useCallback(
+    (payload: CreateProject) => create(payload),
+    [create],
+  );
+  const { isError, isLoading, mutate, status } = useMutation({
+    mutationFn,
+    onSuccess: options?.onSuccess,
   });
 
-  return { createProject: mutate, isError, isSaving: isPending };
+  return {
+    createProject: mutate,
+    isError,
+    isLoading,
+    status,
+  };
 };
 
 export default useCreateProject;

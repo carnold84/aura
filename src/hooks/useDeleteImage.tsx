@@ -1,28 +1,30 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-import { deleteImage } from "../api";
-import { Image } from "../api/types";
+import useDataStore from "../stores/data/dataStore";
+import { ImageWithProjects } from "../types";
+import useMutation from "./useMutation";
 
-interface useDeleteImageProps {
-  onSuccess?: () => void;
+interface UseDeleteImageOptions {
+  onSuccess?: (data: ImageWithProjects) => void;
 }
 
-const useDeleteImage = ({ onSuccess }: useDeleteImageProps) => {
-  const queryClient = useQueryClient();
-
-  const { isError, isPending, mutate } = useMutation({
-    mutationFn: (data: Image) => deleteImage(data),
-    onSuccess: (image: Image) => {
-      queryClient.setQueryData(["images"], (images: Image[]) => {
-        return images ? images.filter(({ id }) => image.id !== id) : images;
-      });
-      queryClient.setQueryData(["images", { id: image.id }], undefined);
-
-      onSuccess && onSuccess();
-    },
+const useDeleteImage = (options?: UseDeleteImageOptions) => {
+  const deleteImage = useDataStore((store) => store.images.delete);
+  const mutationFn = useCallback(
+    (payload: ImageWithProjects) => deleteImage(payload),
+    [deleteImage],
+  );
+  const { isError, isLoading, mutate, status } = useMutation({
+    mutationFn,
+    onSuccess: options?.onSuccess,
   });
 
-  return { deleteImage: mutate, isError, isDeleting: isPending };
+  return {
+    deleteImage: mutate,
+    isError,
+    isLoading,
+    status,
+  };
 };
 
 export default useDeleteImage;

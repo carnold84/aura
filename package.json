@@ -13,16 +13,15 @@
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/supabase-js": "^2.39.3",
-    "@tanstack/react-query": "^5.17.15",
     "axios": "^1.6.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",
     "react-router-dom": "^6.21.3",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@tanstack/react-query-devtools": "^5.17.19",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",

@@ -3,12 +3,12 @@ import ProjectForm from "../ProjectForm";
 import { ProjectFormValues } from "../ProjectForm/ProjectForm";
 
 const CreateProjectForm = () => {
-  const { createProject, isError, isSaving } = useCreateProject();
+  const { createProject, isError, isLoading } = useCreateProject();
   const onSubmit = (data: ProjectFormValues) => {
     createProject(data);
   };
 
-  if (isSaving) {
+  if (isLoading) {
     return <p>Creating...</p>;
   }
 

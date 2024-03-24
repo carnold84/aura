@@ -1,4 +1,3 @@
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Link, Outlet } from "react-router-dom";
 
 import { useAuth } from "../context/AuthProvider";
@@ -15,7 +14,6 @@ const RootLayout = () => {
       </div>
       <hr />
       <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
     </>
   );
 };

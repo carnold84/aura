@@ -1,32 +1,38 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-import { deleteProject } from "../api";
-import { Project } from "../api/types";
+import useDataStore from "../stores/data/dataStore";
+import { ImageWithProjects, ProjectImage, ProjectWithImages } from "../types";
+import useMutation from "./useMutation";
 
-interface useUnlinkImageFromProjectProps {
-  onSuccess?: () => void;
+interface UseUnlinkImageFromProjectOptions {
+  onSuccess?: (data: ProjectImage) => void;
 }
 
-const useUnlinkImageFromProject = ({
-  onSuccess,
-}: useUnlinkImageFromProjectProps) => {
-  const queryClient = useQueryClient();
-
-  const { isError, isPending, mutate } = useMutation({
-    mutationFn: (data: Project) => deleteProject(data),
-    onSuccess: (project: Project) => {
-      queryClient.setQueryData(["projects"], (projects: Project[]) => {
-        return projects
-          ? projects.filter(({ id }) => project.id !== id)
-          : projects;
-      });
-      queryClient.setQueryData(["projects", { id: project.id }], undefined);
-
-      onSuccess && onSuccess();
-    },
+const useUnlinkImageFromProject = (
+  options?: UseUnlinkImageFromProjectOptions,
+) => {
+  const remove = useDataStore((store) => store.projectsImages.delete);
+  const mutationFn = useCallback(
+    ({
+      image,
+      project,
+    }: {
+      image: ImageWithProjects;
+      project: ProjectWithImages;
+    }) => remove(image, project),
+    [remove],
+  );
+  const { isError, isLoading, mutate, status } = useMutation({
+    mutationFn,
+    onSuccess: options?.onSuccess,
   });
 
-  return { deleteProject: mutate, isError, isDeleting: isPending };
+  return {
+    unlinkImagefromProject: mutate,
+    isError,
+    isUnlinking: isLoading,
+    status,
+  };
 };
 
 export default useUnlinkImageFromProject;

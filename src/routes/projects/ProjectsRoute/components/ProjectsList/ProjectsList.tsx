@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import UpdateProjectForm from "../../../../../containers/UpdateProjectForm";
+import UpdateProjectDialog from "../../../../../containers/UpdateProjectDialog";
 import useProjects from "../../../../../hooks/useProjects";
 
 const ProjectsList = () => {
   const { data, isError, isLoading } = useProjects({ sortBy: "createdAt" });
   const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  console.log(data);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -43,7 +41,7 @@ const ProjectsList = () => {
       {selectedProject && (
         <div>
           <h3>Edit {selectedProject.name}</h3>
-          <UpdateProjectForm project={selectedProject} />
+          <UpdateProjectDialog project={selectedProject} />
         </div>
       )}
     </>

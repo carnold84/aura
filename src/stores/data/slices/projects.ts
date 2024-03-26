@@ -85,7 +85,7 @@ const createProjectsSlice: StateCreator<
       const projects = storeData.projects;
       const project = projects.project(id);
 
-      if (projects.isLoaded && project) {
+      if (project) {
         return project;
       }
 
@@ -153,12 +153,14 @@ const createProjectsSlice: StateCreator<
 
       const storeData = get();
       const projectData = storeData.projects.data?.get(id);
+      console.log("projectData", projectData);
 
       if (!projectData) {
         return undefined;
       }
 
       const project = mapProject(projectData, storeData);
+      console.log("project", project);
 
       return project;
     },

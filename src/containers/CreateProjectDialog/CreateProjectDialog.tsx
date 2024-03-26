@@ -1,8 +1,7 @@
 import useCreateProject from "../../hooks/useCreateProject";
-import ProjectForm from "../ProjectForm";
-import { ProjectFormValues } from "../ProjectForm/ProjectForm";
+import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
 
-const CreateProjectForm = () => {
+const CreateProjectDialog = () => {
   const { createProject, isError, isLoading } = useCreateProject();
   const onSubmit = (data: ProjectFormValues) => {
     createProject(data);
@@ -13,7 +12,7 @@ const CreateProjectForm = () => {
   }
 
   return (
-    <ProjectForm
+    <ProjectFormDialog
       errorMessage={
         isError ? "Sorry. We couldn't create your project. :(" : undefined
       }
@@ -22,4 +21,4 @@ const CreateProjectForm = () => {
   );
 };
 
-export default CreateProjectForm;
+export default CreateProjectDialog;

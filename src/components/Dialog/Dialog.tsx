@@ -16,6 +16,7 @@ import { Xmark } from "iconoir-react";
 import { ComponentPropsWithRef, ReactNode } from "react";
 
 import cn from "../../utils/cn";
+import IconButton from "../IconButton";
 
 interface DialogBodyProps extends ComponentPropsWithRef<"div"> {
   children: ReactNode;
@@ -71,7 +72,7 @@ const DialogFooter = ({ children, className, ...rest }: DialogFooterProps) => {
   return (
     <footer
       className={cn(
-        "flex justify-end border-t border-t-neutral-200 px-7 py-5",
+        "flex justify-end gap-2 border-t border-t-neutral-200 p-4",
         className,
       )}
       {...rest}
@@ -90,16 +91,20 @@ const DialogHeader = ({ className, title, ...rest }: DialogHeaderProps) => {
   return (
     <header
       className={cn(
-        "flex justify-between border-b border-b-neutral-200 px-7 py-7",
+        "flex items-center justify-between border-b border-b-neutral-200 px-6 py-4",
         className,
       )}
       {...rest}
     >
       <div>
-        <Title>{title}</Title>
+        <Title className="font-display text-xl font-light text-neutral-700">
+          {title}
+        </Title>
       </div>
-      <Close>
-        <Xmark />
+      <Close asChild={true}>
+        <IconButton>
+          <Xmark />
+        </IconButton>
       </Close>
     </header>
   );

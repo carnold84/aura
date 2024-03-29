@@ -1,7 +1,9 @@
+import { ReactNode } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "../../components/Button";
 import Dialog from "../../components/Dialog/Dialog";
+import Spinner from "../../components/Spinner";
 import TextField from "../../components/TextField";
 import { Project } from "../../types";
 
@@ -11,15 +13,23 @@ export type ProjectFormValues = Omit<
 >;
 
 interface ProjectFormDialogProps {
+  children: ReactNode;
   defaultValues?: ProjectFormValues;
   errorMessage?: string;
+  isLoading?: boolean;
   onSubmit: (data: ProjectFormValues) => void;
+  submitBtnLabel?: string;
+  title: string;
 }
 
 const ProjectFormDialog = ({
+  children,
   defaultValues,
   errorMessage,
+  isLoading = false,
   onSubmit: onSubmitProp,
+  submitBtnLabel = "Save",
+  title,
 }: ProjectFormDialogProps) => {
   const {
     formState: { errors },
@@ -38,11 +48,9 @@ const ProjectFormDialog = ({
 
   return (
     <Dialog>
-      <Dialog.Trigger asChild={true}>
-        <button>Create</button>
-      </Dialog.Trigger>
+      <Dialog.Trigger asChild={true}>{children}</Dialog.Trigger>
       <Dialog.Content>
-        <Dialog.Header title="Create Project" />
+        <Dialog.Header title={title} />
         <form onSubmit={handleSubmit(onSubmit)}>
           {errorMessage && <p>{errorMessage}</p>}
           <Dialog.Body className="flex flex-col gap-3">
@@ -55,8 +63,11 @@ const ProjectFormDialog = ({
             <TextField label="Image Url" {...register("imageUrl")} />
           </Dialog.Body>
           <Dialog.Footer>
-            <Button variant="contained" type="submit">
-              Create
+            <Dialog.Close asChild={true}>
+              <Button variant="text">Cancel</Button>
+            </Dialog.Close>
+            <Button className="min-w-16" variant="contained" type="submit">
+              {isLoading ? <Spinner size={20} /> : submitBtnLabel}
             </Button>
           </Dialog.Footer>
         </form>

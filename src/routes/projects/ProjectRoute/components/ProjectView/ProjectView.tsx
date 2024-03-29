@@ -1,3 +1,6 @@
+import Button from "../../../../../components/Button";
+import Spinner from "../../../../../components/Spinner";
+import UpdateProjectDialog from "../../../../../containers/UpdateProjectDialog";
 import useBack from "../../../../../hooks/useBack";
 import useDeleteProject from "../../../../../hooks/useDeleteProject";
 import useProject from "../../../../../hooks/useProject";
@@ -27,12 +30,19 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
 
   return (
     <div>
-      <h1>{project.name}</h1>
-      {isDeleting ? (
-        <p>Deleting...</p>
-      ) : (
-        <button onClick={() => deleteProject(project)}>Delete</button>
-      )}
+      <div className="flex justify-between">
+        <h1>{project.name}</h1>
+        <div className="flex gap-3">
+          <UpdateProjectDialog project={project}></UpdateProjectDialog>
+          <Button
+            className="min-w-16"
+            disabled={isDeleting}
+            onClick={() => deleteProject(project)}
+          >
+            {isDeleting ? <Spinner size={20} /> : "Delete"}
+          </Button>
+        </div>
+      </div>
       {/* <ul>
         {project.images.map(({ id, name, url }) => {
           return (

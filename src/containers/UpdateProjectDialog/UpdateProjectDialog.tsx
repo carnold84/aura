@@ -1,3 +1,4 @@
+import Button from "../../components/Button";
 import useUpdateProject from "../../hooks/useUpdateProject";
 import { Project } from "../../types";
 import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
@@ -25,7 +26,11 @@ const UpdateProjectDialog = ({ project }: UpdateProjectDialogProps) => {
         isError ? "Sorry. We couldn't update your project. :(" : undefined
       }
       onSubmit={onSubmit}
-    />
+      submitBtnLabel="Update"
+      title={`Update ${project.name}`}
+    >
+      <Button variant="outlined">Edit</Button>
+    </ProjectFormDialog>
   );
 };
 

@@ -1,3 +1,4 @@
+import Button from "../../components/Button";
 import useCreateProject from "../../hooks/useCreateProject";
 import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
 
@@ -7,17 +8,18 @@ const CreateProjectDialog = () => {
     createProject(data);
   };
 
-  if (isLoading) {
-    return <p>Creating...</p>;
-  }
-
   return (
     <ProjectFormDialog
       errorMessage={
         isError ? "Sorry. We couldn't create your project. :(" : undefined
       }
+      isLoading={isLoading}
       onSubmit={onSubmit}
-    />
+      submitBtnLabel="Create"
+      title="Create Project"
+    >
+      <Button variant="contained">Create</Button>
+    </ProjectFormDialog>
   );
 };
 

@@ -3,9 +3,9 @@ import ProjectsList from "./components/ProjectsList";
 
 const ProjectsRoute = () => {
   return (
-    <div>
+    <div className="flex flex-col gap-5">
       <header className="flex items-center justify-between">
-        <h1 className="font-display text-4xl font-medium uppercase text-neutral-700">
+        <h1 className="font-display text-4xl font-medium uppercase text-neutral-600">
           Projects
         </h1>
         <CreateProjectDialog />

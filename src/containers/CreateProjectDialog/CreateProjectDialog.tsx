@@ -4,8 +4,8 @@ import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
 
 const CreateProjectDialog = () => {
   const { createProject, isError, isLoading } = useCreateProject();
-  const onSubmit = (data: ProjectFormValues) => {
-    createProject(data);
+  const onSubmit = async (data: ProjectFormValues) => {
+    await createProject(data);
   };
 
   return (

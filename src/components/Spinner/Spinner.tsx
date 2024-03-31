@@ -19,8 +19,8 @@ const Spinner = ({ size = 32, ...rest }: SpinnerProps) => {
         width={size}
       >
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M8.7409 43.6323C6.98707 40.1323 6 36.1814 6 32C6 17.6406 17.6406 6 32 6C39.9434 6 47.0547 9.56214 51.8239 15.1761L56.0779 10.922C50.2126 4.22733 41.6 0 32 0C14.3269 0 0 14.3269 0 32C0 36.9628 1.12976 41.6618 3.14612 45.8537L8.7409 43.6323Z"
           fill="currentcolor"
         />

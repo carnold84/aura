@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "../../components/Button";
@@ -31,23 +31,23 @@ const ProjectFormDialog = ({
   submitBtnLabel = "Save",
   title,
 }: ProjectFormDialogProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const {
     formState: { errors },
     handleSubmit,
     register,
     reset,
   } = useForm({ defaultValues });
-  const onSubmit: SubmitHandler<ProjectFormValues> = (
+  const onSubmit: SubmitHandler<ProjectFormValues> = async (
     data: ProjectFormValues,
   ) => {
-    onSubmitProp(data);
+    await onSubmitProp(data);
+    setIsOpen(false);
     reset();
   };
 
-  console.log(errors["name"]);
-
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <Dialog.Trigger asChild={true}>{children}</Dialog.Trigger>
       <Dialog.Content>
         <Dialog.Header title={title} />
@@ -66,7 +66,7 @@ const ProjectFormDialog = ({
             <Dialog.Close asChild={true}>
               <Button variant="text">Cancel</Button>
             </Dialog.Close>
-            <Button className="min-w-16" variant="contained" type="submit">
+            <Button className="min-w-20" variant="contained" type="submit">
               {isLoading ? <Spinner size={20} /> : submitBtnLabel}
             </Button>
           </Dialog.Footer>

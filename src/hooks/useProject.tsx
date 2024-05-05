@@ -11,8 +11,6 @@ const useProject = (id: string) => {
   });
   const project = useDataStore((store) => store.projects.project(id));
 
-  console.log("project----", project);
-
   return {
     data: project,
     isError,

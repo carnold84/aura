@@ -1,3 +1,3 @@
-import CreateProjectForm from "./CreateImageForm";
+import CreateImageForm from "./CreateImageForm";
 
-export default CreateProjectForm;
+export default CreateImageForm;

@@ -1,14 +1,8 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
-import UpdateProjectForm from "../../../../../containers/UpdateProjectForm";
+import ProjectCard from "../../../../../components/ProjectCard";
 import useProjects from "../../../../../hooks/useProjects";
 
 const ProjectsList = () => {
   const { data, isError, isLoading } = useProjects({ sortBy: "createdAt" });
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  console.log(data);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -26,27 +20,16 @@ const ProjectsList = () => {
     return <p>You don't have any projects.</p>;
   }
 
-  const selectedProject = data.find(({ id }) => id === selectedId) || null;
-
   return (
-    <>
-      <ul>
-        {data?.map(({ id, name }) => {
-          return (
-            <li key={id}>
-              <Link to={id}>{name}</Link>
-              <button onClick={() => setSelectedId(id)}>Edit</button>
-            </li>
-          );
-        })}
-      </ul>
-      {selectedProject && (
-        <div>
-          <h3>Edit {selectedProject.name}</h3>
-          <UpdateProjectForm project={selectedProject} />
-        </div>
-      )}
-    </>
+    <ul className="grid grid-cols-1 gap-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      {data?.map((project) => {
+        return (
+          <li key={project.id}>
+            <ProjectCard to={project.id} project={project} />
+          </li>
+        );
+      })}
+    </ul>
   );
 };
 

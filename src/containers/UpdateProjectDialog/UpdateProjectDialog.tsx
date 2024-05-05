@@ -1,13 +1,13 @@
+import Button from "../../components/Button";
 import useUpdateProject from "../../hooks/useUpdateProject";
 import { Project } from "../../types";
-import ProjectForm from "../ProjectForm";
-import { ProjectFormValues } from "../ProjectForm/ProjectForm";
+import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
 
-interface UpdateProjectFormProps {
+interface UpdateProjectDialogProps {
   project: Project;
 }
 
-const UpdateProjectForm = ({ project }: UpdateProjectFormProps) => {
+const UpdateProjectDialog = ({ project }: UpdateProjectDialogProps) => {
   const { updateProject, isError, isLoading } = useUpdateProject();
   const onSubmit = (data: ProjectFormValues) => {
     updateProject({ ...data, id: project.id });
@@ -20,14 +20,18 @@ const UpdateProjectForm = ({ project }: UpdateProjectFormProps) => {
   const { description, name, imageUrl } = project;
 
   return (
-    <ProjectForm
+    <ProjectFormDialog
       defaultValues={{ description, name, imageUrl }}
       errorMessage={
         isError ? "Sorry. We couldn't update your project. :(" : undefined
       }
       onSubmit={onSubmit}
-    />
+      submitBtnLabel="Update"
+      title={`Update ${project.name}`}
+    >
+      <Button variant="outlined">Edit</Button>
+    </ProjectFormDialog>
   );
 };
 
-export default UpdateProjectForm;
+export default UpdateProjectDialog;

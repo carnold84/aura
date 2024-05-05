@@ -19,7 +19,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         className={cn(
-          "flex shrink-0 justify-center rounded-xl px-3 py-2 font-display text-sm font-light",
+          "flex shrink-0 items-center justify-center gap-1 rounded-xl px-3 py-2 font-display text-sm font-light",
           {
             "border border-primary-700 bg-primary-700 text-white hover:border-primary-500 hover:bg-primary-500":
               variant === "contained",

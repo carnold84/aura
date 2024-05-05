@@ -18,6 +18,22 @@ export default {
         ],
       },
       keyframes: {
+        appMenuHide: {
+          "0%": {
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          },
+          "100%": {
+            clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+          },
+        },
+        appMenuShow: {
+          "0%": {
+            clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+          },
+          "100%": {
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          },
+        },
         dialogContentHide: {
           from: { opacity: "1", transform: "translate(-50%, -50%) scale(1)" },
           to: {
@@ -58,6 +74,8 @@ export default {
         },
       },
       animation: {
+        appMenuHide: "appMenuHide 450ms cubic-bezier(0.16, 1, 0.3, 1)",
+        appMenuShow: "appMenuShow 450ms cubic-bezier(0.16, 1, 0.3, 1)",
         dialogContentHide:
           "dialogContentHide 250ms cubic-bezier(0.16, 1, 0.3, 1)",
         dialogContentShow:

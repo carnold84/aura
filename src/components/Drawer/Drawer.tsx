@@ -24,7 +24,7 @@ interface DrawerBodyProps extends ComponentPropsWithRef<"div"> {
 
 const DrawerBody = ({ children, className, ...rest }: DrawerBodyProps) => {
   return (
-    <div className={cn("grow px-10 py-5", className)} {...rest}>
+    <div className={cn("grow px-7 pb-5", className)} {...rest}>
       {children}
     </div>
   );
@@ -46,7 +46,7 @@ const DrawerContent = ({
       <Overlay className="fixed inset-0 bg-black/25 data-[state=closed]:animate-overlayHide data-[state=open]:animate-overlayShow" />
       <Content
         className={cn(
-          "data-[state=closed]:animate-drawerContentHide data-[state=open]:animate-drawerContentShow fixed left-0 top-0 flex h-full w-full max-w-80 flex-col bg-white shadow-xl focus:outline-none",
+          "fixed left-0 top-0 flex h-full w-full max-w-80 flex-col justify-center bg-white shadow-xl focus:outline-none data-[state=closed]:animate-drawerContentHide data-[state=open]:animate-drawerContentShow",
           className,
         )}
         {...rest}
@@ -113,7 +113,7 @@ const DrawerHeader = ({ children, className, ...rest }: DrawerHeaderProps) => {
       )}
       {...rest}
     >
-      <div>{children}</div>
+      <div className="flex h-full items-center">{children}</div>
       <Close asChild={true}>
         <IconButton>
           <Xmark />

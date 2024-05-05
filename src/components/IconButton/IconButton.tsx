@@ -8,7 +8,7 @@ interface IconButtonProps extends ComponentPropsWithoutRef<"button"> {
 }
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ children, variant = "plain", ...rest }, ref) => {
+  ({ children, className, variant = "plain", ...rest }, ref) => {
     return (
       <button
         className={cn(
@@ -16,6 +16,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           {
             "border border-neutral-300": variant === "outlined",
           },
+          className,
         )}
         ref={ref}
         {...rest}

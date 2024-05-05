@@ -21,7 +21,7 @@ const ProjectsList = () => {
   }
 
   return (
-    <ul className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <ul className="grid grid-cols-1 gap-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {data?.map((project) => {
         return (
           <li key={project.id}>

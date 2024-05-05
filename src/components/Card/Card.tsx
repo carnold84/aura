@@ -38,14 +38,23 @@ const CardImage = ({ className, src, ...rest }: CardImageProps) => {
   return (
     <div
       className={cn(
-        "flex aspect-video h-full min-h-24 w-auto items-center justify-center border-none bg-neutral-50 text-neutral-400 sm:min-h-32 md:h-auto md:w-full",
+        "flex aspect-video h-full min-h-24 w-auto items-center justify-center overflow-hidden border border-neutral-100 text-neutral-300 transition-transform duration-200 group-hover:scale-95 sm:min-h-48 md:w-full",
         className,
       )}
     >
       {src && (
-        <img className={cn("h-full w-full bg-cover", className)} {...rest} />
+        <img
+          className={cn(
+            "w-full bg-cover transition-transform duration-200 group-hover:scale-110",
+            className,
+          )}
+          src={src}
+          {...rest}
+        />
       )}
-      {!src && <MediaImage />}
+      {!src && (
+        <MediaImage className="transition-transform duration-200 group-hover:scale-110" />
+      )}
     </div>
   );
 };
@@ -66,7 +75,10 @@ const CardTitle = ({
 
   return (
     <Comp
-      className={cn("font-display text-lg text-neutral-800", className)}
+      className={cn(
+        "font-display text-lg font-light text-neutral-800",
+        className,
+      )}
       {...rest}
     >
       {children}
@@ -81,7 +93,7 @@ interface CardRootProps {
 
 const CardRoot = ({ children, className, ...rest }: CardRootProps) => {
   return (
-    <div className={cn("flex gap-3 md:flex-col", className)} {...rest}>
+    <div className={cn("group flex gap-3 md:flex-col", className)} {...rest}>
       {children}
     </div>
   );

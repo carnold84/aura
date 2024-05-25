@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { getProject } from "../api";
-import { Types } from "../stores/reducer";
 import { mapProject } from "./useProjects";
 import useStore from "./useStore";
 
@@ -30,7 +29,7 @@ const useProject = ({ id }: UseProjectsOptions) => {
             return;
           }
 
-          dispatch({ payload: project, type: Types.SET_PROJECT });
+          dispatch({ payload: project, type: "SET_PROJECT" });
 
           setStatus("idle");
         };

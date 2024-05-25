@@ -1,5 +1,4 @@
 import { createProject } from "../api";
-import { Types } from "../stores/reducer";
 import { CreateProject, Project } from "../types";
 import useMutation from "./useMutation";
 import useStore from "./useStore";
@@ -14,7 +13,7 @@ const useCreateProject = (options?: UseCreateProjectOptions) => {
     mutationFn: async (payload: CreateProject) => {
       const project = await createProject(payload);
 
-      dispatch({ payload: project, type: Types.SET_PROJECT });
+      dispatch({ payload: project, type: "SET_PROJECT" });
 
       return project;
     },

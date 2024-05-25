@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { listProjects } from "../api";
-import { State, Types } from "../stores/reducer";
+import { State } from "../stores/store";
 import { Project, ProjectWithImages } from "../types";
 import useStore from "./useStore";
 
@@ -39,7 +39,7 @@ const useProjects = (options?: UseProjectsOptions) => {
         const load = async () => {
           const projects = await listProjects();
 
-          dispatch({ payload: projects, type: Types.SET_PROJECTS });
+          dispatch({ payload: projects, type: "SET_PROJECTS" });
 
           setStatus("idle");
         };

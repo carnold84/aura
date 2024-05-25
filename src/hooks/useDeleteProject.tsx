@@ -1,5 +1,4 @@
 import { deleteProject } from "../api";
-import { Types } from "../stores/reducer";
 import { ProjectWithImages } from "../types";
 import useMutation from "./useMutation";
 import useStore from "./useStore";
@@ -14,7 +13,7 @@ const useDeleteProject = (options?: UseDeleteProjectOptions) => {
     mutationFn: async (payload: ProjectWithImages) => {
       const project = await deleteProject(payload);
 
-      dispatch({ payload: project, type: Types.REMOVE_PROJECT });
+      dispatch({ payload: project, type: "REMOVE_PROJECT" });
 
       return project;
     },

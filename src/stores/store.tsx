@@ -1,6 +1,37 @@
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
-import reducer, { Actions, State, initialState } from "./reducer";
+import { Image, Project } from "../types";
+import projectReducer, { Actions } from "./projectReducer";
+
+interface DataSet<T> {
+  data: Map<string, T>;
+  isLoaded: boolean;
+}
+
+export interface State {
+  images: DataSet<Image>;
+  projects: DataSet<Project>;
+  projectsImages: ProjectsImages;
+}
+
+export interface ProjectImage {
+  imageId: string;
+  projectId: string;
+}
+
+export type ProjectsImages = ProjectImage[];
+
+const initialState: State = {
+  images: {
+    data: new Map(),
+    isLoaded: false,
+  },
+  projects: {
+    data: new Map(),
+    isLoaded: false,
+  },
+  projectsImages: [],
+};
 
 export const DataContext = createContext<{
   state: State;
@@ -14,8 +45,12 @@ interface DataProviderProps {
   children: ReactNode;
 }
 
+const mainReducer = (state: State, action: Actions) => ({
+  ...projectReducer(state, action),
+});
+
 const DataProvider = ({ children }: DataProviderProps) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(mainReducer, initialState);
 
   return (
     <DataContext.Provider value={{ state, dispatch }}>

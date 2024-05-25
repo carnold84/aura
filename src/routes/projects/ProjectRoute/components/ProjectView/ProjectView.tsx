@@ -8,7 +8,7 @@ import ImageList from "../ImageList";
 
 const ProjectView = ({ projectId }: { projectId: string }) => {
   const back = useBack("/projects");
-  const { data: project, isError, isLoading } = useProject(projectId);
+  const { data: project, isError, isLoading } = useProject({ id: projectId });
   const { deleteProject, isLoading: isDeleting } = useDeleteProject({
     onSuccess: () => {
       back();

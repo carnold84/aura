@@ -1,20 +1,58 @@
-import { useCallback } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import useDataStore from "../stores/data/dataStore";
-import useQuery from "./useQuery";
+import { getProject } from "../api";
+import { Types } from "../stores/reducer";
+import { mapProject } from "./useProjects";
+import useStore from "./useStore";
 
-const useProject = (id: string) => {
-  const get = useDataStore((store) => store.projects.get);
-  const queryFn = useCallback(() => get(id), [get, id]);
-  const { isError, isLoading, status } = useQuery({
-    queryFn,
-  });
-  const project = useDataStore((store) => store.projects.project(id));
+type Status = "error" | "idle" | "loading";
+
+interface UseProjectsOptions {
+  id?: string;
+}
+
+const useProject = ({ id }: UseProjectsOptions) => {
+  const { dispatch, state } = useStore();
+  const [status, setStatus] = useState<Status>("idle");
+  const project = id ? state.projects.data.get(id) : undefined;
+
+  useEffect(() => {
+    if (id && !project && status === "idle") {
+      console.log("load project", id);
+      setStatus("loading");
+
+      try {
+        const load = async () => {
+          const project = await getProject(id);
+
+          if (!project) {
+            setStatus("error");
+            return;
+          }
+
+          dispatch({ payload: project, type: Types.SET_PROJECT });
+
+          setStatus("idle");
+        };
+        load();
+      } catch {
+        setStatus("error");
+      }
+    }
+  }, [dispatch, id, project, status]);
+
+  const data = useMemo(() => {
+    if (!project) {
+      return undefined;
+    }
+
+    return mapProject(project, state);
+  }, [project, state]);
 
   return {
-    data: project,
-    isError,
-    isLoading,
+    data,
+    isError: status === "error",
+    isLoading: status === "loading",
     status,
   };
 };

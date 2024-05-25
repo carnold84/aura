@@ -17,16 +17,22 @@ export enum DataKey {
   ProjectsImages = "projectsImages",
 }
 
+export interface DataSet<T> {
+  data: Map<string, T>;
+  isLoaded: boolean;
+}
+
+export interface ProjectImage {
+  imageId: string;
+  projectId: string;
+}
+
+export type ProjectsImages = ProjectImage[];
+
 export interface State {
-  [DataKey.Images]: {
-    data: Map<string, Image>;
-    isLoaded: boolean;
-  };
-  [DataKey.Projects]: {
-    data: Map<string, Project>;
-    isLoaded: boolean;
-  };
-  [DataKey.ProjectsImages]: { imageId: string; projectId: string }[];
+  [DataKey.Images]: DataSet<Image>;
+  [DataKey.Projects]: DataSet<Project>;
+  [DataKey.ProjectsImages]: ProjectsImages;
 }
 
 export const initialState = {
@@ -43,12 +49,40 @@ export const initialState = {
 
 export enum Types {
   SET_IMAGES = "SET_IMAGES",
+  SET_PROJECT = "SET_PROJECT",
   SET_PROJECTS = "SET_PROJECTS",
 }
 
 type Payload = {
   [Types.SET_IMAGES]: ImageWithProjects[];
+  [Types.SET_PROJECT]: ProjectWithImages;
   [Types.SET_PROJECTS]: ProjectWithImages[];
+};
+
+interface NormaliseProjectsArgs {
+  projects: ProjectWithImages[];
+  state: State;
+}
+
+const normaliseProjects = ({ projects, state }: NormaliseProjectsArgs) => {
+  const data: State = { ...state };
+
+  projects.forEach((project) => {
+    project.images.forEach((image) => {
+      data.images.data.set(image.id, image);
+      data.projectsImages.push({
+        imageId: image.id,
+        projectId: project.id,
+      });
+    });
+    const nextProject = {
+      ...project,
+      images: [],
+    };
+    data.projects.data.set(nextProject.id, nextProject);
+  });
+
+  return data;
 };
 
 export type Actions = ActionMap<Payload>[keyof ActionMap<Payload>];
@@ -56,29 +90,24 @@ export type Actions = ActionMap<Payload>[keyof ActionMap<Payload>];
 const reducer = (state: State, action: Actions) => {
   switch (action.type) {
     case Types.SET_PROJECTS: {
-      const data: State = { ...state };
-
-      action.payload.forEach((project) => {
-        project.images.forEach((image) => {
-          data.images.data.set(image.id, image);
-          data.projectsImages.push({
-            imageId: image.id,
-            projectId: project.id,
-          });
-        });
-        const nextProject = {
-          ...project,
-          images: [],
-        };
-        data.projects.data.set(nextProject.id, nextProject);
+      const data = normaliseProjects({
+        projects: action.payload,
+        state,
       });
       data.projects.isLoaded = true;
 
-      return {
-        ...state,
-        ...data,
-      };
+      return data;
     }
+
+    case Types.SET_PROJECT: {
+      const data = normaliseProjects({
+        projects: [action.payload],
+        state,
+      });
+
+      return data;
+    }
+
     case Types.SET_IMAGES: {
       const data: State = { ...state };
 

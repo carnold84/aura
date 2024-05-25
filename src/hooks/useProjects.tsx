@@ -1,9 +1,24 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { listProjects } from "../api";
-import { Types } from "../stores/reducer";
-import { ProjectWithImages } from "../types";
+import { State, Types } from "../stores/reducer";
+import { Project, ProjectWithImages } from "../types";
 import useStore from "./useStore";
+
+export const mapProject = (project: Project, state: State) => {
+  const nextProject: ProjectWithImages = {
+    ...project,
+    images: [],
+  };
+  state.projectsImages.forEach(({ imageId, projectId }) => {
+    const image = state.images.data.get(imageId);
+    if (projectId === project.id && image) {
+      nextProject.images.push(image);
+    }
+  });
+
+  return nextProject;
+};
 
 type Status = "error" | "idle" | "loading";
 
@@ -12,21 +27,17 @@ interface UseProjectsOptions {
 }
 
 const useProjects = (options?: UseProjectsOptions) => {
-  const {
-    dispatch,
-    state: { images, projects, projectsImages },
-  } = useStore();
+  const { dispatch, state } = useStore();
   const [status, setStatus] = useState<Status>("idle");
 
   useEffect(() => {
-    if (projects.isLoaded === false && status === "idle") {
-      console.log("load");
+    if (state.projects.isLoaded === false && status === "idle") {
+      console.log("load projects");
+      setStatus("loading");
+
       try {
         const load = async () => {
-          setStatus("loading");
           const projects = await listProjects();
-
-          console.log(projects);
 
           dispatch({ payload: projects, type: Types.SET_PROJECTS });
 
@@ -37,27 +48,18 @@ const useProjects = (options?: UseProjectsOptions) => {
         setStatus("error");
       }
     }
-  }, [dispatch, projects.isLoaded, status]);
+  }, [dispatch, state.projects.isLoaded, status]);
 
   const data = useMemo(() => {
-    if (projects.isLoaded === false) {
+    if (state.projects.isLoaded === false) {
       return undefined;
     }
 
     const sortBy = options?.sortBy;
     const nextProjects = [];
 
-    for (const project of projects.data.values()) {
-      const nextProject: ProjectWithImages = {
-        ...project,
-        images: [],
-      };
-      projectsImages.forEach(({ imageId, projectId }) => {
-        const image = images.data.get(imageId);
-        if (projectId === project.id && image) {
-          nextProject.images.push(image);
-        }
-      });
+    for (const project of state.projects.data.values()) {
+      const nextProject = mapProject(project, state);
       nextProjects.push(nextProject);
     }
 
@@ -68,13 +70,7 @@ const useProjects = (options?: UseProjectsOptions) => {
     }
 
     return nextProjects;
-  }, [
-    images.data,
-    projects.data,
-    projects.isLoaded,
-    projectsImages,
-    options?.sortBy,
-  ]);
+  }, [state, options?.sortBy]);
 
   return {
     data,

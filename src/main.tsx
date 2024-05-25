@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import Router from "./Router";
 import AuthProvider from "./context/AuthProvider";
 import "./index.css";
+import DataProvider from "./stores/store";
 
 const rootElement = document.getElementById("root")!;
 
@@ -13,7 +14,9 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <Suspense fallback={"Loading..."}>
         <AuthProvider>
-          <Router />
+          <DataProvider>
+            <Router />
+          </DataProvider>
         </AuthProvider>
       </Suspense>
     </StrictMode>,

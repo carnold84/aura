@@ -48,12 +48,14 @@ export const initialState = {
 };
 
 export enum Types {
+  REMOVE_PROJECT = "REMOVE_PROJECT",
   SET_IMAGES = "SET_IMAGES",
   SET_PROJECT = "SET_PROJECT",
   SET_PROJECTS = "SET_PROJECTS",
 }
 
 type Payload = {
+  [Types.REMOVE_PROJECT]: ProjectWithImages;
   [Types.SET_IMAGES]: ImageWithProjects[];
   [Types.SET_PROJECT]: ProjectWithImages;
   [Types.SET_PROJECTS]: ProjectWithImages[];
@@ -108,30 +110,17 @@ const reducer = (state: State, action: Actions) => {
       return data;
     }
 
-    case Types.SET_IMAGES: {
-      const data: State = { ...state };
+    case Types.REMOVE_PROJECT: {
+      const data = { ...state };
 
-      action.payload.forEach((image) => {
-        image.projects.forEach((project) => {
-          data.projects.data.set(project.id, project);
-          data.projectsImages.push({
-            imageId: image.id,
-            projectId: project.id,
-          });
-        });
-        const nextImage = {
-          ...image,
-          projects: [],
-        };
-        data.images.data.set(nextImage.id, nextImage);
-      });
-      data.images.isLoaded = true;
+      data[DataKey.Projects].data.delete(action.payload.id);
+      data[DataKey.ProjectsImages].filter(
+        ({ projectId }) => projectId !== action.payload.id,
+      );
 
-      return {
-        ...state,
-        ...data,
-      };
+      return data;
     }
+
     default:
       return state;
   }

@@ -1,17 +1,18 @@
+import Page from "../../../components/Page";
 import CreateProjectDialog from "../../../containers/CreateProjectDialog";
 import ProjectsList from "./components/ProjectsList";
 
 const ProjectsRoute = () => {
   return (
-    <div className="flex flex-col gap-5">
-      <header className="flex items-center justify-between">
-        <h1 className="font-display text-5xl font-light uppercase text-neutral-600">
-          Projects
-        </h1>
+    <Page>
+      <Page.Header>
+        <Page.Title>Projects</Page.Title>
         <CreateProjectDialog />
-      </header>
-      <ProjectsList />
-    </div>
+      </Page.Header>
+      <Page.Content>
+        <ProjectsList />
+      </Page.Content>
+    </Page>
   );
 };
 

@@ -1,3 +1,4 @@
+import Grid from "../../../../../components/Grid";
 import ProjectCard from "../../../../../components/ProjectCard";
 import useProjects from "../../../../../hooks/useProjects";
 
@@ -21,15 +22,15 @@ const ProjectsList = () => {
   }
 
   return (
-    <ul className="grid grid-cols-1 gap-10 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <Grid>
       {data?.map((project) => {
         return (
-          <li key={project.id}>
+          <Grid.Item key={project.id}>
             <ProjectCard to={project.id} project={project} />
-          </li>
+          </Grid.Item>
         );
       })}
-    </ul>
+    </Grid>
   );
 };
 

@@ -1,13 +1,18 @@
-import CreateImageForm from "../../../containers/CreateImageForm/CreateImageForm";
+import Page from "../../../components/Page";
+import CreateImageDialog from "../../../containers/CreateImageDialog/CreateImageDialog";
 import ImagesList from "./components/ImagesList";
 
 const ImagesRoute = () => {
   return (
-    <div>
-      <h1>Images</h1>
-      <CreateImageForm />
-      <ImagesList />
-    </div>
+    <Page>
+      <Page.Header>
+        <Page.Title>Images</Page.Title>
+        <CreateImageDialog />
+      </Page.Header>
+      <Page.Content>
+        <ImagesList />
+      </Page.Content>
+    </Page>
   );
 };
 

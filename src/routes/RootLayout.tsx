@@ -20,9 +20,9 @@ const RootLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen w-full flex-col gap-3">
-      <header className="flex h-32 justify-between px-20">
-        <div className="absolute left-20 top-16">
+    <div className="flex min-h-screen w-full flex-col gap-5">
+      <header className="flex h-24 justify-between md:h-32">
+        <div className="absolute left-10 top-11 md:left-20 md:top-16">
           <LogoLink />
         </div>
         <div className="md:hidden">
@@ -31,30 +31,33 @@ const RootLayout = () => {
             open={isMenuOpen}
           >
             <AppMenu.Trigger>
-              <Button className="absolute right-16 top-14 gap-2" variant="text">
+              <Button
+                className="absolute right-10 top-8 gap-2 md:right-20 md:top-10"
+                variant="text"
+              >
                 <Menu className="h-4 w-4 text-neutral-600" />
                 <span>Menu</span>
               </Button>
             </AppMenu.Trigger>
             <AppMenu.Content>
-              <header className="flex h-32 shrink-0 items-center justify-between">
+              <header className="flex h-24 shrink-0 items-center justify-between md:h-32">
                 <div className="flex h-full items-center">
                   <VisuallyHidden>
                     <AppMenu.Title>Menu</AppMenu.Title>
                   </VisuallyHidden>
                   <LogoLink
-                    className="absolute left-20 top-16 text-neutral-50 hover:text-primary-500"
+                    className="absolute left-10 top-11 text-neutral-50 hover:text-primary-500 md:left-20 md:top-16"
                     onClick={() => setIsMenuOpen(false)}
                   />
                 </div>
               </header>
-              <div className="grow px-20">
-                <ul className="flex flex-col gap-8">
+              <div className="grow px-8 md:px-20">
+                <ul className="flex flex-col gap-4 md:gap-8">
                   {routes.map(({ label, to }) => {
                     return (
                       <li key={label}>
                         <Link
-                          className="font-display text-8xl font-extralight text-neutral-400 hover:text-neutral-100"
+                          className="font-display text-6xl font-extralight text-neutral-400 hover:text-neutral-100 md:text-8xl"
                           onClick={() => setIsMenuOpen(false)}
                           to={to}
                         >
@@ -74,11 +77,11 @@ const RootLayout = () => {
                   Sign Out
                 </Button>
               </footer>
-              <AppMenu.CloseButton className="absolute right-16 top-14" />
+              <AppMenu.CloseButton className="absolute right-10 top-8 md:right-20 md:top-10" />
             </AppMenu.Content>
           </AppMenu>
         </div>
-        <ul className="absolute right-16 top-16 hidden gap-4 md:flex">
+        <ul className="absolute right-20 top-16 hidden gap-4 md:flex">
           {routes.map(({ label, to }) => {
             return (
               <li key={label}>
@@ -95,7 +98,7 @@ const RootLayout = () => {
         </ul>
       </header>
       <main className="flex grow justify-center">
-        <div className="w-full max-w-[1680px] p-5 pt-0 md:p-12">
+        <div className="w-full max-w-[1680px] px-10 pb-10 pt-0 md:px-20 md:pb-20">
           <Suspense fallback={<Spinner />}>
             <Outlet />
           </Suspense>

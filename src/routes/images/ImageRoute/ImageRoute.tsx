@@ -9,12 +9,7 @@ const ImageRoute = () => {
     return <p>Could not find image.</p>;
   }
 
-  return (
-    <div>
-      <h1>Image</h1>
-      <ImageView imageId={imageId} />
-    </div>
-  );
+  return <ImageView imageId={imageId} />;
 };
 
 export default ImageRoute;

@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 
 import { listProjects } from "../api";
 import { State } from "../stores/store";
 import { Project, ProjectWithImages } from "../types";
+import useQuery from "./useQuery";
 import useStore from "./useStore";
 
 export const mapProject = (project: Project, state: State) => {
@@ -20,35 +21,24 @@ export const mapProject = (project: Project, state: State) => {
   return nextProject;
 };
 
-type Status = "error" | "idle" | "loading";
-
 interface UseProjectsOptions {
   sortBy?: "createdAt" | "updatedAt";
 }
 
 const useProjects = (options?: UseProjectsOptions) => {
   const { dispatch, state } = useStore();
-  const [status, setStatus] = useState<Status>("idle");
 
-  useEffect(() => {
-    if (state.projects.isLoaded === false && status === "idle") {
-      console.log("load projects");
-      setStatus("loading");
+  const queryFn = useCallback(async () => {
+    const projects = await listProjects();
 
-      try {
-        const load = async () => {
-          const projects = await listProjects();
+    dispatch({ payload: projects, type: "SET_PROJECTS" });
 
-          dispatch({ payload: projects, type: "SET_PROJECTS" });
-
-          setStatus("idle");
-        };
-        load();
-      } catch {
-        setStatus("error");
-      }
-    }
-  }, [dispatch, state.projects.isLoaded, status]);
+    return projects;
+  }, [dispatch]);
+  const { isError, isLoading, status } = useQuery({
+    isEnabled: state.projects.isLoaded === false,
+    queryFn,
+  });
 
   const data = useMemo(() => {
     if (state.projects.isLoaded === false) {
@@ -74,8 +64,8 @@ const useProjects = (options?: UseProjectsOptions) => {
 
   return {
     data,
-    isError: status === "error",
-    isLoading: status === "loading",
+    isError,
+    isLoading,
     status,
   };
 };

@@ -1,4 +1,4 @@
-import { Image, ImageWithProjects, ProjectImage } from "../../types";
+import { Image, ImageWithProjects, ProjectImage } from "../../../types";
 import { Database } from "../database.types";
 import { ProjectData, mapProject } from "../projects/utils";
 
@@ -41,9 +41,7 @@ type ProjectImageData = Database["public"]["Tables"]["projects_images"]["Row"];
 
 export const mapProjectImage = (data: ProjectImageData): ProjectImage => {
   return {
-    createdAt: data.created_at,
     imageId: data.image_id,
     projectId: data.project_id,
-    userId: data.user_id,
   };
 };

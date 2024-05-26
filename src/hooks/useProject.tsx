@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 
 import { getProject } from "../api";
 import { mapProject } from "./useProjects";
+import useQuery from "./useQuery";
 import useStore from "./useStore";
-
-type Status = "error" | "idle" | "loading";
 
 interface UseProjectsOptions {
   id?: string;
@@ -12,33 +11,27 @@ interface UseProjectsOptions {
 
 const useProject = ({ id }: UseProjectsOptions) => {
   const { dispatch, state } = useStore();
-  const [status, setStatus] = useState<Status>("idle");
   const project = id ? state.projects.data.get(id) : undefined;
 
-  useEffect(() => {
-    if (id && !project && status === "idle") {
-      console.log("load project", id);
-      setStatus("loading");
-
-      try {
-        const load = async () => {
-          const project = await getProject(id);
-
-          if (!project) {
-            setStatus("error");
-            return;
-          }
-
-          dispatch({ payload: project, type: "SET_PROJECT" });
-
-          setStatus("idle");
-        };
-        load();
-      } catch {
-        setStatus("error");
-      }
+  const queryFn = useCallback(async () => {
+    if (!id) {
+      throw new Error("A project id is required");
     }
-  }, [dispatch, id, project, status]);
+
+    const project = await getProject(id);
+
+    if (!project) {
+      throw new Error("Project does not exist");
+    }
+
+    dispatch({ payload: project, type: "SET_PROJECT" });
+
+    return project;
+  }, [dispatch, id]);
+  const { isError, isLoading, status } = useQuery({
+    isEnabled: !!id && !project,
+    queryFn,
+  });
 
   const data = useMemo(() => {
     if (!project) {
@@ -50,8 +43,8 @@ const useProject = ({ id }: UseProjectsOptions) => {
 
   return {
     data,
-    isError: status === "error",
-    isLoading: status === "loading",
+    isError,
+    isLoading,
     status,
   };
 };

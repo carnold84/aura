@@ -15,12 +15,14 @@ interface UseQueryResult {
 }
 
 interface UseQueryOptions<TData> {
+  isEnabled?: boolean;
   queryFn: () => Promise<TData>;
   onSuccess?: (data: TData) => void;
   onError?: (error: Error) => void;
 }
 
 const useQuery = <TData,>({
+  isEnabled = true,
   queryFn,
   onError,
   onSuccess,
@@ -40,17 +42,19 @@ const useQuery = <TData,>({
   }, [queryFn, onError, onSuccess]);
 
   useEffect(() => {
-    setStatus("loading");
-    try {
-      const load = async () => {
-        await query();
-        setStatus("idle");
-      };
-      load();
-    } catch {
-      setStatus("error");
+    if (isEnabled) {
+      setStatus("loading");
+      try {
+        const load = async () => {
+          await query();
+          setStatus("idle");
+        };
+        load();
+      } catch {
+        setStatus("error");
+      }
     }
-  }, [query]);
+  }, [isEnabled, query]);
 
   return {
     isError: status === "error",

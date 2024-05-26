@@ -1,16 +1,5 @@
 import { ProjectWithImages } from "../types";
-import { State } from "./store";
-
-type ActionMap<M extends { [index: string]: unknown }> = {
-  [Key in keyof M]: M[Key] extends undefined
-    ? {
-        type: Key;
-      }
-    : {
-        type: Key;
-        payload: M[Key];
-      };
-};
+import { ActionMap, Actions, State } from "./store";
 
 type Payload = {
   REMOVE_PROJECT: ProjectWithImages;
@@ -18,7 +7,7 @@ type Payload = {
   SET_PROJECTS: ProjectWithImages[];
 };
 
-export type Actions = ActionMap<Payload>[keyof ActionMap<Payload>];
+export type ProjectsActions = ActionMap<Payload>[keyof ActionMap<Payload>];
 
 interface NormaliseProjectsArgs {
   projects: ProjectWithImages[];
@@ -46,7 +35,7 @@ const normaliseProjects = ({ projects, state }: NormaliseProjectsArgs) => {
   return data;
 };
 
-const projectReducer = (state: State, action: Actions) => {
+const projectsReducer = (state: State, action: Actions) => {
   switch (action.type) {
     case "SET_PROJECTS": {
       const data = normaliseProjects({
@@ -83,4 +72,4 @@ const projectReducer = (state: State, action: Actions) => {
   }
 };
 
-export default projectReducer;
+export default projectsReducer;

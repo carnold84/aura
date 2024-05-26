@@ -40,6 +40,7 @@ type ProjectImageData = Database["public"]["Tables"]["projects_images"]["Row"];
 
 export const mapProjectImage = (data: ProjectImageData): ProjectImage => {
   return {
+    id: data.id,
     imageId: data.image_id,
     projectId: data.project_id,
   };

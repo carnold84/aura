@@ -1,14 +1,12 @@
-import { Image } from "./imageTypes";
-import { Project } from "./projectTypes";
-
 export interface ProjectImage {
+  id: string;
   imageId: string;
   projectId: string;
 }
 
 export type CreateProjectImage = {
-  image: Image;
-  project: Project;
+  imageId: string;
+  projectId: string;
 };
 
 export type DeleteProjectImage = CreateProjectImage;

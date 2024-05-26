@@ -11,7 +11,7 @@ export const mapImage = (image: Image, state: State) => {
     ...image,
     projects: [],
   };
-  state.projectsImages.forEach(({ imageId, projectId }) => {
+  state.projectsImages.data.forEach(({ imageId, projectId }) => {
     const project = state.projects.data.get(projectId);
     if (imageId === image.id && project) {
       nextImage.projects.push(project);

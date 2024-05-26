@@ -45,13 +45,25 @@ const ImageList = ({ project }: { project: Project }) => {
               {image.name}
               {isAdded && (
                 <button
-                  onClick={() => unlinkImagefromProject({ image, project })}
+                  onClick={() =>
+                    unlinkImagefromProject({
+                      imageId: image.id,
+                      projectId: project.id,
+                    })
+                  }
                 >
                   Remove
                 </button>
               )}
               {!isAdded && (
-                <button onClick={() => linkImageToProject({ image, project })}>
+                <button
+                  onClick={() =>
+                    linkImageToProject({
+                      imageId: image.id,
+                      projectId: project.id,
+                    })
+                  }
+                >
                   Add
                 </button>
               )}

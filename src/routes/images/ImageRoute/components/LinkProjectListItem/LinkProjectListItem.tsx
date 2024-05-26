@@ -26,11 +26,19 @@ const LinkProjectListItem = ({
     <li key={project.id}>
       {project.name}
       {isAdded ? (
-        <button onClick={() => unlinkImagefromProject({ image, project })}>
+        <button
+          onClick={() =>
+            unlinkImagefromProject({ imageId: image.id, projectId: project.id })
+          }
+        >
           Remove
         </button>
       ) : (
-        <button onClick={() => linkImageToProject({ image, project })}>
+        <button
+          onClick={() =>
+            linkImageToProject({ imageId: image.id, projectId: project.id })
+          }
+        >
           Add
         </button>
       )}

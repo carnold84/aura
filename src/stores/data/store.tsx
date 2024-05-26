@@ -28,7 +28,7 @@ interface DataSet<T> {
 export interface State {
   images: DataSet<Image>;
   projects: DataSet<Project>;
-  projectsImages: ProjectsImages;
+  projectsImages: DataSet<ProjectImage>;
 }
 
 export type ProjectsImages = ProjectImage[];
@@ -42,7 +42,10 @@ const initialState: State = {
     data: new Map(),
     isLoaded: false,
   },
-  projectsImages: [],
+  projectsImages: {
+    data: new Map(),
+    isLoaded: false,
+  },
 };
 
 export const DataContext = createContext<{
@@ -65,6 +68,7 @@ const mainReducer = (state: State, action: Actions) => ({
 
 const DataProvider = ({ children }: DataProviderProps) => {
   const [state, dispatch] = useReducer(mainReducer, initialState);
+  console.log("state", state);
 
   return (
     <DataContext.Provider value={{ state, dispatch }}>

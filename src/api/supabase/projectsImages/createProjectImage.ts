@@ -3,13 +3,13 @@ import { client } from "../client";
 import { mapProjectImage } from "./utils";
 
 const createProjectImage = async ({
-  image,
-  project,
+  imageId,
+  projectId,
 }: CreateProjectImage): Promise<ProjectImage> => {
-  if (image && project) {
+  if (imageId && projectId) {
     const payload = {
-      image_id: image.id,
-      project_id: project.id,
+      image_id: imageId,
+      project_id: projectId,
     };
     const { data, error, status } = await client
       .from("projects_images")

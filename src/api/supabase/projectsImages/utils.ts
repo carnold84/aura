@@ -6,6 +6,7 @@ export type ProjectImageData =
 
 export const mapProjectImage = (data: ProjectImageData): ProjectImage => {
   return {
+    id: data.id,
     imageId: data.image_id,
     projectId: data.project_id,
   };

@@ -43,7 +43,7 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
           </Button>
         </div>
       </div>
-      {/* <ul>
+      <ul>
         {project.images.map(({ id, name, url }) => {
           return (
             <li key={id}>
@@ -52,7 +52,7 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
             </li>
           );
         })}
-      </ul> */}
+      </ul>
       <ImageList project={project} />
     </div>
   );

@@ -1,4 +1,5 @@
 import { Project } from "../../types";
+import { mapProjectImage } from "./projectsImagesReducer";
 import { ActionMap, Actions, State } from "./store";
 
 type Payload = {
@@ -20,10 +21,11 @@ const normaliseProjects = ({ projects, state }: NormaliseProjectsArgs) => {
   projects.forEach((project) => {
     project.images.forEach((image) => {
       data.images.data.set(image.id, image);
-      data.projectsImages.push({
+      const nextProjectImage = mapProjectImage({
         imageId: image.id,
         projectId: project.id,
       });
+      data.projectsImages.data.set(nextProjectImage.id, nextProjectImage);
     });
     const nextProject = {
       ...project,
@@ -60,9 +62,11 @@ const projectsReducer = (state: State, action: Actions) => {
       const data = { ...state };
 
       data.projects.data.delete(action.payload.id);
-      data.projectsImages.filter(
-        ({ projectId }) => projectId !== action.payload.id,
-      );
+      data.projectsImages.data.forEach(({ id, projectId }) => {
+        if (projectId !== action.payload.id) {
+          data.projectsImages.data.delete(id);
+        }
+      });
 
       return data;
     }

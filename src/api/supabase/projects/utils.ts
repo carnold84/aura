@@ -1,4 +1,4 @@
-import { Project, ProjectWithImages } from "../../../types";
+import { Project } from "../../../types";
 import { Database } from "../database.types";
 import { ImageData, mapImage } from "../images/utils";
 
@@ -9,6 +9,7 @@ export const mapProject = (data: ProjectData): Project => {
     createdAt: data.created_at,
     description: data.description ?? null,
     id: data.id,
+    images: [],
     imageUrl: data.image_url ?? null,
     name: data.name,
     updatedAt: data.updated_at,
@@ -20,9 +21,7 @@ type ProjectWithImagesData = ProjectData & {
   images: ImageData[];
 };
 
-export const mapProjectWithImages = (
-  data: ProjectWithImagesData,
-): ProjectWithImages => {
+export const mapProjectWithImages = (data: ProjectWithImagesData): Project => {
   return {
     createdAt: data.created_at,
     description: data.description ?? null,

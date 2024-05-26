@@ -1,16 +1,16 @@
 import { deleteImage } from "../api";
-import { ImageWithProjects } from "../types";
+import { Image } from "../types";
 import useMutation from "./useMutation";
 import useStore from "./useStore";
 
 interface UseDeleteImageOptions {
-  onSuccess?: (data: ImageWithProjects) => void;
+  onSuccess?: (data: Image) => void;
 }
 
 const useDeleteImage = (options?: UseDeleteImageOptions) => {
   const { dispatch } = useStore();
   const { isError, isLoading, mutate, status } = useMutation({
-    mutationFn: async (payload: ImageWithProjects) => {
+    mutationFn: async (payload: Image) => {
       const project = await deleteImage(payload);
 
       dispatch({ payload: project, type: "REMOVE_IMAGE" });

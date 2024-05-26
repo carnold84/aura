@@ -1,5 +1,5 @@
-import { ImageWithProjects } from "./imageTypes";
-import { ProjectWithImages } from "./projectTypes";
+import { Image } from "./imageTypes";
+import { Project } from "./projectTypes";
 
 export interface ProjectImage {
   imageId: string;
@@ -7,8 +7,8 @@ export interface ProjectImage {
 }
 
 export type CreateProjectImage = {
-  image: ImageWithProjects;
-  project: ProjectWithImages;
+  image: Image;
+  project: Project;
 };
 
 export type DeleteProjectImage = CreateProjectImage;

@@ -1,17 +1,20 @@
 import useLinkImageToProject from "../../../../../hooks/useLinkImageToProject";
-import { ImageWithProjects, ProjectWithImages } from "../../../../../types";
+import useUnlinkImageFromProject from "../../../../../hooks/useUnlinkImageFromProject";
+import { Image, Project } from "../../../../../types";
 
 const LinkProjectListItem = ({
   image,
   project,
 }: {
-  image: ImageWithProjects;
-  project: ProjectWithImages;
+  image: Image;
+  project: Project;
 }) => {
   const { linkImageToProject, isLoading } = useLinkImageToProject();
+  const { isLoading: isUnlinking, unlinkImagefromProject } =
+    useUnlinkImageFromProject();
   const isAdded = image.projects.find(({ id }) => id === project.id);
 
-  if (isLoading) {
+  if (isLoading || isUnlinking) {
     if (isAdded) {
       return <p>Removing...</p>;
     } else {
@@ -23,7 +26,7 @@ const LinkProjectListItem = ({
     <li key={project.id}>
       {project.name}
       {isAdded ? (
-        <button onClick={() => linkImageToProject({ image, project })}>
+        <button onClick={() => unlinkImagefromProject({ image, project })}>
           Remove
         </button>
       ) : (

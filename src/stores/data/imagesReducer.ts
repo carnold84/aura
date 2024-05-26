@@ -1,16 +1,16 @@
-import { ImageWithProjects } from "../../types";
+import { Image } from "../../types";
 import { ActionMap, Actions, State } from "./store";
 
 type Payload = {
-  REMOVE_IMAGE: ImageWithProjects;
-  SET_IMAGE: ImageWithProjects;
-  SET_IMAGES: ImageWithProjects[];
+  REMOVE_IMAGE: Image;
+  SET_IMAGE: Image;
+  SET_IMAGES: Image[];
 };
 
 export type ImagesActions = ActionMap<Payload>[keyof ActionMap<Payload>];
 
 interface NormaliseImagesArgs {
-  images: ImageWithProjects[];
+  images: Image[];
   state: State;
 }
 

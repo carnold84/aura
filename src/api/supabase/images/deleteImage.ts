@@ -1,9 +1,7 @@
 import { client } from "..";
-import { ImageWithProjects } from "../../../types";
+import { Image } from "../../../types";
 
-const deleteImage = async (
-  image: ImageWithProjects,
-): Promise<ImageWithProjects> => {
+const deleteImage = async (image: Image): Promise<Image> => {
   if (image) {
     const { error: linksError, status: linksStatus } = await client
       .from("projects_images")

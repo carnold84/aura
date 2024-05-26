@@ -1,4 +1,4 @@
-import { Image, ImageWithProjects, ProjectImage } from "../../../types";
+import { Image, ProjectImage } from "../../../types";
 import { Database } from "../database.types";
 import { ProjectData, mapProject } from "../projects/utils";
 
@@ -10,6 +10,7 @@ export const mapImage = (data: ImageData): Image => {
     description: data.description ?? null,
     id: data.id,
     name: data.name,
+    projects: [],
     srcUrl: data.src_url,
     updatedAt: data.updated_at,
     url: `${import.meta.env.VITE_API_URL}/storage/v1/object/public/images/${data.url}`,
@@ -21,9 +22,7 @@ type ImageWithProjectsData = ImageData & {
   projects: ProjectData[];
 };
 
-export const mapImageWithProjects = (
-  data: ImageWithProjectsData,
-): ImageWithProjects => {
+export const mapImageWithProjects = (data: ImageWithProjectsData): Image => {
   return {
     createdAt: data.created_at,
     description: data.description ?? null,

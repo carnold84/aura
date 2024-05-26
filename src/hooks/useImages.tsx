@@ -2,12 +2,12 @@ import { useCallback, useMemo } from "react";
 
 import { listImages } from "../api";
 import { State } from "../stores/data";
-import { Image, ImageWithProjects } from "../types";
+import { Image } from "../types";
 import useQuery from "./useQuery";
 import useStore from "./useStore";
 
 export const mapImage = (image: Image, state: State) => {
-  const nextImage: ImageWithProjects = {
+  const nextImage: Image = {
     ...image,
     projects: [],
   };

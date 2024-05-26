@@ -1,16 +1,16 @@
 import { deleteProject } from "../api";
-import { ProjectWithImages } from "../types";
+import { Project } from "../types";
 import useMutation from "./useMutation";
 import useStore from "./useStore";
 
 interface UseDeleteProjectOptions {
-  onSuccess?: (data: ProjectWithImages) => void;
+  onSuccess?: (data: Project) => void;
 }
 
 const useDeleteProject = (options?: UseDeleteProjectOptions) => {
   const { dispatch } = useStore();
   const { isError, isLoading, mutate, status } = useMutation({
-    mutationFn: async (payload: ProjectWithImages) => {
+    mutationFn: async (payload: Project) => {
       const project = await deleteProject(payload);
 
       dispatch({ payload: project, type: "REMOVE_PROJECT" });

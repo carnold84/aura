@@ -1,16 +1,16 @@
-import { ProjectWithImages } from "../../types";
+import { Project } from "../../types";
 import { ActionMap, Actions, State } from "./store";
 
 type Payload = {
-  REMOVE_PROJECT: ProjectWithImages;
-  SET_PROJECT: ProjectWithImages;
-  SET_PROJECTS: ProjectWithImages[];
+  REMOVE_PROJECT: Project;
+  SET_PROJECT: Project;
+  SET_PROJECTS: Project[];
 };
 
 export type ProjectsActions = ActionMap<Payload>[keyof ActionMap<Payload>];
 
 interface NormaliseProjectsArgs {
-  projects: ProjectWithImages[];
+  projects: Project[];
   state: State;
 }
 

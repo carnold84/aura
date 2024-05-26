@@ -1,9 +1,9 @@
 import useImages from "../../../../../hooks/useImages";
 import useLinkImageToProject from "../../../../../hooks/useLinkImageToProject";
 import useUnlinkImageFromProject from "../../../../../hooks/useUnlinkImageFromProject";
-import { ProjectWithImages } from "../../../../../types";
+import { Project } from "../../../../../types";
 
-const ImageList = ({ project }: { project: ProjectWithImages }) => {
+const ImageList = ({ project }: { project: Project }) => {
   const {
     data: images,
     isError: isImagesError,

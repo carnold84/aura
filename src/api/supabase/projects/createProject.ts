@@ -1,10 +1,8 @@
-import { CreateProject, ProjectWithImages } from "../../../types";
+import { CreateProject, Project } from "../../../types";
 import { client } from "../client";
 import { mapProjectWithImages } from "./utils";
 
-const createProject = async (
-  project: CreateProject,
-): Promise<ProjectWithImages> => {
+const createProject = async (project: CreateProject): Promise<Project> => {
   if (project) {
     const payload = {
       description: project.description,

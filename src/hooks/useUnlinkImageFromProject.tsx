@@ -1,8 +1,7 @@
-import { useCallback } from "react";
-
-import useDataStore from "../stores/data/dataStore";
-import { ImageWithProjects, ProjectImage, ProjectWithImages } from "../types";
+import { deleteProjectImage } from "../api";
+import { DeleteProjectImage, ProjectImage } from "../types";
 import useMutation from "./useMutation";
+import useStore from "./useStore";
 
 interface UseUnlinkImageFromProjectOptions {
   onSuccess?: (data: ProjectImage) => void;
@@ -11,26 +10,22 @@ interface UseUnlinkImageFromProjectOptions {
 const useUnlinkImageFromProject = (
   options?: UseUnlinkImageFromProjectOptions,
 ) => {
-  const remove = useDataStore((store) => store.projectsImages.delete);
-  const mutationFn = useCallback(
-    ({
-      image,
-      project,
-    }: {
-      image: ImageWithProjects;
-      project: ProjectWithImages;
-    }) => remove(image, project),
-    [remove],
-  );
+  const { dispatch } = useStore();
   const { isError, isLoading, mutate, status } = useMutation({
-    mutationFn,
+    mutationFn: async (payload: DeleteProjectImage) => {
+      const projectImage = await deleteProjectImage(payload);
+
+      dispatch({ payload: projectImage, type: "REMOVE_PROJECT_IMAGE" });
+
+      return projectImage;
+    },
     onSuccess: options?.onSuccess,
   });
 
   return {
     unlinkImagefromProject: mutate,
     isError,
-    isUnlinking: isLoading,
+    isLoading,
     status,
   };
 };

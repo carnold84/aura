@@ -1,8 +1,8 @@
-import { ProjectWithImages } from "../../../types";
+import { Project } from "../../../types";
 import { client } from "../client";
 import { mapProjectWithImages } from "./utils";
 
-const listProjects = async (): Promise<ProjectWithImages[]> => {
+const listProjects = async (): Promise<Project[]> => {
   const { data, error, status } = await client.from("projects").select(
     `
       *,

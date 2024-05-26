@@ -1,20 +1,16 @@
-import {
-  ImageWithProjects,
-  ProjectImage,
-  ProjectWithImages,
-} from "../../../types";
+import { DeleteProjectImage, ProjectImage } from "../../../types";
 import { client } from "../client";
 
-const deleteProjectImage = async (
-  image: ImageWithProjects,
-  project: ProjectWithImages,
-): Promise<ProjectImage> => {
-  if (image && project) {
+const deleteProjectImage = async ({
+  imageId,
+  projectId,
+}: DeleteProjectImage): Promise<ProjectImage> => {
+  if (imageId && projectId) {
     const { error, status } = await client
       .from("projects_images")
       .delete()
-      .eq("image_id", image.id)
-      .eq("project_id", project.id);
+      .eq("image_id", imageId)
+      .eq("project_id", projectId);
 
     if (error) {
       throw error;
@@ -25,8 +21,9 @@ const deleteProjectImage = async (
     }
 
     return Promise.resolve({
-      imageId: image.id,
-      projectId: project.id,
+      id: "",
+      imageId,
+      projectId,
     });
   } else {
     throw new Error("Project and image are required");

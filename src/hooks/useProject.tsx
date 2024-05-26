@@ -1,18 +1,48 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
-import useDataStore from "../stores/data/dataStore";
+import { getProject } from "../api";
+import { mapProject } from "./useProjects";
 import useQuery from "./useQuery";
+import useStore from "./useStore";
 
-const useProject = (id: string) => {
-  const get = useDataStore((store) => store.projects.get);
-  const queryFn = useCallback(() => get(id), [get, id]);
+interface UseProjectsOptions {
+  id?: string;
+}
+
+const useProject = ({ id }: UseProjectsOptions) => {
+  const { dispatch, state } = useStore();
+  const project = id ? state.projects.data.get(id) : undefined;
+
+  const queryFn = useCallback(async () => {
+    if (!id) {
+      throw new Error("A project id is required");
+    }
+
+    const project = await getProject(id);
+
+    if (!project) {
+      throw new Error("Project does not exist");
+    }
+
+    dispatch({ payload: project, type: "SET_PROJECT" });
+
+    return project;
+  }, [dispatch, id]);
   const { isError, isLoading, status } = useQuery({
+    isEnabled: !!id && !project,
     queryFn,
   });
-  const project = useDataStore((store) => store.projects.project(id));
+
+  const data = useMemo(() => {
+    if (!project) {
+      return undefined;
+    }
+
+    return mapProject(project, state);
+  }, [project, state]);
 
   return {
-    data: project,
+    data,
     isError,
     isLoading,
     status,

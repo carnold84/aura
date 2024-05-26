@@ -1,9 +1,9 @@
 import useImages from "../../../../../hooks/useImages";
 import useLinkImageToProject from "../../../../../hooks/useLinkImageToProject";
 import useUnlinkImageFromProject from "../../../../../hooks/useUnlinkImageFromProject";
-import { ProjectWithImages } from "../../../../../types";
+import { Project } from "../../../../../types";
 
-const ImageList = ({ project }: { project: ProjectWithImages }) => {
+const ImageList = ({ project }: { project: Project }) => {
   const {
     data: images,
     isError: isImagesError,
@@ -12,11 +12,11 @@ const ImageList = ({ project }: { project: ProjectWithImages }) => {
   const {
     linkImageToProject,
     isError: isLinkError,
-    isLinking,
+    isLoading,
   } = useLinkImageToProject();
   const {
     isError: isUnlinkError,
-    isUnlinking,
+    isLoading: isUnlinking,
     unlinkImagefromProject,
   } = useUnlinkImageFromProject();
 
@@ -24,7 +24,7 @@ const ImageList = ({ project }: { project: ProjectWithImages }) => {
     return <p>Loading...</p>;
   }
 
-  if (isLinking || isUnlinking) {
+  if (isLoading || isUnlinking) {
     return <p>Adding...</p>;
   }
 
@@ -45,13 +45,25 @@ const ImageList = ({ project }: { project: ProjectWithImages }) => {
               {image.name}
               {isAdded && (
                 <button
-                  onClick={() => unlinkImagefromProject({ image, project })}
+                  onClick={() =>
+                    unlinkImagefromProject({
+                      imageId: image.id,
+                      projectId: project.id,
+                    })
+                  }
                 >
                   Remove
                 </button>
               )}
               {!isAdded && (
-                <button onClick={() => linkImageToProject({ image, project })}>
+                <button
+                  onClick={() =>
+                    linkImageToProject({
+                      imageId: image.id,
+                      projectId: project.id,
+                    })
+                  }
+                >
                   Add
                 </button>
               )}

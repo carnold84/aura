@@ -1,8 +1,8 @@
 import useProjects from "../../../../../hooks/useProjects";
-import { ImageWithProjects, ProjectWithImages } from "../../../../../types";
+import { Image, Project } from "../../../../../types";
 import LinkProjectListItem from "../LinkProjectListItem";
 
-const LinkProjectList = ({ image }: { image: ImageWithProjects }) => {
+const LinkProjectList = ({ image }: { image: Image }) => {
   const { data, isError, isLoading } = useProjects();
 
   if (isLoading) {
@@ -19,7 +19,7 @@ const LinkProjectList = ({ image }: { image: ImageWithProjects }) => {
 
   return (
     <ul>
-      {data?.map((project: ProjectWithImages) => {
+      {data?.map((project: Project) => {
         return <LinkProjectListItem image={image} project={project} />;
       })}
     </ul>

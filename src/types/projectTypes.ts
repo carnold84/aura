@@ -4,19 +4,19 @@ export interface Project {
   createdAt: string;
   description: string | null;
   id: string;
+  images: Image[];
   imageUrl: string | null;
   name: string;
   updatedAt: string;
   userId: string;
 }
 
-export interface ProjectWithImages extends Project {
-  images: Image[];
-}
-
 export type CreateProject = Omit<
   Project,
-  "createdAt" | "id" | "updatedAt" | "userId"
+  "createdAt" | "id" | "images" | "updatedAt" | "userId"
 >;
 
-export type UpdateProject = Omit<Project, "createdAt" | "updatedAt" | "userId">;
+export type UpdateProject = Omit<
+  Project,
+  "createdAt" | "images" | "updatedAt" | "userId"
+>;

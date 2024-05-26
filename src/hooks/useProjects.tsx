@@ -1,34 +1,69 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
-import useDataStore from "../stores/data/dataStore";
+import { listProjects } from "../api";
+import { State } from "../stores/data";
+import { Project } from "../types";
 import useQuery from "./useQuery";
+import useStore from "./useStore";
+
+export const mapProject = (project: Project, state: State) => {
+  const nextProject: Project = {
+    ...project,
+    images: [],
+  };
+  state.projectsImages.data.forEach(({ imageId, projectId }) => {
+    const image = state.images.data.get(imageId);
+    if (projectId === project.id && image) {
+      nextProject.images.push(image);
+    }
+  });
+
+  return nextProject;
+};
 
 interface UseProjectsOptions {
   sortBy?: "createdAt" | "updatedAt";
 }
 
 const useProjects = (options?: UseProjectsOptions) => {
-  const list = useDataStore((store) => store.projects.list);
-  const queryFn = useCallback(() => list(), [list]);
+  const { dispatch, state } = useStore();
+
+  const queryFn = useCallback(async () => {
+    const projects = await listProjects();
+
+    dispatch({ payload: projects, type: "SET_PROJECTS" });
+
+    return projects;
+  }, [dispatch]);
   const { isError, isLoading, status } = useQuery({
+    isEnabled: state.projects.isLoaded === false,
     queryFn,
   });
-  const projects = useDataStore((store) => store.projects.projects());
 
-  if (options?.sortBy !== undefined) {
+  const data = useMemo(() => {
+    if (state.projects.isLoaded === false) {
+      return undefined;
+    }
+
     const sortBy = options?.sortBy;
-    return {
-      data: projects?.sort((a, b) =>
+    const nextProjects = [];
+
+    for (const project of state.projects.data.values()) {
+      const nextProject = mapProject(project, state);
+      nextProjects.push(nextProject);
+    }
+
+    if (sortBy) {
+      return nextProjects?.sort((a, b) =>
         a[sortBy] < b[sortBy] ? -1 : a[sortBy] > b[sortBy] ? 1 : 0,
-      ),
-      isError,
-      isLoading,
-      status,
-    };
-  }
+      );
+    }
+
+    return nextProjects;
+  }, [state, options?.sortBy]);
 
   return {
-    data: projects,
+    data,
     isError,
     isLoading,
     status,

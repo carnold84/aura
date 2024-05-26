@@ -5,7 +5,7 @@ import LinkProjectList from "../LinkProjectList";
 
 const ImageView = ({ imageId }: { imageId: string }) => {
   const back = useBack("/images");
-  const { data: image, isError, isLoading } = useImage(imageId);
+  const { data: image, isError, isLoading } = useImage({ id: imageId });
   const { deleteImage, isLoading: isDeleting } = useDeleteImage({
     onSuccess: () => {
       back();
@@ -32,7 +32,7 @@ const ImageView = ({ imageId }: { imageId: string }) => {
       ) : (
         <button onClick={() => deleteImage(image)}>Delete</button>
       )}
-      <img src={image.url} />
+      <img className="mb-5" src={image.url} />
       <LinkProjectList image={image} />
     </div>
   );

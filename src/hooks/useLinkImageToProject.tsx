@@ -1,34 +1,29 @@
-import { useCallback } from "react";
-
-import useDataStore from "../stores/data/dataStore";
-import { ImageWithProjects, ProjectImage, ProjectWithImages } from "../types";
+import { createProjectImage } from "../api";
+import { CreateProjectImage, ProjectImage } from "../types";
 import useMutation from "./useMutation";
+import useStore from "./useStore";
 
 interface UseLinkImageToProjectOptions {
   onSuccess?: (data: ProjectImage) => void;
 }
 
 const useLinkImageToProject = (options?: UseLinkImageToProjectOptions) => {
-  const create = useDataStore((store) => store.projectsImages.create);
-  const mutationFn = useCallback(
-    ({
-      image,
-      project,
-    }: {
-      image: ImageWithProjects;
-      project: ProjectWithImages;
-    }) => create(image, project),
-    [create],
-  );
+  const { dispatch } = useStore();
   const { isError, isLoading, mutate, status } = useMutation({
-    mutationFn,
+    mutationFn: async (payload: CreateProjectImage) => {
+      const projectImage = await createProjectImage(payload);
+
+      dispatch({ payload: projectImage, type: "SET_PROJECT_IMAGE" });
+
+      return projectImage;
+    },
     onSuccess: options?.onSuccess,
   });
 
   return {
     linkImageToProject: mutate,
     isError,
-    isLinking: isLoading,
+    isLoading,
     status,
   };
 };

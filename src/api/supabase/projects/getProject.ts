@@ -1,8 +1,8 @@
-import { ProjectWithImages } from "../../../types";
+import { Project } from "../../../types";
 import { client } from "../client";
 import { mapProjectWithImages } from "./utils";
 
-const getProject = async (id?: string): Promise<ProjectWithImages | null> => {
+const getProject = async (id?: string): Promise<Project | null> => {
   if (id) {
     const { data, error, status } = await client
       .from("projects")

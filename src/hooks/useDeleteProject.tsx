@@ -1,21 +1,22 @@
-import { useCallback } from "react";
-
-import useDataStore from "../stores/data/dataStore";
-import { ProjectWithImages } from "../types";
+import { deleteProject } from "../api";
+import { Project } from "../types";
 import useMutation from "./useMutation";
+import useStore from "./useStore";
 
 interface UseDeleteProjectOptions {
-  onSuccess?: (data: ProjectWithImages) => void;
+  onSuccess?: (data: Project) => void;
 }
 
 const useDeleteProject = (options?: UseDeleteProjectOptions) => {
-  const deleteProject = useDataStore((store) => store.projects.delete);
-  const mutationFn = useCallback(
-    (payload: ProjectWithImages) => deleteProject(payload),
-    [deleteProject],
-  );
+  const { dispatch } = useStore();
   const { isError, isLoading, mutate, status } = useMutation({
-    mutationFn,
+    mutationFn: async (payload: Project) => {
+      const project = await deleteProject(payload);
+
+      dispatch({ payload: project, type: "REMOVE_PROJECT" });
+
+      return project;
+    },
     onSuccess: options?.onSuccess,
   });
 

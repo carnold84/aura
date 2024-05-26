@@ -1,21 +1,22 @@
-import { useCallback } from "react";
-
-import useDataStore from "../stores/data/dataStore";
+import { updateProject } from "../api";
 import { Project, UpdateProject } from "../types";
 import useMutation from "./useMutation";
+import useStore from "./useStore";
 
 interface UseUpdateProjectOptions {
   onSuccess?: (data: Project) => void;
 }
 
 const useUpdateProject = (options?: UseUpdateProjectOptions) => {
-  const update = useDataStore((store) => store.projects.update);
-  const mutationFn = useCallback(
-    (payload: UpdateProject) => update(payload),
-    [update],
-  );
+  const { dispatch } = useStore();
   const { isError, isLoading, mutate, status } = useMutation({
-    mutationFn,
+    mutationFn: async (payload: UpdateProject) => {
+      const project = await updateProject(payload);
+
+      dispatch({ payload: project, type: "SET_PROJECT" });
+
+      return project;
+    },
     onSuccess: options?.onSuccess,
   });
 

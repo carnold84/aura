@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 
 import { listProjects } from "../api";
-import { State } from "../stores/store";
+import { State } from "../stores/data";
 import { Project, ProjectWithImages } from "../types";
 import useQuery from "./useQuery";
 import useStore from "./useStore";

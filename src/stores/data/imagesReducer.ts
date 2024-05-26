@@ -1,4 +1,4 @@
-import { ImageWithProjects } from "../types";
+import { ImageWithProjects } from "../../types";
 import { ActionMap, Actions, State } from "./store";
 
 type Payload = {

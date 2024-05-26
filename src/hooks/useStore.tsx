@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { DataContext } from "../stores/store";
+import { DataContext } from "../stores/data";
 
 const useStore = () => {
   return useContext(DataContext);

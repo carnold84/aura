@@ -1,6 +1,6 @@
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
-import { Image, Project, ProjectImage } from "../types";
+import { Image, Project, ProjectImage } from "../../types";
 import imagesReducer, { ImagesActions } from "./imagesReducer";
 import projectsImagesReducer, {
   ProjectsImagesActions,

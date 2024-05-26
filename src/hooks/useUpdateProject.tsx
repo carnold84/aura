@@ -9,7 +9,7 @@ interface UseUpdateProjectOptions {
 
 const useUpdateProject = (options?: UseUpdateProjectOptions) => {
   const { dispatch } = useStore();
-  const { isError, isLoading, mutate, status } = useMutation({
+  const { mutate, ...rest } = useMutation({
     mutationFn: async (payload: UpdateProject) => {
       const project = await updateProject(payload);
 
@@ -22,9 +22,7 @@ const useUpdateProject = (options?: UseUpdateProjectOptions) => {
 
   return {
     updateProject: mutate,
-    isError,
-    isLoading,
-    status,
+    ...rest,
   };
 };
 

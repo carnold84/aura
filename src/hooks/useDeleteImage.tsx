@@ -9,7 +9,7 @@ interface UseDeleteImageOptions {
 
 const useDeleteImage = (options?: UseDeleteImageOptions) => {
   const { dispatch } = useStore();
-  const { isError, isLoading, mutate, status } = useMutation({
+  const { mutate, ...rest } = useMutation({
     mutationFn: async (payload: Image) => {
       const project = await deleteImage(payload);
 
@@ -22,9 +22,7 @@ const useDeleteImage = (options?: UseDeleteImageOptions) => {
 
   return {
     deleteImage: mutate,
-    isError,
-    isLoading,
-    status,
+    ...rest,
   };
 };
 

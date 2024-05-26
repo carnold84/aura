@@ -68,7 +68,6 @@ const mainReducer = (state: State, action: Actions) => ({
 
 const DataProvider = ({ children }: DataProviderProps) => {
   const [state, dispatch] = useReducer(mainReducer, initialState);
-  console.log("state", state);
 
   return (
     <DataContext.Provider value={{ state, dispatch }}>

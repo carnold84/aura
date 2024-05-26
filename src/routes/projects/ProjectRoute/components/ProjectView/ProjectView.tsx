@@ -14,7 +14,6 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
       back();
     },
   });
-  console.log("----ProjectView", project);
 
   if (isLoading) {
     return <p>Loading...</p>;

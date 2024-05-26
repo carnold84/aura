@@ -6,7 +6,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        error: colors.red,
         primary: colors.orange,
+        success: colors.green,
       },
       fontFamily: {
         display: [

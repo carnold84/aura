@@ -1,6 +1,7 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import Alert from "../../components/Alert";
 import Button from "../../components/Button";
 import Dialog from "../../components/Dialog/Dialog";
 import Spinner from "../../components/Spinner";
@@ -17,8 +18,10 @@ interface ProjectFormDialogProps {
   defaultValues?: ProjectFormValues;
   errorMessage?: string;
   isLoading?: boolean;
+  onOpenChange?: (open: boolean) => void;
   onSubmit: (data: ProjectFormValues) => void;
   submitBtnLabel?: string;
+  successMessage?: string;
   title: string;
 }
 
@@ -27,8 +30,10 @@ const ProjectFormDialog = ({
   defaultValues,
   errorMessage,
   isLoading = false,
+  onOpenChange,
   onSubmit: onSubmitProp,
   submitBtnLabel = "Save",
+  successMessage,
   title,
 }: ProjectFormDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,28 +47,50 @@ const ProjectFormDialog = ({
     data: ProjectFormValues,
   ) => {
     await onSubmitProp(data);
-    setIsOpen(false);
-    reset();
   };
 
+  useEffect(() => {
+    if (isOpen === false) {
+      reset(defaultValues);
+    }
+  }, [defaultValues, isOpen, isLoading, reset]);
+
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open);
+        onOpenChange && onOpenChange(open);
+      }}
+    >
       <Dialog.Trigger asChild={true}>{children}</Dialog.Trigger>
       <Dialog.Content>
         <Dialog.Header title={title} />
         <form onSubmit={handleSubmit(onSubmit)}>
-          {errorMessage && <p>{errorMessage}</p>}
           <Dialog.Body className="flex flex-col gap-3">
+            {successMessage && (
+              <Alert variant="success">{successMessage}</Alert>
+            )}
+            {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
             <TextField
+              disabled={isLoading}
               error={errors["name"]?.message}
               label="Project Name"
               {...register("name", { required: "Name is required" })}
             />
-            <TextField label="Description" {...register("description")} />
-            <TextField label="Image Url" {...register("imageUrl")} />
+            <TextField
+              disabled={isLoading}
+              label="Description"
+              {...register("description")}
+            />
+            <TextField
+              disabled={isLoading}
+              label="Image Url"
+              {...register("imageUrl")}
+            />
           </Dialog.Body>
           <Dialog.Footer>
-            <Dialog.Close asChild={true}>
+            <Dialog.Close asChild={true} disabled={isLoading}>
               <Button variant="text">Cancel</Button>
             </Dialog.Close>
             <Button className="min-w-20" variant="contained" type="submit">

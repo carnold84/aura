@@ -11,7 +11,7 @@ const useUnlinkImageFromProject = (
   options?: UseUnlinkImageFromProjectOptions,
 ) => {
   const { dispatch } = useStore();
-  const { isError, isLoading, mutate, status } = useMutation({
+  const { mutate, ...rest } = useMutation({
     mutationFn: async (payload: DeleteProjectImage) => {
       const projectImage = await deleteProjectImage(payload);
 
@@ -24,9 +24,7 @@ const useUnlinkImageFromProject = (
 
   return {
     unlinkImagefromProject: mutate,
-    isError,
-    isLoading,
-    status,
+    ...rest,
   };
 };
 

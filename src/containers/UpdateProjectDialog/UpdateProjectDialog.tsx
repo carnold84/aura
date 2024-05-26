@@ -8,14 +8,11 @@ interface UpdateProjectDialogProps {
 }
 
 const UpdateProjectDialog = ({ project }: UpdateProjectDialogProps) => {
-  const { updateProject, isError, isLoading } = useUpdateProject();
-  const onSubmit = (data: ProjectFormValues) => {
-    updateProject({ ...data, id: project.id });
+  const { updateProject, isError, isLoading, isSuccess, reset } =
+    useUpdateProject();
+  const onSubmit = async (data: ProjectFormValues) => {
+    await updateProject({ ...data, id: project.id });
   };
-
-  if (isLoading) {
-    return <p>Updating...</p>;
-  }
 
   const { description, name, imageUrl } = project;
 
@@ -25,8 +22,17 @@ const UpdateProjectDialog = ({ project }: UpdateProjectDialogProps) => {
       errorMessage={
         isError ? "Sorry. We couldn't update your project. :(" : undefined
       }
+      isLoading={isLoading}
+      onOpenChange={(open) => {
+        if (open === false) {
+          reset();
+        }
+      }}
       onSubmit={onSubmit}
       submitBtnLabel="Update"
+      successMessage={
+        isSuccess ? `${project.name} was successfully updated.` : undefined
+      }
       title={`Update ${project.name}`}
     >
       <Button variant="outlined">Edit</Button>

@@ -3,7 +3,7 @@ import useCreateProject from "../../hooks/useCreateProject";
 import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
 
 const CreateProjectDialog = () => {
-  const { createProject, isError, isLoading } = useCreateProject();
+  const { createProject, isError, isLoading, isSuccess } = useCreateProject();
   const onSubmit = async (data: ProjectFormValues) => {
     await createProject(data);
   };
@@ -16,6 +16,9 @@ const CreateProjectDialog = () => {
       isLoading={isLoading}
       onSubmit={onSubmit}
       submitBtnLabel="Create"
+      successMessage={
+        isSuccess ? "Project was successfully created." : undefined
+      }
       title="Create Project"
     >
       <Button variant="contained">Create</Button>

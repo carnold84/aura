@@ -9,7 +9,7 @@ interface UseDeleteProjectOptions {
 
 const useDeleteProject = (options?: UseDeleteProjectOptions) => {
   const { dispatch } = useStore();
-  const { isError, isLoading, mutate, status } = useMutation({
+  const { mutate, ...rest } = useMutation({
     mutationFn: async (payload: Project) => {
       const project = await deleteProject(payload);
 
@@ -22,9 +22,7 @@ const useDeleteProject = (options?: UseDeleteProjectOptions) => {
 
   return {
     deleteProject: mutate,
-    isError,
-    isLoading,
-    status,
+    ...rest,
   };
 };
 

@@ -1,14 +1,10 @@
-import {
-  ImageWithProjects,
-  ProjectImage,
-  ProjectWithImages,
-} from "../../../types";
+import { DeleteProjectImage, ProjectImage } from "../../../types";
 import { client } from "../client";
 
-const deleteProjectImage = async (
-  image: ImageWithProjects,
-  project: ProjectWithImages,
-): Promise<ProjectImage> => {
+const deleteProjectImage = async ({
+  image,
+  project,
+}: DeleteProjectImage): Promise<ProjectImage> => {
   if (image && project) {
     const { error, status } = await client
       .from("projects_images")

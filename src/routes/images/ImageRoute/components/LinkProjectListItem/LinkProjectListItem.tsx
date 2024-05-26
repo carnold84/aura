@@ -8,10 +8,10 @@ const LinkProjectListItem = ({
   image: ImageWithProjects;
   project: ProjectWithImages;
 }) => {
-  const { linkImageToProject, isLinking } = useLinkImageToProject();
+  const { linkImageToProject, isLoading } = useLinkImageToProject();
   const isAdded = image.projects.find(({ id }) => id === project.id);
 
-  if (isLinking) {
+  if (isLoading) {
     if (isAdded) {
       return <p>Removing...</p>;
     } else {

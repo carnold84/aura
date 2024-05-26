@@ -12,11 +12,11 @@ const ImageList = ({ project }: { project: ProjectWithImages }) => {
   const {
     linkImageToProject,
     isError: isLinkError,
-    isLinking,
+    isLoading,
   } = useLinkImageToProject();
   const {
     isError: isUnlinkError,
-    isUnlinking,
+    isLoading: isUnlinking,
     unlinkImagefromProject,
   } = useUnlinkImageFromProject();
 
@@ -24,7 +24,7 @@ const ImageList = ({ project }: { project: ProjectWithImages }) => {
     return <p>Loading...</p>;
   }
 
-  if (isLinking || isUnlinking) {
+  if (isLoading || isUnlinking) {
     return <p>Adding...</p>;
   }
 

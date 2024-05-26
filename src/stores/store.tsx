@@ -1,7 +1,10 @@
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
-import { Image, Project } from "../types";
+import { Image, Project, ProjectImage } from "../types";
 import imagesReducer, { ImagesActions } from "./imagesReducer";
+import projectsImagesReducer, {
+  ProjectsImagesActions,
+} from "./projectsImagesReducer";
 import projectsReducer, { ProjectsActions } from "./projectsReducer";
 
 export type ActionMap<M extends { [index: string]: unknown }> = {
@@ -15,7 +18,7 @@ export type ActionMap<M extends { [index: string]: unknown }> = {
       };
 };
 
-export type Actions = ImagesActions | ProjectsActions;
+export type Actions = ImagesActions | ProjectsActions | ProjectsImagesActions;
 
 interface DataSet<T> {
   data: Map<string, T>;
@@ -26,11 +29,6 @@ export interface State {
   images: DataSet<Image>;
   projects: DataSet<Project>;
   projectsImages: ProjectsImages;
-}
-
-export interface ProjectImage {
-  imageId: string;
-  projectId: string;
 }
 
 export type ProjectsImages = ProjectImage[];
@@ -62,6 +60,7 @@ interface DataProviderProps {
 const mainReducer = (state: State, action: Actions) => ({
   ...imagesReducer(state, action),
   ...projectsReducer(state, action),
+  ...projectsImagesReducer(state, action),
 });
 
 const DataProvider = ({ children }: DataProviderProps) => {

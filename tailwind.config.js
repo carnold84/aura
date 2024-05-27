@@ -88,6 +88,7 @@ export default {
           "drawerContentShow 500ms cubic-bezier(0.16, 1, 0.3, 1)",
         overlayHide: "overlayHide 250ms cubic-bezier(0.16, 1, 0.3, 1)",
         overlayShow: "overlayShow 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        spinFast: "spin 500ms linear infinite",
       },
     },
   },

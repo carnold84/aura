@@ -98,7 +98,7 @@ const RootLayout = () => {
         </ul>
       </header>
       <main className="flex grow justify-center">
-        <div className="w-full max-w-[1680px] px-10 pb-10 pt-0 md:px-20 md:pb-20">
+        <div className="flex w-full max-w-[1680px] px-10 pb-10 pt-0 md:px-20 md:pb-20">
           <Suspense fallback={<Spinner />}>
             <Outlet />
           </Suspense>

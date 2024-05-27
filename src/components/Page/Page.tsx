@@ -70,7 +70,7 @@ interface PageContentProps extends ComponentPropsWithoutRef<"div"> {
 
 const PageContent = ({ children, className, ...rest }: PageContentProps) => {
   return (
-    <div className={cn("grow", className)} {...rest}>
+    <div className={cn("relative grow", className)} {...rest}>
       {children}
     </div>
   );
@@ -83,7 +83,7 @@ interface PageRootProps extends ComponentPropsWithoutRef<"div"> {
 
 const PageRoot = ({ children, className, ...rest }: PageRootProps) => {
   return (
-    <div className={cn("flex flex-col gap-5", className)} {...rest}>
+    <div className={cn("flex grow flex-col gap-5", className)} {...rest}>
       {children}
     </div>
   );

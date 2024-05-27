@@ -1,4 +1,5 @@
 import Button from "../../../../../components/Button";
+import Page from "../../../../../components/Page";
 import Spinner from "../../../../../components/Spinner";
 import UpdateProjectDialog from "../../../../../containers/UpdateProjectDialog";
 import useBack from "../../../../../hooks/useBack";
@@ -28,10 +29,10 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
   }
 
   return (
-    <div>
-      <div className="flex justify-between">
-        <h1>{project.name}</h1>
-        <div className="flex gap-3">
+    <Page>
+      <Page.Header>
+        <Page.Title>{project.name}</Page.Title>
+        <Page.HeaderControls className="flex gap-3">
           <UpdateProjectDialog project={project}></UpdateProjectDialog>
           <Button
             className="min-w-16"
@@ -40,20 +41,22 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
           >
             {isDeleting ? <Spinner size={20} /> : "Delete"}
           </Button>
-        </div>
-      </div>
-      <ul>
-        {project.images.map(({ id, name, url }) => {
-          return (
-            <li key={id}>
-              {name}
-              <img src={url} width="100" />
-            </li>
-          );
-        })}
-      </ul>
+        </Page.HeaderControls>
+      </Page.Header>
+      <Page.Content>
+        <ul>
+          {project.images.map(({ id, name, url }) => {
+            return (
+              <li key={id}>
+                {name}
+                <img src={url} width="100" />
+              </li>
+            );
+          })}
+        </ul>
+      </Page.Content>
       <ImageList project={project} />
-    </div>
+    </Page>
   );
 };
 

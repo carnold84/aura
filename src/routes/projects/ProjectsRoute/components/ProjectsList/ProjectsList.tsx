@@ -1,4 +1,5 @@
 import Grid from "../../../../../components/Grid";
+import LoadingScreen from "../../../../../components/LoadingScreen";
 import ProjectCard from "../../../../../components/ProjectCard";
 import useProjects from "../../../../../hooks/useProjects";
 
@@ -6,7 +7,7 @@ const ProjectsList = () => {
   const { data, isError, isLoading } = useProjects({ sortBy: "createdAt" });
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingScreen />;
   }
 
   if (isError) {

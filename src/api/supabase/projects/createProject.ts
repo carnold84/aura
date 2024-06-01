@@ -1,6 +1,6 @@
 import { CreateProject, Project } from "../../../types";
 import { client } from "../client";
-import { mapProjectWithImages } from "./utils";
+import { mapProject } from "./utils";
 
 const createProject = async (project: CreateProject): Promise<Project> => {
   if (project) {
@@ -29,7 +29,7 @@ const createProject = async (project: CreateProject): Promise<Project> => {
       throw new Error("Could not create project");
     }
 
-    const newProject = mapProjectWithImages(data[0]);
+    const newProject = mapProject(data[0]);
 
     return Promise.resolve(newProject);
   } else {

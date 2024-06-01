@@ -1,6 +1,6 @@
 import { Project } from "../../../types";
 import { client } from "../client";
-import { mapProjectWithImages } from "./utils";
+import { mapProject } from "./utils";
 
 const getProject = async (id?: string): Promise<Project | null> => {
   if (id) {
@@ -21,7 +21,7 @@ const getProject = async (id?: string): Promise<Project | null> => {
     if (status !== 200) {
       throw new Error("Could not fetch project");
     }
-    const project = mapProjectWithImages(data[0]);
+    const project = mapProject(data[0]);
 
     return Promise.resolve(project);
   } else {

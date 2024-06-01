@@ -47,10 +47,10 @@ const AppMenuCloseButton = ({
           "gap-1 text-neutral-500 hover:bg-neutral-800 hover:text-neutral-50",
           className,
         )}
+        iconLeft={<Xmark className="h-5 w-5" />}
         variant="text"
       >
-        <Xmark className="h-5 w-5" />
-        <span className="mr-1">Close</span>
+        Close
       </Button>
     </Close>
   );

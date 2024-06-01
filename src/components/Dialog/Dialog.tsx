@@ -72,7 +72,7 @@ const DialogFooter = ({ children, className, ...rest }: DialogFooterProps) => {
   return (
     <footer
       className={cn(
-        "flex justify-end gap-2 border-t border-t-neutral-200 p-4",
+        "flex items-center justify-end gap-5 border-t border-t-neutral-200 p-4",
         className,
       )}
       {...rest}

@@ -1,3 +1,4 @@
+import AlertDialog from "../../../../../components/AlertDialog";
 import Button from "../../../../../components/Button";
 import Page from "../../../../../components/Page";
 import Spinner from "../../../../../components/Spinner";
@@ -34,13 +35,28 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
         <Page.Title>{project.name}</Page.Title>
         <Page.HeaderControls className="flex gap-3">
           <UpdateProjectDialog project={project}></UpdateProjectDialog>
-          <Button
-            className="min-w-16"
-            disabled={isDeleting}
-            onClick={() => deleteProject(project)}
-          >
-            {isDeleting ? <Spinner size={20} /> : "Delete"}
-          </Button>
+          <AlertDialog>
+            <AlertDialog.Trigger>
+              <Button className="min-w-20" disabled={isDeleting}>
+                {isDeleting ? <Spinner size={20} /> : "Delete"}
+              </Button>
+            </AlertDialog.Trigger>
+            <AlertDialog.Content>
+              <AlertDialog.Body>
+                <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+                <AlertDialog.Description>
+                  This action cannot be undone. {project.name} will be
+                  permanently deleted.
+                </AlertDialog.Description>
+              </AlertDialog.Body>
+              <AlertDialog.Footer>
+                <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+                <AlertDialog.Action onClick={() => deleteProject(project)}>
+                  Yes, delete project
+                </AlertDialog.Action>
+              </AlertDialog.Footer>
+            </AlertDialog.Content>
+          </AlertDialog>
         </Page.HeaderControls>
       </Page.Header>
       <Page.Content>

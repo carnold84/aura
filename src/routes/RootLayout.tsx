@@ -33,9 +33,9 @@ const RootLayout = () => {
             <AppMenu.Trigger>
               <Button
                 className="absolute right-10 top-8 gap-2 md:right-20 md:top-10"
+                iconLeft={<Menu className="h-4 w-4 text-neutral-600" />}
                 variant="text"
               >
-                <Menu className="h-4 w-4 text-neutral-600" />
                 <span>Menu</span>
               </Button>
             </AppMenu.Trigger>

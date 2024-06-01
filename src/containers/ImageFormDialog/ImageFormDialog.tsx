@@ -89,7 +89,7 @@ const ImageFormDialog = ({
             <Dialog.Close asChild={true} disabled={isLoading}>
               <Button variant="text">Cancel</Button>
             </Dialog.Close>
-            <Button className="min-w-20" variant="contained" type="submit">
+            <Button className="min-w-20" variant="outlined" type="submit">
               {isLoading ? <Spinner size={20} /> : submitBtnLabel}
             </Button>
           </Dialog.Footer>

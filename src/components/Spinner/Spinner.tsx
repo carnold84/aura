@@ -7,11 +7,11 @@ interface SpinnerProps extends ComponentPropsWithRef<"svg"> {
 const Spinner = ({ size = 32, ...rest }: SpinnerProps) => {
   return (
     <div
-      className="relative text-primary-500"
+      className="relative text-neutral-700"
       style={{ height: `${size}px`, width: `${size}px` }}
     >
       <svg
-        className="animate-spinFast absolute duration-100"
+        className="absolute animate-spinFast duration-100"
         height={size}
         fill="none"
         viewBox="0 0 64 64"

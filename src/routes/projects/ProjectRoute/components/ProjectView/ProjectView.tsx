@@ -1,7 +1,7 @@
 import AlertDialog from "../../../../../components/AlertDialog";
-import Button from "../../../../../components/Button";
 import Page from "../../../../../components/Page";
 import Spinner from "../../../../../components/Spinner";
+import TextButton from "../../../../../components/TextButton";
 import UpdateProjectDialog from "../../../../../containers/UpdateProjectDialog";
 import useBack from "../../../../../hooks/useBack";
 import useDeleteProject from "../../../../../hooks/useDeleteProject";
@@ -37,9 +37,9 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
           <UpdateProjectDialog project={project}></UpdateProjectDialog>
           <AlertDialog>
             <AlertDialog.Trigger>
-              <Button className="min-w-20" disabled={isDeleting}>
+              <TextButton className="min-w-14" disabled={isDeleting}>
                 {isDeleting ? <Spinner size={20} /> : "Delete"}
-              </Button>
+              </TextButton>
             </AlertDialog.Trigger>
             <AlertDialog.Content>
               <AlertDialog.Body>

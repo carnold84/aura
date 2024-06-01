@@ -1,4 +1,4 @@
-import Button from "../../components/Button";
+import PrimaryButton from "../../components/PrimaryButton";
 import useUpdateImage from "../../hooks/useUpdateImage";
 import { Image } from "../../types";
 import ImageFormDialog, { ImageFormValues } from "../ImageFormDialog";
@@ -35,7 +35,7 @@ const UpdateImageDialog = ({ image }: UpdateImageDialogProps) => {
       }
       title={`Update ${image.name}`}
     >
-      <Button variant="outlined">Edit</Button>
+      <PrimaryButton>Edit</PrimaryButton>
     </ImageFormDialog>
   );
 };

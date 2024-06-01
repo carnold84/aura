@@ -3,9 +3,9 @@ import { Menu } from "iconoir-react";
 import { Suspense, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
-import Button from "../components/Button";
 import LogoLink from "../components/LogoLink";
 import Spinner from "../components/Spinner";
+import TextButton from "../components/TextButton";
 import AppMenu from "../containers/AppMenu";
 import { useAuth } from "../context/AuthProvider";
 
@@ -25,19 +25,15 @@ const RootLayout = () => {
         <div className="absolute left-10 top-11 md:left-20 md:top-16">
           <LogoLink />
         </div>
-        <div className="md:hidden">
+        <div className="absolute right-10 top-10 md:hidden">
           <AppMenu
             onOpenChange={(open) => setIsMenuOpen(open)}
             open={isMenuOpen}
           >
             <AppMenu.Trigger>
-              <Button
-                className="absolute right-10 top-8 gap-2 md:right-20 md:top-10"
-                iconLeft={<Menu className="h-4 w-4 text-neutral-600" />}
-                variant="text"
-              >
-                <span>Menu</span>
-              </Button>
+              <TextButton iconLeft={<Menu className="mx-1 h-4 w-4" />}>
+                Menu
+              </TextButton>
             </AppMenu.Trigger>
             <AppMenu.Content>
               <header className="flex h-24 shrink-0 items-center justify-between md:h-32">
@@ -69,15 +65,9 @@ const RootLayout = () => {
                 </ul>
               </div>
               <footer className="flex shrink-0 p-6">
-                <Button
-                  className="text-neutral-400 hover:text-neutral-200 hover:decoration-neutral-200"
-                  onClick={signOut}
-                  variant="link"
-                >
-                  Sign Out
-                </Button>
+                <TextButton onClick={signOut}>Sign Out</TextButton>
               </footer>
-              <AppMenu.CloseButton className="absolute right-10 top-8 md:right-20 md:top-10" />
+              <AppMenu.CloseButton className="absolute right-10 top-10" />
             </AppMenu.Content>
           </AppMenu>
         </div>

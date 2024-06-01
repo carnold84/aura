@@ -1,4 +1,4 @@
-import Button from "../../components/Button";
+import TextButton from "../../components/TextButton";
 import useUpdateProject from "../../hooks/useUpdateProject";
 import { Project } from "../../types";
 import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
@@ -35,7 +35,7 @@ const UpdateProjectDialog = ({ project }: UpdateProjectDialogProps) => {
       }
       title={`Update ${project.name}`}
     >
-      <Button variant="outlined">Edit</Button>
+      <TextButton>Edit</TextButton>
     </ProjectFormDialog>
   );
 };

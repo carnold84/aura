@@ -2,26 +2,25 @@ import { Slot } from "@radix-ui/react-slot";
 import { ComponentPropsWithoutRef, ReactNode, forwardRef } from "react";
 
 import cn from "../../utils/cn";
-import classes from "./Button.module.css";
 
-interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
+export interface BaseButtonProps extends ComponentPropsWithoutRef<"button"> {
   asChild?: boolean;
   children: ReactNode;
   className?: string;
+  contentClassName?: string;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
-  variant?: "link" | "outlined" | "text";
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
   (
     {
       asChild = false,
       children,
       className,
+      contentClassName,
       iconLeft,
       iconRight,
-      variant = "outlined",
       ...rest
     },
     ref,
@@ -30,12 +29,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         className={cn(
-          classes.base,
+          "relative z-0 flex shrink-0 items-center justify-center gap-0.5 font-display text-sm font-light transition-colors duration-200",
           {
-            [classes.link]: variant === "link",
-            [classes.outlined]: variant === "outlined",
-            [classes.text]: variant === "text",
-            [classes.iconBoth]: !iconLeft && !iconRight,
+            "px-0": !iconLeft && !iconRight,
           },
           className,
         )}
@@ -43,11 +39,15 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...rest}
       >
         <span
-          className={cn(classes.content, {
-            [classes.iconLeft]: iconLeft && !iconRight,
-            [classes.iconRight]: !iconLeft && iconRight,
-            [classes.iconBoth]: !iconLeft && !iconRight,
-          })}
+          className={cn(
+            "z-10 flex items-center gap-0.5",
+            {
+              "pr-1.5": iconLeft && !iconRight,
+              "pl-1.5": !iconLeft && iconRight,
+              "px-0": !iconLeft && !iconRight,
+            },
+            contentClassName,
+          )}
         >
           {iconLeft}
           {children}
@@ -58,4 +58,4 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-export default Button;
+export default BaseButton;

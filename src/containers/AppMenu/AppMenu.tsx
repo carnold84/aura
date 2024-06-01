@@ -13,7 +13,7 @@ import {
 } from "@radix-ui/react-dialog";
 import { Xmark } from "iconoir-react";
 
-import Button from "../../components/Button";
+import TextButton from "../../components/TextButton";
 import cn from "../../utils/cn";
 
 const AppMenuContent = ({
@@ -42,16 +42,13 @@ const AppMenuCloseButton = ({
 }: Omit<DialogCloseProps, "asChild">) => {
   return (
     <Close asChild={true} {...rest}>
-      <Button
-        className={cn(
-          "gap-1 text-neutral-500 hover:bg-neutral-800 hover:text-neutral-50",
-          className,
-        )}
+      <TextButton
+        className={cn("gap-1", className)}
         iconLeft={<Xmark className="h-5 w-5" />}
-        variant="text"
+        isInverted={true}
       >
         Close
-      </Button>
+      </TextButton>
     </Close>
   );
 };

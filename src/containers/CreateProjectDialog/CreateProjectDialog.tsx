@@ -1,6 +1,6 @@
 import { Plus } from "iconoir-react";
 
-import Button from "../../components/Button";
+import TextButton from "../../components/TextButton";
 import useCreateProject from "../../hooks/useCreateProject";
 import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
 
@@ -29,9 +29,7 @@ const CreateProjectDialog = () => {
       }
       title="Create Project"
     >
-      <Button iconLeft={<Plus className="h-5 w-5" />} variant="text">
-        Create
-      </Button>
+      <TextButton iconLeft={<Plus className="h-5 w-5" />}>Create</TextButton>
     </ProjectFormDialog>
   );
 };

@@ -20,7 +20,8 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ComponentPropsWithRef, ReactNode } from "react";
 
 import cn from "../../utils/cn";
-import Button from "../Button";
+import PrimaryButton from "../PrimaryButton";
+import TextButton from "../TextButton";
 
 const AlertDialogAction = ({
   asChild = true,
@@ -30,7 +31,7 @@ const AlertDialogAction = ({
 }: AlertDialogActionProps) => {
   return (
     <Action asChild={asChild} className={className} {...rest}>
-      <Button variant="outlined">{children}</Button>
+      <PrimaryButton>{children}</PrimaryButton>
     </Action>
   );
 };
@@ -60,7 +61,7 @@ const AlertDialogCancel = ({
 }: AlertDialogCancelProps) => {
   return (
     <Cancel asChild={asChild} className={className} {...rest}>
-      <Button variant="text">{children}</Button>
+      <TextButton>{children}</TextButton>
     </Cancel>
   );
 };
@@ -124,7 +125,7 @@ const AlertDialogFooter = ({
 }: AlertDialogFooterProps) => {
   return (
     <footer
-      className={cn("flex justify-end gap-2 p-7 pt-5", className)}
+      className={cn("flex justify-end gap-4 p-7 pt-5", className)}
       {...rest}
     >
       {children}
@@ -139,7 +140,7 @@ const AlertDialogTitle = ({
 }: AlertDialogTitleProps) => {
   return (
     <Title
-      className={cn("text-base font-semibold text-neutral-700", className)}
+      className={cn("text-lg font-medium text-neutral-700", className)}
       {...rest}
     >
       {children}

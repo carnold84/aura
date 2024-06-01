@@ -1,6 +1,6 @@
-import Button from "../../../../../components/Button";
 import Page from "../../../../../components/Page";
 import Spinner from "../../../../../components/Spinner";
+import TextButton from "../../../../../components/TextButton";
 import UpdateImageDialog from "../../../../../containers/UpdateImageDialog";
 import useBack from "../../../../../hooks/useBack";
 import useDeleteImage from "../../../../../hooks/useDeleteImage";
@@ -34,9 +34,9 @@ const ImageView = ({ imageId }: { imageId: string }) => {
         <Page.Title>{image.name}</Page.Title>
         <Page.HeaderControls>
           <UpdateImageDialog image={image} />
-          <Button className="min-w-20" onClick={() => deleteImage(image)}>
+          <TextButton className="min-w-14" onClick={() => deleteImage(image)}>
             {isDeleting ? <Spinner size={20} /> : "Delete"}
-          </Button>
+          </TextButton>
         </Page.HeaderControls>
       </Page.Header>
       <Page.Content>

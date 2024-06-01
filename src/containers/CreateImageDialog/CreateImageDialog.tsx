@@ -1,6 +1,6 @@
 import { Plus } from "iconoir-react";
 
-import Button from "../../components/Button";
+import TextButton from "../../components/TextButton";
 import useCreateImage from "../../hooks/useCreateImage";
 import ImageFormDialog, { ImageFormValues } from "../ImageFormDialog";
 
@@ -27,9 +27,7 @@ const CreateImageDialog = () => {
       successMessage={isSuccess ? "Image was successfully created." : undefined}
       title="Create Image"
     >
-      <Button iconLeft={<Plus className="h-5 w-5" />} variant="text">
-        Create
-      </Button>
+      <TextButton iconLeft={<Plus className="h-5 w-5" />}>Create</TextButton>
     </ImageFormDialog>
   );
 };

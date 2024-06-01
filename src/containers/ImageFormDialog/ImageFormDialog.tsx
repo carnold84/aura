@@ -2,9 +2,10 @@ import { ReactNode, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Alert from "../../components/Alert";
-import Button from "../../components/Button";
 import Dialog from "../../components/Dialog/Dialog";
+import PrimaryButton from "../../components/PrimaryButton";
 import Spinner from "../../components/Spinner";
+import TextButton from "../../components/TextButton";
 import TextField from "../../components/TextField";
 import { Image } from "../../types";
 
@@ -87,11 +88,11 @@ const ImageFormDialog = ({
           </Dialog.Body>
           <Dialog.Footer>
             <Dialog.Close asChild={true} disabled={isLoading}>
-              <Button variant="text">Cancel</Button>
+              <TextButton>Cancel</TextButton>
             </Dialog.Close>
-            <Button className="min-w-20" variant="outlined" type="submit">
+            <PrimaryButton className="min-w-20" type="submit">
               {isLoading ? <Spinner size={20} /> : submitBtnLabel}
-            </Button>
+            </PrimaryButton>
           </Dialog.Footer>
         </form>
       </Dialog.Content>

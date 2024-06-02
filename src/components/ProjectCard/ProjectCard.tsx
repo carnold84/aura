@@ -18,7 +18,7 @@ const ProjectCard = ({ project, to, ...rest }: ProjectCardProps) => {
   return (
     <Card {...rest}>
       <Link to={to}>
-        <Card.Image src={project.imageUrl || undefined} />
+        <Card.Img src={project.imageUrl || undefined} />
       </Link>
       <Card.Content className="gap-1">
         <Card.Title className="hover:text-primary-700">

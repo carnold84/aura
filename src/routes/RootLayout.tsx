@@ -71,17 +71,15 @@ const RootLayout = () => {
             </AppMenu.Content>
           </AppMenu>
         </div>
-        <ul className="absolute right-20 top-16 hidden gap-4 md:flex">
+        <ul className="absolute right-20 top-16 hidden gap-6 md:flex">
           {routes.map(({ label, to }) => {
             return (
               <li key={label}>
-                <Link
-                  className="font-display text-base font-light text-neutral-600 hover:text-neutral-800"
-                  onClick={() => setIsMenuOpen(false)}
-                  to={to}
-                >
-                  {label}
-                </Link>
+                <TextButton asChild={true}>
+                  <Link onClick={() => setIsMenuOpen(false)} to={to}>
+                    {label}
+                  </Link>
+                </TextButton>
               </li>
             );
           })}

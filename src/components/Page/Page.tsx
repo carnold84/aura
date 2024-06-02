@@ -2,6 +2,8 @@ import { Slot } from "@radix-ui/react-slot";
 import { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import cn from "../../utils/cn";
+import BaseGrid from "../BaseGrid";
+import { BaseGridRootProps } from "../BaseGrid/BaseGrid";
 
 interface PageTitleProps extends ComponentPropsWithoutRef<"h1"> {
   asChild?: boolean;
@@ -25,6 +27,7 @@ const PageTitle = ({
       )}
       {...rest}
     >
+      {!children && <span className="h-6 w-28 bg-neutral-100" />}
       {children}
     </Comp>
   );
@@ -63,6 +66,10 @@ const PageHeaderControls = ({
   );
 };
 
+const PageGrid = ({ children }: BaseGridRootProps) => {
+  return <BaseGrid className="">{children}</BaseGrid>;
+};
+
 interface PageContentProps extends ComponentPropsWithoutRef<"div"> {
   children: ReactNode;
   className?: string;
@@ -92,6 +99,8 @@ const PageRoot = ({ children, className, ...rest }: PageRootProps) => {
 PageRoot.Content = PageContent;
 PageRoot.Header = PageHeader;
 PageRoot.HeaderControls = PageHeaderControls;
+PageRoot.Grid = PageGrid;
+PageRoot.GridItem = BaseGrid.Item;
 PageRoot.Title = PageTitle;
 
 export default PageRoot;

@@ -35,8 +35,8 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
           },
           className,
         )}
-        ref={ref}
         {...rest}
+        ref={ref}
       >
         <span
           className={cn(

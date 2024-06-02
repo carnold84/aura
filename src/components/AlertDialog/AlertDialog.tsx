@@ -125,7 +125,7 @@ const AlertDialogFooter = ({
 }: AlertDialogFooterProps) => {
   return (
     <footer
-      className={cn("flex justify-end gap-4 p-7 pt-5", className)}
+      className={cn("flex items-center justify-end gap-4 p-7 pt-5", className)}
       {...rest}
     >
       {children}

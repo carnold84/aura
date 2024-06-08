@@ -1,13 +1,7 @@
-import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { ReactNode } from "react";
 
-import Alert from "../../components/Alert";
-import Dialog from "../../components/Dialog/Dialog";
-import PrimaryButton from "../../components/PrimaryButton";
-import Spinner from "../../components/Spinner";
-import TextButton from "../../components/TextButton/TextButton";
-import TextField from "../../components/TextField";
 import { Project } from "../../types";
+import FormDialog from "../FormDialog";
 
 export type ProjectFormValues = Omit<
   Project,
@@ -15,6 +9,7 @@ export type ProjectFormValues = Omit<
 >;
 
 interface ProjectFormDialogProps {
+  children?: ReactNode;
   defaultValues?: ProjectFormValues;
   errorMessage?: string;
   isLoading?: boolean;
@@ -27,77 +22,51 @@ interface ProjectFormDialogProps {
 }
 
 const ProjectFormDialog = ({
+  children,
   defaultValues,
   errorMessage,
   isLoading = false,
   isOpen = false,
   onOpenChange,
-  onSubmit: onSubmitProp,
+  onSubmit,
   submitBtnLabel = "Save",
   successMessage,
   title,
 }: ProjectFormDialogProps) => {
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-    reset,
-  } = useForm({ defaultValues });
-  const onSubmit: SubmitHandler<ProjectFormValues> = async (
-    data: ProjectFormValues,
-  ) => {
-    await onSubmitProp(data);
-  };
-
-  useEffect(() => {
-    if (isOpen === false) {
-      reset(defaultValues);
-    }
-  }, [defaultValues, isOpen, isLoading, reset]);
-
   return (
-    <Dialog
-      open={isOpen}
+    <FormDialog
+      defaultValues={defaultValues}
+      errorMessage={errorMessage}
+      fields={[
+        {
+          label: "Project Name",
+          name: "name",
+          type: "text",
+          required: true,
+        },
+        {
+          label: "Description",
+          name: "description",
+          type: "text",
+        },
+        {
+          label: "Image Url",
+          name: "imageUrl",
+          type: "text",
+        },
+      ]}
+      isLoading={isLoading}
+      isOpen={isOpen}
       onOpenChange={(open) => {
         onOpenChange && onOpenChange(open);
       }}
+      onSubmit={onSubmit}
+      submitBtnLabel={submitBtnLabel}
+      successMessage={successMessage}
+      title={title}
     >
-      <Dialog.Content>
-        <Dialog.Header title={title} />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Dialog.Body className="flex flex-col gap-3">
-            {successMessage && (
-              <Alert variant="success">{successMessage}</Alert>
-            )}
-            {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
-            <TextField
-              disabled={isLoading}
-              error={errors["name"]?.message}
-              label="Project Name"
-              {...register("name", { required: "Name is required" })}
-            />
-            <TextField
-              disabled={isLoading}
-              label="Description"
-              {...register("description")}
-            />
-            <TextField
-              disabled={isLoading}
-              label="Image Url"
-              {...register("imageUrl")}
-            />
-          </Dialog.Body>
-          <Dialog.Footer>
-            <Dialog.Close asChild={true} disabled={isLoading}>
-              <TextButton>Cancel</TextButton>
-            </Dialog.Close>
-            <PrimaryButton className="min-w-20" type="submit">
-              {isLoading ? <Spinner size={20} /> : submitBtnLabel}
-            </PrimaryButton>
-          </Dialog.Footer>
-        </form>
-      </Dialog.Content>
-    </Dialog>
+      {children}
+    </FormDialog>
   );
 };
 

@@ -19,5 +19,5 @@ export type CreateImage = Omit<
 
 export type UpdateImage = Omit<
   Image,
-  "createdAt" | "projects" | "srcUrl" | "updatedAt" | "userId"
+  "createdAt" | "projects" | "srcUrl" | "updatedAt" | "url" | "userId"
 >;

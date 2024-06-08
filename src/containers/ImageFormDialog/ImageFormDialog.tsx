@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Alert from "../../components/Alert";
@@ -15,10 +15,10 @@ export type ImageFormValues = Omit<
 >;
 
 interface ImageFormDialogProps {
-  children: ReactNode;
   defaultValues?: ImageFormValues;
   errorMessage?: string;
   isLoading?: boolean;
+  isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   onSubmit: (data: ImageFormValues) => void;
   submitBtnLabel?: string;
@@ -27,17 +27,16 @@ interface ImageFormDialogProps {
 }
 
 const ImageFormDialog = ({
-  children,
   defaultValues,
   errorMessage,
   isLoading = false,
+  isOpen = false,
   onOpenChange,
   onSubmit: onSubmitProp,
   submitBtnLabel = "Save",
   successMessage,
   title,
 }: ImageFormDialogProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   const {
     formState: { errors },
     handleSubmit,
@@ -60,11 +59,9 @@ const ImageFormDialog = ({
     <Dialog
       open={isOpen}
       onOpenChange={(open) => {
-        setIsOpen(open);
         onOpenChange && onOpenChange(open);
       }}
     >
-      <Dialog.Trigger asChild={true}>{children}</Dialog.Trigger>
       <Dialog.Content>
         <Dialog.Header title={title} />
         <form onSubmit={handleSubmit(onSubmit)}>

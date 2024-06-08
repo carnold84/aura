@@ -1,6 +1,9 @@
-import { ReactNode } from "react";
+import { NavArrowDown } from "iconoir-react";
+import { ReactNode, useState } from "react";
 
+import DropdownMenu from "../../../../../components/DropdownMenu";
 import Page from "../../../../../components/Page";
+import TextButton from "../../../../../components/TextButton";
 import DeleteDialog from "../../../../../containers/DeleteDialog";
 import UpdateImageDialog from "../../../../../containers/UpdateImageDialog";
 import useBack from "../../../../../hooks/useBack";
@@ -29,11 +32,13 @@ interface ImageViewProps {
 const ImageView = ({ imageId }: ImageViewProps) => {
   const back = useBack("/images");
   const { data: image, isError, isLoading } = useImage({ id: imageId });
-  const { deleteImage, isLoading: isDeleting } = useDeleteImage({
+  const { deleteImage } = useDeleteImage({
     onSuccess: () => {
       back();
     },
   });
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const createdAt = useFormatDateRelative(image?.createdAt);
   const updatedAt = useFormatDateRelative(image?.updatedAt);
 
@@ -43,12 +48,21 @@ const ImageView = ({ imageId }: ImageViewProps) => {
         <Page.Title>{image?.name}</Page.Title>
         {image && (
           <Page.HeaderControls>
-            <UpdateImageDialog image={image} />
-            <DeleteDialog
-              isDeleting={isDeleting}
-              name={image.name}
-              onDelete={() => deleteImage(image)}
-            />
+            <DropdownMenu>
+              <DropdownMenu.Trigger>
+                <TextButton iconLeft={<NavArrowDown className="h-5 w-5" />}>
+                  Menu
+                </TextButton>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content align="end">
+                <DropdownMenu.Item onClick={() => setIsEditOpen(true)}>
+                  Edit {image.name}
+                </DropdownMenu.Item>
+                <DropdownMenu.Item onClick={() => setIsDeleteOpen(true)}>
+                  Delete {image.name}
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu>
           </Page.HeaderControls>
         )}
       </Page.Header>
@@ -74,6 +88,25 @@ const ImageView = ({ imageId }: ImageViewProps) => {
           </div>
         )}
       </Page.Content>
+      {image && (
+        <>
+          <DeleteDialog
+            isOpen={isDeleteOpen}
+            name={image.name}
+            onDelete={async () => {
+              await deleteImage(image);
+            }}
+            onOpenChange={() => setIsDeleteOpen(false)}
+          />
+          <UpdateImageDialog
+            image={image}
+            isOpen={isEditOpen}
+            onOpenChange={(open) => {
+              setIsEditOpen(open);
+            }}
+          />
+        </>
+      )}
     </Page>
   );
 };

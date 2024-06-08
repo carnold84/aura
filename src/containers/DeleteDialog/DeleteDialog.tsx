@@ -1,25 +1,26 @@
+import { useState } from "react";
+
 import AlertDialog from "../../components/AlertDialog";
 import Spinner from "../../components/Spinner";
-import TextButton from "../../components/TextButton";
 
 interface DeleteDialogProps {
   isDeleting?: boolean;
+  isOpen: boolean;
   name: string;
-  onDelete: () => void;
+  onDelete: () => Promise<void>;
+  onOpenChange: (open: boolean) => void;
 }
 
 const DeleteDialog = ({
-  isDeleting = false,
+  isOpen,
   name,
   onDelete,
+  onOpenChange,
 }: DeleteDialogProps) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   return (
-    <AlertDialog>
-      <AlertDialog.Trigger asChild={true}>
-        <TextButton className="min-w-14" disabled={isDeleting}>
-          {isDeleting ? <Spinner size={20} /> : "Delete"}
-        </TextButton>
-      </AlertDialog.Trigger>
+    <AlertDialog onOpenChange={onOpenChange} open={isOpen}>
       <AlertDialog.Content>
         <AlertDialog.Body>
           <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
@@ -28,9 +29,19 @@ const DeleteDialog = ({
           </AlertDialog.Description>
         </AlertDialog.Body>
         <AlertDialog.Footer>
-          <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-          <AlertDialog.Action onClick={onDelete}>
-            Yes, delete it
+          <AlertDialog.Cancel disabled={isDeleting}>Cancel</AlertDialog.Cancel>
+          <AlertDialog.Action
+            className="min-w-32"
+            disabled={isDeleting}
+            onClick={async (evt) => {
+              evt.preventDefault();
+              setIsDeleting(true);
+              await onDelete();
+              onOpenChange(false);
+              setIsDeleting(false);
+            }}
+          >
+            {isDeleting ? <Spinner size={20} /> : "Yes, delete it"}
           </AlertDialog.Action>
         </AlertDialog.Footer>
       </AlertDialog.Content>

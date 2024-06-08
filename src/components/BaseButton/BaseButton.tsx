@@ -29,7 +29,7 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
     return (
       <Comp
         className={cn(
-          "relative z-0 flex shrink-0 items-center justify-center gap-0.5 font-display text-sm font-light transition-colors duration-200",
+          "relative z-0 flex shrink-0 items-center justify-center gap-0.5 font-display text-sm font-light transition-colors duration-200 focus:outline-none",
           {
             "px-0": !iconLeft && !iconRight,
           },
@@ -40,7 +40,7 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
       >
         <span
           className={cn(
-            "z-10 flex items-center gap-0.5",
+            "z-10 flex items-center gap-1",
             {
               "pr-1.5": iconLeft && !iconRight,
               "pl-1.5": !iconLeft && iconRight,

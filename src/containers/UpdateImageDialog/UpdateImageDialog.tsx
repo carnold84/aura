@@ -1,13 +1,18 @@
-import PrimaryButton from "../../components/PrimaryButton";
 import useUpdateImage from "../../hooks/useUpdateImage";
 import { Image } from "../../types";
 import ImageFormDialog, { ImageFormValues } from "../ImageFormDialog";
 
 interface UpdateImageDialogProps {
   image: Image;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-const UpdateImageDialog = ({ image }: UpdateImageDialogProps) => {
+const UpdateImageDialog = ({
+  image,
+  isOpen,
+  onOpenChange,
+}: UpdateImageDialogProps) => {
   const { updateImage, isError, isLoading, isSuccess, reset } =
     useUpdateImage();
   const onSubmit = async (data: ImageFormValues) => {
@@ -23,10 +28,12 @@ const UpdateImageDialog = ({ image }: UpdateImageDialogProps) => {
         isError ? "Sorry. We couldn't update your image. :(" : undefined
       }
       isLoading={isLoading}
+      isOpen={isOpen}
       onOpenChange={(open) => {
         if (open === false) {
           reset();
         }
+        onOpenChange && onOpenChange(open);
       }}
       onSubmit={onSubmit}
       submitBtnLabel="Update"
@@ -34,9 +41,7 @@ const UpdateImageDialog = ({ image }: UpdateImageDialogProps) => {
         isSuccess ? `${image.name} was successfully updated.` : undefined
       }
       title={`Update ${image.name}`}
-    >
-      <PrimaryButton>Edit</PrimaryButton>
-    </ImageFormDialog>
+    />
   );
 };
 

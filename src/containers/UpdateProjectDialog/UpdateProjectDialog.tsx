@@ -1,13 +1,18 @@
-import TextButton from "../../components/TextButton";
 import useUpdateProject from "../../hooks/useUpdateProject";
 import { Project } from "../../types";
 import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
 
 interface UpdateProjectDialogProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
   project: Project;
 }
 
-const UpdateProjectDialog = ({ project }: UpdateProjectDialogProps) => {
+const UpdateProjectDialog = ({
+  isOpen,
+  onOpenChange,
+  project,
+}: UpdateProjectDialogProps) => {
   const { updateProject, isError, isLoading, isSuccess, reset } =
     useUpdateProject();
   const onSubmit = async (data: ProjectFormValues) => {
@@ -23,10 +28,12 @@ const UpdateProjectDialog = ({ project }: UpdateProjectDialogProps) => {
         isError ? "Sorry. We couldn't update your project. :(" : undefined
       }
       isLoading={isLoading}
+      isOpen={isOpen}
       onOpenChange={(open) => {
         if (open === false) {
           reset();
         }
+        onOpenChange && onOpenChange(open);
       }}
       onSubmit={onSubmit}
       submitBtnLabel="Update"
@@ -34,9 +41,7 @@ const UpdateProjectDialog = ({ project }: UpdateProjectDialogProps) => {
         isSuccess ? `${project.name} was successfully updated.` : undefined
       }
       title={`Update ${project.name}`}
-    >
-      <TextButton>Edit</TextButton>
-    </ProjectFormDialog>
+    />
   );
 };
 

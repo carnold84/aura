@@ -40,6 +40,10 @@ const router = createBrowserRouter([
             path: ":projectId",
             element: <ProjectRoute />,
           },
+          {
+            path: ":projectId/images/:imageId",
+            element: <ImageRoute />,
+          },
         ],
       },
       {

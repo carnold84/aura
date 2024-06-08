@@ -4,6 +4,7 @@ import { ComponentPropsWithoutRef, ReactNode } from "react";
 import cn from "../../utils/cn";
 import BaseGrid from "../BaseGrid";
 import { BaseGridRootProps } from "../BaseGrid/BaseGrid";
+import LoadingScreen from "../LoadingScreen";
 
 interface PageTitleProps extends ComponentPropsWithoutRef<"h1"> {
   asChild?: boolean;
@@ -67,18 +68,28 @@ const PageHeaderControls = ({
 };
 
 const PageGrid = ({ children }: BaseGridRootProps) => {
-  return <BaseGrid className="">{children}</BaseGrid>;
+  return (
+    <BaseGrid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {children}
+    </BaseGrid>
+  );
 };
 
 interface PageContentProps extends ComponentPropsWithoutRef<"div"> {
   children: ReactNode;
   className?: string;
+  isLoading?: boolean;
 }
 
-const PageContent = ({ children, className, ...rest }: PageContentProps) => {
+const PageContent = ({
+  children,
+  className,
+  isLoading = false,
+  ...rest
+}: PageContentProps) => {
   return (
     <div className={cn("relative grow", className)} {...rest}>
-      {children}
+      {isLoading ? <LoadingScreen /> : children}
     </div>
   );
 };

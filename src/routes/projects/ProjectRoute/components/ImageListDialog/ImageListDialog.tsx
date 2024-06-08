@@ -1,9 +1,9 @@
 import Dialog from "../../../../../components/Dialog";
 import LoadingScreen from "../../../../../components/LoadingScreen";
 import TextButton from "../../../../../components/TextButton";
-import ImageCard from "../../../../../containers/ImageCard";
 import useImages from "../../../../../hooks/useImages";
 import { Project } from "../../../../../types";
+import AddImageCard from "../AddImageCard";
 
 interface ImageListDialogProps {
   project: Project;
@@ -27,7 +27,7 @@ const ImageListDialog = ({ project }: ImageListDialogProps) => {
               {images?.map((image) => {
                 return (
                   <li key={image.id}>
-                    <ImageCard image={image} project={project} />
+                    <AddImageCard image={image} project={project} />
                   </li>
                 );
               })}

@@ -16,7 +16,6 @@ import {
   Title,
   Trigger,
 } from "@radix-ui/react-alert-dialog";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ComponentPropsWithRef, ReactNode } from "react";
 
 import cn from "../../utils/cn";
@@ -47,7 +46,7 @@ const AlertDialogBody = ({
   ...rest
 }: AlertDialogBodyProps) => {
   return (
-    <div className={cn("flex flex-col gap-1 px-7 pt-7", className)} {...rest}>
+    <div className={cn("flex flex-col gap-2 px-7 pt-7", className)} {...rest}>
       {children}
     </div>
   );
@@ -68,13 +67,11 @@ const AlertDialogCancel = ({
 
 interface AlertDialogContentProps extends RadixAlertDialogContentProps {
   className?: string;
-  description?: string;
 }
 
 const AlertDialogContent = ({
   children,
   className,
-  description,
   ...rest
 }: AlertDialogContentProps) => {
   return (
@@ -82,17 +79,12 @@ const AlertDialogContent = ({
       <Overlay className="fixed inset-0 bg-black/25 data-[state=closed]:animate-overlayHide data-[state=open]:animate-overlayShow" />
       <Content
         className={cn(
-          "fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] bg-white shadow-xl focus:outline-none data-[state=closed]:animate-dialogContentHide data-[state=open]:animate-dialogContentShow",
+          "fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 bg-white shadow-xl focus:outline-none data-[state=closed]:animate-dialogContentHide data-[state=open]:animate-dialogContentShow",
           className,
         )}
         {...rest}
       >
         {children}
-        {description && (
-          <VisuallyHidden>
-            <Description>{description}</Description>
-          </VisuallyHidden>
-        )}
       </Content>
     </Portal>
   );
@@ -105,7 +97,7 @@ const AlertDialogDescription = ({
 }: AlertDialogDescriptionProps) => {
   return (
     <Description
-      className={cn("text-base text-neutral-600", className)}
+      className={cn("text-sm text-neutral-600", className)}
       {...rest}
     >
       {children}
@@ -140,7 +132,10 @@ const AlertDialogTitle = ({
 }: AlertDialogTitleProps) => {
   return (
     <Title
-      className={cn("text-lg font-medium text-neutral-700", className)}
+      className={cn(
+        "font-display text-lg font-normal text-neutral-700",
+        className,
+      )}
       {...rest}
     >
       {children}

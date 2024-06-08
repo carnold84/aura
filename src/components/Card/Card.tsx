@@ -38,7 +38,7 @@ const CardImg = ({ className, src, ...rest }: CardImgProps) => {
   return (
     <div
       className={cn(
-        "flex aspect-[3/2] w-auto items-center justify-center overflow-hidden border border-neutral-100 text-neutral-300 transition-transform duration-200 group-hover:scale-95 md:w-full",
+        "flex aspect-[3/2] w-auto items-center justify-center overflow-hidden border border-neutral-400 text-neutral-300 transition-transform duration-200 group-hover:scale-95 md:w-full",
         className,
       )}
     >

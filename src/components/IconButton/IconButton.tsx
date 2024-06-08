@@ -4,18 +4,15 @@ import cn from "../../utils/cn";
 
 interface IconButtonProps extends ComponentPropsWithoutRef<"button"> {
   children: ReactNode;
-  variant?: "outlined" | "plain";
 }
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ children, className, variant = "plain", ...rest }, ref) => {
+  ({ children, className, ...rest }, ref) => {
     return (
       <button
         className={cn(
-          "shrink-0 rounded-xl p-2 text-neutral-400 hover:bg-slate-100 hover:text-neutral-800",
-          {
-            "border border-neutral-300": variant === "outlined",
-          },
+          "relative shrink-0 p-1.5 text-neutral-400 before:-bottom-0 before:border-b before:border-neutral-600 hover:text-neutral-800",
+          "before:absolute before:left-0 before:w-full before:origin-left before:scale-x-0 before:content-normal before:transition-transform before:duration-200 before:ease-out before:hover:scale-x-100",
           className,
         )}
         ref={ref}

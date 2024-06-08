@@ -1,16 +1,16 @@
-import Card from "../../components/Card";
-import LoadingScreen from "../../components/LoadingScreen";
-import TextButton from "../../components/TextButton";
-import useLinkImageToProject from "../../hooks/useLinkImageToProject";
-import useUnlinkImageFromProject from "../../hooks/useUnlinkImageFromProject";
-import { Image, Project } from "../../types";
+import Card from "../../../../../components/Card";
+import LoadingScreen from "../../../../../components/LoadingScreen";
+import TextButton from "../../../../../components/TextButton";
+import useLinkImageToProject from "../../../../../hooks/useLinkImageToProject";
+import useUnlinkImageFromProject from "../../../../../hooks/useUnlinkImageFromProject";
+import { Image, Project } from "../../../../../types";
 
-interface ImageCardProps {
+interface AddImageCardProps {
   image: Image;
   project: Project;
 }
 
-const ImageCard = ({ image, project }: ImageCardProps) => {
+const AddImageCard = ({ image, project }: AddImageCardProps) => {
   const {
     linkImageToProject,
     isError: isLinkError,
@@ -67,4 +67,4 @@ const ImageCard = ({ image, project }: ImageCardProps) => {
   );
 };
 
-export default ImageCard;
+export default AddImageCard;

@@ -18,6 +18,8 @@ export default {
           "drawerContentShow 500ms cubic-bezier(0.16, 1, 0.3, 1)",
         overlayHide: "overlayHide 250ms cubic-bezier(0.16, 1, 0.3, 1)",
         overlayShow: "overlayShow 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        snackbarHide: "snackbarHide 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        snackbarShow: "snackbarShow 250ms cubic-bezier(0.16, 1, 0.3, 1)",
         spinFast: "spin 500ms linear infinite",
       },
       colors: {
@@ -27,13 +29,14 @@ export default {
       },
       fontFamily: {
         display: [
-          '"Inter", sans-serif',
+          '"Poppins", sans-serif',
           {
             fontOpticalSizing: "auto",
             fontVariationSettings: '"slnt" 0',
           },
         ],
       },
+      fontSize: {},
       keyframes: {
         appMenuHide: {
           "0%": {
@@ -88,6 +91,22 @@ export default {
         overlayShow: {
           from: { opacity: "0" },
           to: { opacity: "1" },
+        },
+        snackbarHide: {
+          from: {
+            transform: "translate(0, 0)",
+          },
+          to: {
+            transform: "translate(0, -100%)",
+          },
+        },
+        snackbarShow: {
+          from: {
+            transform: "translate(0, -100%)",
+          },
+          to: {
+            transform: "translate(0, 0)",
+          },
         },
       },
     },

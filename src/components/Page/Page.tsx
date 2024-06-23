@@ -23,7 +23,7 @@ const PageTitle = ({
   return (
     <Comp
       className={cn(
-        "font-display text-4xl font-light uppercase text-neutral-600 md:text-5xl",
+        "font-display text-4xl font-light text-neutral-600 md:text-5xl",
         className,
       )}
       {...rest}
@@ -31,6 +31,37 @@ const PageTitle = ({
       {!children && <span className="h-6 w-28 bg-neutral-100" />}
       {children}
     </Comp>
+  );
+};
+
+interface PageEmptyMessageProps extends ComponentPropsWithoutRef<"header"> {
+  children: ReactNode;
+  className?: string;
+  description: string;
+  title: string;
+}
+
+const PageEmptyMessage = ({
+  children,
+  className,
+  description,
+  title,
+  ...rest
+}: PageEmptyMessageProps) => {
+  return (
+    <div
+      className={cn(
+        "flex h-full w-full flex-col items-center justify-center gap-5",
+        className,
+      )}
+      {...rest}
+    >
+      <div className="mb-10 flex max-w-[768px] flex-col items-center gap-3">
+        <h2 className="text-center font-display text-2xl">{title}</h2>
+        <p className="text-center font-display text-lg">{description}</p>
+        {children && <div className="mt-3">{children}</div>}
+      </div>
+    </div>
   );
 };
 
@@ -108,6 +139,7 @@ const PageRoot = ({ children, className, ...rest }: PageRootProps) => {
 };
 
 PageRoot.Content = PageContent;
+PageRoot.EmptyMessage = PageEmptyMessage;
 PageRoot.Header = PageHeader;
 PageRoot.HeaderControls = PageHeaderControls;
 PageRoot.Grid = PageGrid;

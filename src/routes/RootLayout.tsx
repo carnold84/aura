@@ -8,6 +8,7 @@ import Spinner from "../components/Spinner";
 import TextButton from "../components/TextButton";
 import AppMenu from "../containers/AppMenu";
 import { useAuth } from "../context/AuthProvider";
+import ImageListDialog from "./projects/ProjectRoute/components/ImageListDialog";
 
 const routes = [
   { label: "Home", to: "/" },
@@ -92,6 +93,7 @@ const RootLayout = () => {
           </Suspense>
         </div>
       </main>
+      <ImageListDialog />
     </div>
   );
 };

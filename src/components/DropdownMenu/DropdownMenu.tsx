@@ -8,6 +8,7 @@ import {
   Portal,
   Root,
   Trigger,
+  DropdownMenuTriggerProps as TriggerProps,
 } from "@radix-ui/react-dropdown-menu";
 
 import cn from "../../utils/cn";
@@ -24,7 +25,7 @@ const DropdownMenuItem = ({
   return (
     <Item
       className={cn(
-        "cursor-pointer px-4 py-3 font-display text-sm text-neutral-800 last:border-b-0 hover:bg-neutral-800 hover:text-white focus:outline-none",
+        "cursor-pointer px-4 py-3 font-display text-sm text-neutral-800 hover:bg-neutral-800 hover:text-white focus:outline-none",
         className,
       )}
       {...rest}
@@ -60,12 +61,20 @@ const DropdownMenuContent = ({
   );
 };
 
+const DropdownMenuTrigger = ({ children, ...rest }: TriggerProps) => {
+  return (
+    <Trigger asChild={true} {...rest}>
+      {children}
+    </Trigger>
+  );
+};
+
 const DropdownMenu = ({ children, ...rest }: DropdownMenuProps) => {
   return <Root {...rest}>{children}</Root>;
 };
 
 DropdownMenu.Content = DropdownMenuContent;
 DropdownMenu.Item = DropdownMenuItem;
-DropdownMenu.Trigger = Trigger;
+DropdownMenu.Trigger = DropdownMenuTrigger;
 
 export default DropdownMenu;

@@ -88,6 +88,7 @@ const FormDialog = <TFieldValues extends FieldValues = FieldValues>({
                         ? errorMessage
                         : undefined
                     }
+                    key={name}
                     label={label}
                     {...register(name, {
                       required: required ? `${label} is required` : false,

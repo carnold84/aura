@@ -6,11 +6,12 @@ type UseQueryFunction<TData> = (
   ...args: Parameters<QueryFunction<TData>>
 ) => void;
 
-type Status = "error" | "idle" | "loading";
+type Status = "error" | "idle" | "loading" | "success";
 
 interface UseQueryResult {
   isError: boolean;
   isLoading: boolean;
+  isSuccess: boolean;
   status: Status;
 }
 
@@ -47,7 +48,7 @@ const useQuery = <TData,>({
       try {
         const load = async () => {
           await query();
-          setStatus("idle");
+          setStatus("success");
         };
         load();
       } catch {
@@ -59,6 +60,7 @@ const useQuery = <TData,>({
   return {
     isError: status === "error",
     isLoading: status === "loading",
+    isSuccess: status === "success",
     status,
   };
 };

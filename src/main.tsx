@@ -2,6 +2,7 @@ import { StrictMode, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 
 import Router from "./Router";
+import SnackbarProvider from "./components/SnackbarProvider";
 import AuthProvider from "./context/AuthProvider";
 import "./index.css";
 import DataProvider from "./stores/data";
@@ -14,9 +15,11 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <Suspense fallback={"Loading..."}>
         <AuthProvider>
-          <DataProvider>
-            <Router />
-          </DataProvider>
+          <SnackbarProvider>
+            <DataProvider>
+              <Router />
+            </DataProvider>
+          </SnackbarProvider>
         </AuthProvider>
       </Suspense>
     </StrictMode>,

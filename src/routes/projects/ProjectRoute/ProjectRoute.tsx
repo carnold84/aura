@@ -1,20 +1,21 @@
 import { NavArrowDown } from "iconoir-react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 import DropdownMenu from "../../../components/DropdownMenu";
 import ImageCard from "../../../components/ImageCard";
 import Page from "../../../components/Page";
+import PrimaryButton from "../../../components/PrimaryButton";
 import TextButton from "../../../components/TextButton";
 import DeleteDialog from "../../../containers/DeleteDialog";
 import UpdateProjectDialog from "../../../containers/UpdateProjectDialog";
 import useBack from "../../../hooks/useBack";
 import useDeleteProject from "../../../hooks/useDeleteProject";
 import useProject from "../../../hooks/useProject";
-import ImageListDialog from "./components/ImageListDialog";
 
 const ProjectRoute = () => {
   const { projectId } = useParams();
+  const [, setSearchParams] = useSearchParams();
   const back = useBack("/projects");
   const { data: project, isError, isLoading } = useProject({ id: projectId });
   const { deleteProject } = useDeleteProject({
@@ -40,7 +41,14 @@ const ProjectRoute = () => {
                   </TextButton>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content align="end">
-                  <DropdownMenu.Item onClick={() => setOpenModal("addImages")}>
+                  <DropdownMenu.Item
+                    onClick={() =>
+                      setSearchParams({
+                        modal: "add-images",
+                        projectId: project.id,
+                      })
+                    }
+                  >
                     Add images to {project.name}
                   </DropdownMenu.Item>
                   <DropdownMenu.Item onClick={() => setOpenModal("edit")}>
@@ -59,33 +67,47 @@ const ProjectRoute = () => {
         {isError && <p>An error occurred.</p>}
         {!isLoading && !project && <p>Could not find project.</p>}
         {project && (
-          <Page.Grid>
-            {project.images.map((image) => {
-              return (
-                <Page.GridItem key={image.id}>
-                  <ImageCard image={image} to={`images/${image.id}`} />
-                </Page.GridItem>
-              );
-            })}
-          </Page.Grid>
+          <>
+            {project.images.length === 0 && (
+              <Page.EmptyMessage
+                description="Why not add some?"
+                title="There are no images in this project."
+              >
+                <PrimaryButton
+                  onClick={() =>
+                    setSearchParams({
+                      modal: "add-images",
+                      projectId: project.id,
+                    })
+                  }
+                >
+                  Add images
+                </PrimaryButton>
+              </Page.EmptyMessage>
+            )}
+            {project.images.length > 0 && (
+              <Page.Grid>
+                {project.images.map((image) => {
+                  return (
+                    <Page.GridItem key={image.id}>
+                      <ImageCard image={image} to={`images/${image.id}`} />
+                    </Page.GridItem>
+                  );
+                })}
+              </Page.Grid>
+            )}
+          </>
         )}
       </Page.Content>
       {project && (
         <>
-          <ImageListDialog
-            isOpen={openModal === "addImages"}
-            onOpenChange={() => {
-              setOpenModal(null);
-            }}
-            project={project}
-          />
           <UpdateProjectDialog
             isOpen={openModal === "edit"}
             onOpenChange={() => {
               setOpenModal(null);
             }}
             project={project}
-          ></UpdateProjectDialog>
+          />
           <DeleteDialog
             isOpen={openModal === "delete"}
             onOpenChange={() => setOpenModal(null)}

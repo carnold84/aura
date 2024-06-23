@@ -76,7 +76,7 @@ const CardTitle = ({
   return (
     <Comp
       className={cn(
-        "font-display text-lg font-light text-neutral-800",
+        "font-display text-xl font-normal text-neutral-800",
         className,
       )}
       {...rest}

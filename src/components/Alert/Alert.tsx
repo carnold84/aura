@@ -20,9 +20,9 @@ const Alert = forwardRef<HTMLHeadingElement, AlertProps>(
         className={cn(
           "mb-2 border px-3 py-2 text-sm font-light",
           {
-            "border-success-200 bg-success-50 text-success-900":
+            "border-success-900 bg-success-900 text-white":
               variant === "success",
-            "border-error-200 bg-error-50 text-error-900": variant === "error",
+            "border-error-900 bg-error-900 text-white": variant === "error",
           },
           className,
         )}

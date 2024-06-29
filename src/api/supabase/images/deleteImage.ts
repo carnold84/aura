@@ -31,7 +31,7 @@ const deleteImage = async (image: Image): Promise<Image> => {
 
     const { error: imageError } = await client.storage
       .from("images")
-      .remove([image.url]);
+      .remove([image.rawUrl]);
 
     if (imageError) {
       throw imageError;

@@ -2,6 +2,7 @@ import { StrictMode, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 
 import Router from "./Router";
+import LoadingScreen from "./components/LoadingScreen";
 import SnackbarProvider from "./components/SnackbarProvider";
 import AuthProvider from "./context/AuthProvider";
 import "./index.css";
@@ -13,7 +14,7 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <Suspense fallback={"Loading..."}>
+      <Suspense fallback={<LoadingScreen />}>
         <AuthProvider>
           <SnackbarProvider>
             <DataProvider>

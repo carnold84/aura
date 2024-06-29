@@ -2,6 +2,7 @@ import { NavArrowDown } from "iconoir-react";
 import { ReactNode, useState } from "react";
 
 import DropdownMenu from "../../../../../components/DropdownMenu";
+import Image from "../../../../../components/Image";
 import Page from "../../../../../components/Page";
 import TextButton from "../../../../../components/TextButton";
 import DeleteDialog from "../../../../../containers/DeleteDialog";
@@ -71,12 +72,8 @@ const ImageView = ({ imageId }: ImageViewProps) => {
         {!isLoading && !image && <p>Could not find image.</p>}
         {image && (
           <div className="relative flex h-full w-full flex-col gap-8 lg:grid lg:grid-cols-12">
-            <div className="relative col-span-9 min-h-80">
-              <img
-                alt=""
-                className="absolute h-full w-full border border-neutral-200 object-contain lg:h-auto lg:max-h-[90vh] lg:w-auto"
-                src={image.url}
-              />
+            <div className="relative col-span-9 bg-slate-200">
+              <Image alt="" src={image.url} />
             </div>
             <div className="col-span-3">
               <ul className="flex flex-col gap-4">

@@ -76,7 +76,34 @@ const CardTitle = ({
   return (
     <Comp
       className={cn(
-        "font-display text-xl font-normal text-neutral-800",
+        "font-display text-xl font-light text-neutral-800 md:text-2xl",
+        className,
+      )}
+      {...rest}
+    >
+      {children}
+    </Comp>
+  );
+};
+
+interface CardSubtitleProps {
+  asChild?: boolean;
+  children: ReactNode;
+  className?: string;
+}
+
+const CardSubtitle = ({
+  asChild,
+  children,
+  className,
+  ...rest
+}: CardSubtitleProps) => {
+  const Comp = asChild ? Slot : "p";
+
+  return (
+    <Comp
+      className={cn(
+        "font-display text-sm font-normal text-neutral-600",
         className,
       )}
       {...rest}
@@ -102,6 +129,7 @@ const Card = ({ children, className, ...rest }: CardProps) => {
 Card.Actions = CardActions;
 Card.Content = CardContent;
 Card.Img = CardImg;
+Card.Subtitle = CardSubtitle;
 Card.Title = CardTitle;
 
 export default Card;

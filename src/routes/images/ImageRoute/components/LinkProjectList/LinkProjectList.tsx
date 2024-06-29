@@ -1,3 +1,4 @@
+import LoadingScreen from "../../../../../components/LoadingScreen";
 import useProjects from "../../../../../hooks/useProjects";
 import { Image, Project } from "../../../../../types";
 import LinkProjectListItem from "../LinkProjectListItem";
@@ -6,7 +7,7 @@ const LinkProjectList = ({ image }: { image: Image }) => {
   const { data, isError, isLoading } = useProjects();
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingScreen />;
   }
 
   if (isError) {

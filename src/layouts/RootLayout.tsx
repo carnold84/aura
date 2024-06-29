@@ -3,12 +3,12 @@ import { Menu } from "iconoir-react";
 import { Suspense, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
+import LoadingScreen from "../components/LoadingScreen";
 import LogoLink from "../components/LogoLink";
-import Spinner from "../components/Spinner";
 import TextButton from "../components/TextButton";
 import AppMenu from "../containers/AppMenu";
 import { useAuth } from "../context/AuthProvider";
-import ImageListDialog from "./projects/ProjectRoute/components/ImageListDialog";
+import ImageListDialog from "../routes/projects/ProjectRoute/components/ImageListDialog";
 
 const routes = [
   { label: "Home", to: "/" },
@@ -22,11 +22,11 @@ const RootLayout = () => {
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-5">
-      <header className="flex h-24 justify-between md:h-32">
-        <div className="absolute left-10 top-11 md:left-20 md:top-16">
+      <header className="flex h-20 justify-between">
+        <div className="absolute left-10 top-9">
           <LogoLink />
         </div>
-        <div className="absolute right-10 top-10 md:hidden">
+        <div className="absolute right-10 top-8 md:hidden">
           <AppMenu
             onOpenChange={(open) => setIsMenuOpen(open)}
             open={isMenuOpen}
@@ -37,13 +37,13 @@ const RootLayout = () => {
               </TextButton>
             </AppMenu.Trigger>
             <AppMenu.Content>
-              <header className="flex h-24 shrink-0 items-center justify-between md:h-32">
+              <header className="flex h-20 shrink-0 items-center justify-between">
                 <div className="flex h-full items-center">
                   <VisuallyHidden>
                     <AppMenu.Title>Menu</AppMenu.Title>
                   </VisuallyHidden>
                   <LogoLink
-                    className="absolute left-10 top-11 text-neutral-50 hover:text-primary-500 md:left-20 md:top-16"
+                    className="absolute left-10 top-9 text-neutral-50 hover:text-primary-500 md:left-20 md:top-16"
                     onClick={() => setIsMenuOpen(false)}
                   />
                 </div>
@@ -68,15 +68,15 @@ const RootLayout = () => {
               <footer className="flex shrink-0 p-6">
                 <TextButton onClick={signOut}>Sign Out</TextButton>
               </footer>
-              <AppMenu.CloseButton className="absolute right-10 top-10" />
+              <AppMenu.CloseButton className="absolute right-10 top-8" />
             </AppMenu.Content>
           </AppMenu>
         </div>
-        <ul className="absolute right-20 top-16 hidden gap-6 md:flex">
+        <ul className="absolute right-10 top-8 hidden gap-6 md:flex">
           {routes.map(({ label, to }) => {
             return (
               <li key={label}>
-                <TextButton asChild={true}>
+                <TextButton asChild={true} size="lg">
                   <Link onClick={() => setIsMenuOpen(false)} to={to}>
                     {label}
                   </Link>
@@ -87,8 +87,8 @@ const RootLayout = () => {
         </ul>
       </header>
       <main className="flex grow justify-center">
-        <div className="flex w-full max-w-[1680px] px-10 pb-10 pt-0 md:px-20 md:pb-20">
-          <Suspense fallback={<Spinner />}>
+        <div className="flex w-full max-w-[1440px] px-10 pb-10 pt-0">
+          <Suspense fallback={<LoadingScreen />}>
             <Outlet />
           </Suspense>
         </div>

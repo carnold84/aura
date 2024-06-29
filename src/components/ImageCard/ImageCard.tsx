@@ -24,9 +24,7 @@ const ImageCard = ({ image, to, ...rest }: ImageCardProps) => {
         <Card.Title className="hover:text-primary-700">
           <Link to={to}>{image.name}</Link>
         </Card.Title>
-        <p className="font-display text-sm uppercase text-neutral-500">
-          Updated {updated}
-        </p>
+        <Card.Subtitle>Updated {updated}</Card.Subtitle>
       </Card.Content>
     </Card>
   );

@@ -1,10 +1,17 @@
 import { client } from "..";
-import { CreateImage, Image } from "../../../types";
+import { CreateImage, Image as ImageType } from "../../../types";
+import getImageDimensionsFromUrl from "../../../utils/getImageDimensionsFromUrl";
 import { mapImage } from "./utils";
 
-const createImage = async (image: CreateImage): Promise<Image> => {
+const createImage = async (image: CreateImage): Promise<ImageType> => {
   if (image) {
     const blob = await fetch(image.url).then((response) => response.blob());
+
+    const dimensions = await getImageDimensionsFromUrl(
+      URL.createObjectURL(blob),
+    ).catch(() => {
+      throw new Error("Could not get image dimensions");
+    });
 
     const d = new Date();
     const time = d.getTime();
@@ -22,9 +29,11 @@ const createImage = async (image: CreateImage): Promise<Image> => {
 
     const payload = {
       description: image.description,
+      height: dimensions.height,
       name: image.name,
       src_url: image.url,
       url: imageData.path,
+      width: dimensions.width,
     };
 
     const { data, error, status } = await client

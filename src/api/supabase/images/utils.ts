@@ -10,12 +10,15 @@ export const mapImage = (data: ImageData): Image => {
   return {
     createdAt: data.created_at,
     description: data.description ?? null,
+    height: data.height,
     id: data.id,
     name: data.name,
     projects: data.projects?.map((data) => mapProject(data)) ?? [],
+    rawUrl: data.url,
     srcUrl: data.src_url,
     updatedAt: data.updated_at,
     url: `${import.meta.env.VITE_API_URL}/storage/v1/object/public/images/${data.url}`,
     userId: data.user_id,
+    width: data.width,
   };
 };

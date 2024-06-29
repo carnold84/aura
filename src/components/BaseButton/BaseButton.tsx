@@ -10,6 +10,7 @@ export interface BaseButtonProps extends ComponentPropsWithoutRef<"button"> {
   contentClassName?: string;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
+  size?: "lg" | "sm";
 }
 
 const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
@@ -21,6 +22,7 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
       contentClassName,
       iconLeft,
       iconRight,
+      size = "sm",
       ...rest
     },
     ref,
@@ -29,9 +31,11 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
     return (
       <Comp
         className={cn(
-          "relative z-0 flex shrink-0 items-center justify-center gap-0.5 font-display text-sm font-light transition-colors duration-200 focus:outline-none",
+          "relative z-0 flex shrink-0 items-center justify-center gap-0.5 font-display font-light transition-colors duration-200 focus:outline-none",
           {
             "px-0": !iconLeft && !iconRight,
+            "text-sm": size === "sm",
+            "text-base": size === "lg",
           },
           className,
         )}

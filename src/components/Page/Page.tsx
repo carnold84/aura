@@ -23,7 +23,7 @@ const PageTitle = ({
   return (
     <Comp
       className={cn(
-        "font-display text-4xl font-light text-neutral-600 md:text-5xl",
+        "font-display text-xl font-light uppercase text-neutral-600 md:text-5xl md:font-light",
         className,
       )}
       {...rest}

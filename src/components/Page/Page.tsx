@@ -23,7 +23,7 @@ const PageTitle = ({
   return (
     <Comp
       className={cn(
-        "font-display text-xl font-light uppercase text-neutral-600 md:text-5xl md:font-light",
+        "font-display text-2xl font-light text-neutral-600 md:text-6xl md:font-light",
         className,
       )}
       {...rest}
@@ -119,7 +119,7 @@ const PageContent = ({
   ...rest
 }: PageContentProps) => {
   return (
-    <div className={cn("relative grow", className)} {...rest}>
+    <div className={cn("relative grow overflow-hidden", className)} {...rest}>
       {isLoading ? <LoadingScreen /> : children}
     </div>
   );
@@ -132,7 +132,7 @@ interface PageRootProps extends ComponentPropsWithoutRef<"div"> {
 
 const PageRoot = ({ children, className, ...rest }: PageRootProps) => {
   return (
-    <div className={cn("flex grow flex-col gap-5", className)} {...rest}>
+    <div className={cn("flex grow flex-col gap-8", className)} {...rest}>
       {children}
     </div>
   );

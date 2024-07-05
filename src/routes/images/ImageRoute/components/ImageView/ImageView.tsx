@@ -2,7 +2,7 @@ import { NavArrowDown } from "iconoir-react";
 import { ReactNode, useState } from "react";
 
 import DropdownMenu from "../../../../../components/DropdownMenu";
-import Image from "../../../../../components/Image";
+import ImageRenderer from "../../../../../components/ImageRenderer";
 import Page from "../../../../../components/Page";
 import TextButton from "../../../../../components/TextButton";
 import DeleteDialog from "../../../../../containers/DeleteDialog";
@@ -71,11 +71,9 @@ const ImageView = ({ imageId }: ImageViewProps) => {
         {isError && <p>An error occurred.</p>}
         {!isLoading && !image && <p>Could not find image.</p>}
         {image && (
-          <div className="relative flex h-full w-full flex-col gap-8 lg:grid lg:grid-cols-12">
-            <div className="relative col-span-9 bg-slate-200">
-              <Image alt="" src={image.url} />
-            </div>
-            <div className="col-span-3">
+          <div className="flex w-full justify-center">
+            <div className="flex w-full max-w-4xl flex-col gap-5">
+              <ImageRenderer image={image} />
               <ul className="flex flex-col gap-4">
                 <ImageMeta label="Description" value={image.description} />
                 <ImageMeta label="Created" value={createdAt} />

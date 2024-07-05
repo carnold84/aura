@@ -16,8 +16,8 @@ const ImagesRoute = () => {
       </Page.Header>
       <Page.Content isLoading={isLoading}>
         {isError && <p>An error occurred.</p>}
-        {!isLoading && !data && <p>We couldn't find this project.</p>}
-        {data?.length === 0 && <p>You don't have any projects.</p>}
+        {!isLoading && !data && <p>We couldn't find this image.</p>}
+        {data?.length === 0 && <p>You don't have any images.</p>}
         {data && (
           <Page.Grid>
             {data?.map((image) => {

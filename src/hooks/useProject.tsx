@@ -28,7 +28,8 @@ const useProject = ({ id }: UseProjectsOptions) => {
 
     return project;
   }, [dispatch, id]);
-  const { isError, isLoading, status } = useQuery({
+
+  const { isError, isLoading, isSuccess, status } = useQuery({
     isEnabled: !!id && !project,
     queryFn,
   });
@@ -45,6 +46,7 @@ const useProject = ({ id }: UseProjectsOptions) => {
     data,
     isError,
     isLoading,
+    isSuccess,
     status,
   };
 };

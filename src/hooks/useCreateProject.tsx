@@ -9,7 +9,7 @@ interface UseCreateProjectOptions {
 
 const useCreateProject = (options?: UseCreateProjectOptions) => {
   const { dispatch } = useStore();
-  const { isError, isLoading, mutate, status } = useMutation({
+  const { mutate, ...rest } = useMutation({
     mutationFn: async (payload: CreateProject) => {
       const project = await createProject(payload);
 
@@ -22,9 +22,7 @@ const useCreateProject = (options?: UseCreateProjectOptions) => {
 
   return {
     createProject: mutate,
-    isError,
-    isLoading,
-    status,
+    ...rest,
   };
 };
 

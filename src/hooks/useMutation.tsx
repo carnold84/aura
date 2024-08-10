@@ -6,12 +6,14 @@ type UseMutateFunction<TPayload, TData> = (
   ...args: Parameters<MutateFunction<TPayload, TData>>
 ) => void;
 
-type Status = "error" | "idle" | "loading";
+type Status = "error" | "idle" | "loading" | "success";
 
 interface UseMutationResult<TPayload, TData> {
   mutate: UseMutateFunction<TPayload, TData>;
   isError: boolean;
   isLoading: boolean;
+  isSuccess: boolean;
+  reset: () => void;
   status: Status;
 }
 
@@ -34,7 +36,7 @@ const useMutation = <TPayload, TData>({
       try {
         const response = await mutationFn(payload);
         onSuccess && onSuccess(response);
-        setStatus("idle");
+        setStatus("success");
       } catch {
         onError && onError(new Error("Could not load "));
         setStatus("error");
@@ -43,10 +45,16 @@ const useMutation = <TPayload, TData>({
     [mutationFn, onError, onSuccess],
   );
 
+  const reset = () => {
+    setStatus("idle");
+  };
+
   return {
     mutate,
     isError: status === "error",
     isLoading: status === "loading",
+    isSuccess: status === "success",
+    reset,
     status,
   };
 };

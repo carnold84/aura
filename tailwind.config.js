@@ -5,18 +5,38 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      animation: {
+        appMenuHide: "appMenuHide 450ms cubic-bezier(0.16, 1, 0.3, 1)",
+        appMenuShow: "appMenuShow 450ms cubic-bezier(0.16, 1, 0.3, 1)",
+        dialogContentHide:
+          "dialogContentHide 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        dialogContentShow:
+          "dialogContentShow 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        drawerContentHide:
+          "drawerContentHide 500ms cubic-bezier(0.16, 1, 0.3, 1)",
+        drawerContentShow:
+          "drawerContentShow 500ms cubic-bezier(0.16, 1, 0.3, 1)",
+        overlayHide: "overlayHide 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        overlayShow: "overlayShow 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        snackbarHide: "snackbarHide 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        snackbarShow: "snackbarShow 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        spinFast: "spin 500ms linear infinite",
+      },
       colors: {
+        error: colors.red,
         primary: colors.orange,
+        success: colors.green,
       },
       fontFamily: {
         display: [
-          '"Inter", sans-serif',
+          '"Poppins", sans-serif',
           {
             fontOpticalSizing: "auto",
             fontVariationSettings: '"slnt" 0',
           },
         ],
       },
+      fontSize: {},
       keyframes: {
         appMenuHide: {
           "0%": {
@@ -72,20 +92,22 @@ export default {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
-      },
-      animation: {
-        appMenuHide: "appMenuHide 450ms cubic-bezier(0.16, 1, 0.3, 1)",
-        appMenuShow: "appMenuShow 450ms cubic-bezier(0.16, 1, 0.3, 1)",
-        dialogContentHide:
-          "dialogContentHide 250ms cubic-bezier(0.16, 1, 0.3, 1)",
-        dialogContentShow:
-          "dialogContentShow 250ms cubic-bezier(0.16, 1, 0.3, 1)",
-        drawerContentHide:
-          "drawerContentHide 500ms cubic-bezier(0.16, 1, 0.3, 1)",
-        drawerContentShow:
-          "drawerContentShow 500ms cubic-bezier(0.16, 1, 0.3, 1)",
-        overlayHide: "overlayHide 250ms cubic-bezier(0.16, 1, 0.3, 1)",
-        overlayShow: "overlayShow 250ms cubic-bezier(0.16, 1, 0.3, 1)",
+        snackbarHide: {
+          from: {
+            transform: "translate(0, 0)",
+          },
+          to: {
+            transform: "translate(0, -100%)",
+          },
+        },
+        snackbarShow: {
+          from: {
+            transform: "translate(0, -100%)",
+          },
+          to: {
+            transform: "translate(0, 0)",
+          },
+        },
       },
     },
   },

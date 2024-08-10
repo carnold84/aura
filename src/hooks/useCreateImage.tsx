@@ -9,7 +9,7 @@ interface UseCreateImageOptions {
 
 const useCreateImage = (options?: UseCreateImageOptions) => {
   const { dispatch } = useStore();
-  const { isError, isLoading, mutate, status } = useMutation({
+  const { mutate, ...rest } = useMutation({
     mutationFn: async (payload: CreateImage) => {
       const image = await createImage(payload);
 
@@ -22,9 +22,7 @@ const useCreateImage = (options?: UseCreateImageOptions) => {
 
   return {
     createImage: mutate,
-    isError,
-    isLoading,
-    status,
+    ...rest,
   };
 };
 

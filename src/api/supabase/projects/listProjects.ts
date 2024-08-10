@@ -1,6 +1,6 @@
 import { Project } from "../../../types";
 import { client } from "../client";
-import { mapProjectWithImages } from "./utils";
+import { mapProject } from "./utils";
 
 const listProjects = async (): Promise<Project[]> => {
   const { data, error, status } = await client.from("projects").select(
@@ -20,7 +20,7 @@ const listProjects = async (): Promise<Project[]> => {
     throw new Error("Could not fetch projects");
   }
 
-  const projects = data.map((data) => mapProjectWithImages(data)) || [];
+  const projects = data.map((data) => mapProject(data)) || [];
 
   return Promise.resolve(projects);
 };

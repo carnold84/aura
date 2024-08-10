@@ -30,15 +30,15 @@ const CardContent = ({ children, className, ...rest }: CardContentProps) => {
   );
 };
 
-interface CardImageProps extends ComponentPropsWithoutRef<"img"> {
+interface CardImgProps extends ComponentPropsWithoutRef<"img"> {
   className?: string;
 }
 
-const CardImage = ({ className, src, ...rest }: CardImageProps) => {
+const CardImg = ({ className, src, ...rest }: CardImgProps) => {
   return (
     <div
       className={cn(
-        "flex aspect-video h-full min-h-24 w-auto items-center justify-center overflow-hidden border border-neutral-100 text-neutral-300 transition-transform duration-200 group-hover:scale-95 sm:min-h-48 md:w-full",
+        "flex aspect-[3/2] w-auto items-center justify-center overflow-hidden border border-neutral-400 text-neutral-300 transition-transform duration-200 group-hover:scale-95 md:w-full",
         className,
       )}
     >
@@ -76,7 +76,7 @@ const CardTitle = ({
   return (
     <Comp
       className={cn(
-        "font-display text-lg font-light text-neutral-800",
+        "font-display text-xl font-light text-neutral-800 md:text-2xl",
         className,
       )}
       {...rest}
@@ -86,24 +86,50 @@ const CardTitle = ({
   );
 };
 
-interface CardRootProps {
+interface CardSubtitleProps {
+  asChild?: boolean;
   children: ReactNode;
   className?: string;
 }
 
-const CardRoot = ({ children, className, ...rest }: CardRootProps) => {
+const CardSubtitle = ({
+  asChild,
+  children,
+  className,
+  ...rest
+}: CardSubtitleProps) => {
+  const Comp = asChild ? Slot : "p";
+
   return (
-    <div className={cn("group flex gap-3 md:flex-col", className)} {...rest}>
+    <Comp
+      className={cn(
+        "font-display text-sm font-normal text-neutral-600",
+        className,
+      )}
+      {...rest}
+    >
+      {children}
+    </Comp>
+  );
+};
+
+interface CardProps {
+  children: ReactNode;
+  className?: string;
+}
+
+const Card = ({ children, className, ...rest }: CardProps) => {
+  return (
+    <div className={cn("group flex flex-col gap-3", className)} {...rest}>
       {children}
     </div>
   );
 };
 
-const Card = Object.assign(CardRoot, {
-  Actions: CardActions,
-  Content: CardContent,
-  Image: CardImage,
-  Title: CardTitle,
-});
+Card.Actions = CardActions;
+Card.Content = CardContent;
+Card.Img = CardImg;
+Card.Subtitle = CardSubtitle;
+Card.Title = CardTitle;
 
 export default Card;

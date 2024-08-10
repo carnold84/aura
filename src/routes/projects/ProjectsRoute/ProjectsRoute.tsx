@@ -1,17 +1,34 @@
+import Page from "../../../components/Page";
+import ProjectCard from "../../../components/ProjectCard";
 import CreateProjectDialog from "../../../containers/CreateProjectDialog";
-import ProjectsList from "./components/ProjectsList";
+import useProjects from "../../../hooks/useProjects";
 
 const ProjectsRoute = () => {
+  const { data, isError, isLoading } = useProjects({ sortBy: "createdAt" });
+
   return (
-    <div className="flex flex-col gap-5">
-      <header className="flex items-center justify-between">
-        <h1 className="font-display text-5xl font-light uppercase text-neutral-600">
-          Projects
-        </h1>
+    <Page>
+      <Page.Header>
+        <Page.Title>Projects</Page.Title>
         <CreateProjectDialog />
-      </header>
-      <ProjectsList />
-    </div>
+      </Page.Header>
+      <Page.Content isLoading={isLoading}>
+        {isError && <p>An error occurred.</p>}
+        {!isLoading && !data && <p>We couldn't find this project.</p>}
+        {data?.length === 0 && <p>You don't have any projects.</p>}
+        {data && (
+          <Page.Grid>
+            {data?.map((project) => {
+              return (
+                <Page.GridItem key={project.id}>
+                  <ProjectCard to={project.id} project={project} />
+                </Page.GridItem>
+              );
+            })}
+          </Page.Grid>
+        )}
+      </Page.Content>
+    </Page>
   );
 };
 

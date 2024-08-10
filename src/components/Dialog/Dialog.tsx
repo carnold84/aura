@@ -25,7 +25,7 @@ interface DialogBodyProps extends ComponentPropsWithRef<"div"> {
 
 const DialogBody = ({ children, className, ...rest }: DialogBodyProps) => {
   return (
-    <div className={cn("px-7 py-7", className)} {...rest}>
+    <div className={cn("px-10", className)} {...rest}>
       {children}
     </div>
   );
@@ -34,22 +34,28 @@ const DialogBody = ({ children, className, ...rest }: DialogBodyProps) => {
 interface DialogContentProps extends RadixDialogContentProps {
   className?: string;
   description?: string;
+  onCloseEnd?: () => void;
+  onOpenEnd?: () => void;
 }
 
 const DialogContent = ({
   children,
   className,
   description,
+  onCloseEnd,
+  onOpenEnd,
   ...rest
 }: DialogContentProps) => {
   return (
     <Portal>
-      <Overlay className="fixed inset-0 bg-black/25 data-[state=closed]:animate-overlayHide data-[state=open]:animate-overlayShow" />
+      <Overlay className="fixed inset-0 bg-black/35 data-[state=closed]:animate-overlayHide data-[state=open]:animate-overlayShow" />
       <Content
         className={cn(
-          "fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] bg-white shadow-xl focus:outline-none data-[state=closed]:animate-dialogContentHide data-[state=open]:animate-dialogContentShow",
+          "fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-y-auto bg-white shadow-xl focus:outline-none data-[state=closed]:animate-dialogContentHide data-[state=open]:animate-dialogContentShow",
           className,
         )}
+        onCloseAutoFocus={onCloseEnd}
+        onOpenAutoFocus={onOpenEnd}
         {...rest}
       >
         {children}
@@ -72,7 +78,7 @@ const DialogFooter = ({ children, className, ...rest }: DialogFooterProps) => {
   return (
     <footer
       className={cn(
-        "flex justify-end gap-2 border-t border-t-neutral-200 p-4",
+        "flex items-center justify-end gap-5 px-10 py-10",
         className,
       )}
       {...rest}
@@ -84,23 +90,31 @@ const DialogFooter = ({ children, className, ...rest }: DialogFooterProps) => {
 
 interface DialogHeaderProps {
   className?: string;
+  isLoading?: boolean;
   title: string;
 }
 
-const DialogHeader = ({ className, title, ...rest }: DialogHeaderProps) => {
+const DialogHeader = ({
+  className,
+  isLoading,
+  title,
+  ...rest
+}: DialogHeaderProps) => {
   return (
     <header
       className={cn(
-        "flex items-center justify-between border-b border-b-neutral-200 px-6 py-4",
+        "sticky left-0 top-0 z-10 flex items-center justify-between gap-5 bg-white py-7 pl-10 pr-10",
         className,
       )}
       {...rest}
     >
-      <div>
-        <Title className="font-display text-xl font-light text-neutral-700">
+      {isLoading ? (
+        <div className="h-4 w-full max-w-80 bg-neutral-200" />
+      ) : (
+        <Title className="font-display text-2xl font-light text-neutral-700">
           {title}
         </Title>
-      </div>
+      )}
       <Close asChild={true}>
         <IconButton>
           <Xmark />

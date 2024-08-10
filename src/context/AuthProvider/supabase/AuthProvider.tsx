@@ -9,6 +9,7 @@ import {
   getSession,
   onAuthStateChange,
 } from "../../../api";
+import LoadingScreen from "../../../components/LoadingScreen";
 
 interface AuthContextType {
   session: Session;
@@ -45,7 +46,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingScreen />;
   }
 
   if (!session) {

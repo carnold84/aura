@@ -9,7 +9,7 @@ interface UseLinkImageToProjectOptions {
 
 const useLinkImageToProject = (options?: UseLinkImageToProjectOptions) => {
   const { dispatch } = useStore();
-  const { isError, isLoading, mutate, status } = useMutation({
+  const { mutate, ...rest } = useMutation({
     mutationFn: async (payload: CreateProjectImage) => {
       const projectImage = await createProjectImage(payload);
 
@@ -22,9 +22,7 @@ const useLinkImageToProject = (options?: UseLinkImageToProjectOptions) => {
 
   return {
     linkImageToProject: mutate,
-    isError,
-    isLoading,
-    status,
+    ...rest,
   };
 };
 

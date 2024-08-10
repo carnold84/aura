@@ -3,13 +3,16 @@ import { Project } from "./projectTypes";
 export interface Image {
   createdAt: string;
   description: string | null;
+  height: number;
   id: string;
   name: string;
   projects: Project[];
   srcUrl: string;
+  rawUrl: string;
   updatedAt: string;
   url: string;
   userId: string;
+  width: number;
 }
 
 export type CreateImage = Omit<
@@ -19,5 +22,5 @@ export type CreateImage = Omit<
 
 export type UpdateImage = Omit<
   Image,
-  "createdAt" | "projects" | "srcUrl" | "updatedAt" | "userId"
+  "createdAt" | "projects" | "srcUrl" | "updatedAt" | "url" | "userId"
 >;

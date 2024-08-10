@@ -1,36 +1,86 @@
-import Button from "../../components/Button";
+import { useEffect, useState } from "react";
+
+import Snackbar from "../../components/Snackbar";
 import useUpdateProject from "../../hooks/useUpdateProject";
 import { Project } from "../../types";
-import ProjectFormDialog, { ProjectFormValues } from "../ProjectFormDialog";
+import FormDialog from "../FormDialog";
+
+export type FormValues = Omit<
+  Project,
+  "createdAt" | "id" | "images" | "updatedAt" | "userId"
+>;
 
 interface UpdateProjectDialogProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
   project: Project;
 }
 
-const UpdateProjectDialog = ({ project }: UpdateProjectDialogProps) => {
-  const { updateProject, isError, isLoading } = useUpdateProject();
-  const onSubmit = (data: ProjectFormValues) => {
-    updateProject({ ...data, id: project.id });
+const UpdateProjectDialog = ({
+  isOpen,
+  onOpenChange,
+  project,
+}: UpdateProjectDialogProps) => {
+  const { updateProject, isError, isLoading, isSuccess, reset } =
+    useUpdateProject();
+  const [snackbarMessage, setSnackbarMessage] = useState<string | null>();
+  const onSubmit = async (data: FormValues) => {
+    await updateProject({ ...data, id: project.id });
   };
 
-  if (isLoading) {
-    return <p>Updating...</p>;
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      setSnackbarMessage(`${project?.name} was successfully updated.`);
+      onOpenChange(false);
+    }
+  }, [isSuccess, onOpenChange, project?.name]);
 
   const { description, name, imageUrl } = project;
 
   return (
-    <ProjectFormDialog
-      defaultValues={{ description, name, imageUrl }}
-      errorMessage={
-        isError ? "Sorry. We couldn't update your project. :(" : undefined
-      }
-      onSubmit={onSubmit}
-      submitBtnLabel="Update"
-      title={`Update ${project.name}`}
-    >
-      <Button variant="outlined">Edit</Button>
-    </ProjectFormDialog>
+    <>
+      <FormDialog
+        defaultValues={{ description, name, imageUrl }}
+        errorMessage={
+          isError ? "Sorry. We couldn't update your project. :(" : undefined
+        }
+        fields={[
+          {
+            label: "Project Name",
+            name: "name",
+            type: "text",
+            required: true,
+          },
+          {
+            label: "Description",
+            name: "description",
+            type: "text",
+          },
+          {
+            label: "Image Url",
+            name: "imageUrl",
+            type: "text",
+          },
+        ]}
+        isLoading={isLoading}
+        isOpen={isOpen}
+        onOpenChange={(open) => {
+          if (open === false) {
+            reset();
+          }
+          onOpenChange && onOpenChange(open);
+        }}
+        onSubmit={onSubmit}
+        submitBtnLabel="Update"
+        title={`Update ${project.name}`}
+      />
+      <Snackbar
+        alertType={"success"}
+        onOpenChange={() => setSnackbarMessage(null)}
+        open={!!snackbarMessage}
+        title={snackbarMessage ?? ""}
+      />
+    </>
   );
 };
 

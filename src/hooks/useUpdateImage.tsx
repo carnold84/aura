@@ -9,7 +9,7 @@ interface UseUpdateImageOptions {
 
 const useUpdateImage = (options?: UseUpdateImageOptions) => {
   const { dispatch } = useStore();
-  const { isError, isLoading, mutate, status } = useMutation({
+  const { mutate, ...rest } = useMutation({
     mutationFn: async (payload: UpdateImage) => {
       const image = await updateImage(payload);
 
@@ -22,9 +22,7 @@ const useUpdateImage = (options?: UseUpdateImageOptions) => {
 
   return {
     updateImage: mutate,
-    isError,
-    isLoading,
-    status,
+    ...rest,
   };
 };
 

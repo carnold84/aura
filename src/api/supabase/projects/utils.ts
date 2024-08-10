@@ -2,31 +2,16 @@ import { Project } from "../../../types";
 import { Database } from "../database.types";
 import { ImageData, mapImage } from "../images/utils";
 
-export type ProjectData = Database["public"]["Tables"]["projects"]["Row"];
+export type ProjectData = Database["public"]["Tables"]["projects"]["Row"] & {
+  images?: ImageData[];
+};
 
 export const mapProject = (data: ProjectData): Project => {
   return {
     createdAt: data.created_at,
     description: data.description ?? null,
     id: data.id,
-    images: [],
-    imageUrl: data.image_url ?? null,
-    name: data.name,
-    updatedAt: data.updated_at,
-    userId: data.user_id,
-  };
-};
-
-type ProjectWithImagesData = ProjectData & {
-  images: ImageData[];
-};
-
-export const mapProjectWithImages = (data: ProjectWithImagesData): Project => {
-  return {
-    createdAt: data.created_at,
-    description: data.description ?? null,
-    id: data.id,
-    images: data.images.map((data) => mapImage(data)),
+    images: data.images?.map((data) => mapImage(data)) ?? [],
     imageUrl: data.image_url ?? null,
     name: data.name,
     updatedAt: data.updated_at,

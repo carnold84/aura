@@ -13,32 +13,38 @@ export type Database = {
         Row: {
           created_at: string;
           description: string | null;
+          height: number;
           id: string;
           name: string;
           src_url: string;
           updated_at: string;
           url: string;
           user_id: string;
+          width: number;
         };
         Insert: {
           created_at?: string;
           description?: string | null;
+          height?: number;
           id?: string;
           name: string;
           src_url: string;
           updated_at?: string;
           url: string;
           user_id?: string;
+          width?: number;
         };
         Update: {
           created_at?: string;
           description?: string | null;
+          height?: number;
           id?: string;
           name?: string;
           src_url?: string;
           updated_at?: string;
           url?: string;
           user_id?: string;
+          width?: number;
         };
         Relationships: [];
       };

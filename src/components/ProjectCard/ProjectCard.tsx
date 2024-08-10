@@ -18,15 +18,13 @@ const ProjectCard = ({ project, to, ...rest }: ProjectCardProps) => {
   return (
     <Card {...rest}>
       <Link to={to}>
-        <Card.Image src={project.imageUrl || undefined} />
+        <Card.Img src={project.imageUrl || undefined} />
       </Link>
       <Card.Content className="gap-1">
         <Card.Title className="hover:text-primary-700">
           <Link to={to}>{project.name}</Link>
         </Card.Title>
-        <p className="font-display text-xs uppercase text-neutral-400">
-          Updated {updated}
-        </p>
+        <Card.Subtitle>Updated {updated}</Card.Subtitle>
       </Card.Content>
     </Card>
   );

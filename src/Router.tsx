@@ -2,13 +2,7 @@ import { lazy } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import "./index.css";
-import RootLayout from "./routes/RootLayout";
-
-/* import DashboardRoute from "./routes/dashboard/DashboardRoute";
-import ImagesRoute from "./routes/images/ImagesRoute";
-import ImageRoute from "./routes/images/ImageRoute";
-import ProjectRoute from "./routes/projects/ProjectRoute/ProjectRoute";
-import ProjectsRoute from "./routes/projects/ProjectsRoute/ProjectsRoute"; */
+import RootLayout from "./layouts/RootLayout";
 
 const DashboardRoute = lazy(() => import("./routes/dashboard/DashboardRoute"));
 const ImagesRoute = lazy(() => import("./routes/images/ImagesRoute"));
@@ -39,6 +33,10 @@ const router = createBrowserRouter([
           {
             path: ":projectId",
             element: <ProjectRoute />,
+          },
+          {
+            path: ":projectId/images/:imageId",
+            element: <ImageRoute />,
           },
         ],
       },
